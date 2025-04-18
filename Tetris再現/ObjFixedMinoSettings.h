@@ -11,11 +11,11 @@ using namespace GameL;
 
 
 
-class ObjFixedMinoSelect : public CObj
+class ObjFixedMinoSettings : public CObj
 {
 public:
-	ObjFixedMinoSelect();
-	~ObjFixedMinoSelect() {};
+	ObjFixedMinoSettings();
+	~ObjFixedMinoSettings() {};
 	void Init();
 	void Action();
 	void Draw();

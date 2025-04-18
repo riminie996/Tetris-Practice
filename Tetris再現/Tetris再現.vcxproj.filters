@@ -87,7 +87,7 @@
     <ClCompile Include="ObjRisingTimer.cpp">
       <Filter>Block</Filter>
     </ClCompile>
-    <ClCompile Include="ObjFixedMinoSelect.cpp">
+    <ClCompile Include="ObjFixedMinoSettings.cpp">
       <Filter>Block</Filter>
     </ClCompile>
     <ClCompile Include="Tetris.cpp">
@@ -170,7 +170,7 @@
     <ClInclude Include="ObjRisingTimer.h">
       <Filter>Block</Filter>
     </ClInclude>
-    <ClInclude Include="ObjFixedMinoSelect.h">
+    <ClInclude Include="ObjFixedMinoSettings.h">
       <Filter>Block</Filter>
     </ClInclude>
   </ItemGroup>

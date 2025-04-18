@@ -75,6 +75,7 @@ namespace Tetris
 	const float FRAME_MINO_FALL = 60.0f;
 	const float FRAME_MINO_LANDING = 30.0f;
 	const float FRAME_MINO_INPUT_MOVE = 10.0f;
+	const int LOCKDOWN_MAX_MOVECOUNT = 15;
 	const float ROTATION_ANGLE = 90.0f;
 
 	const float MINO_ROTATION_AXIS = 1.0f;

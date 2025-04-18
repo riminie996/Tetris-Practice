@@ -14,6 +14,14 @@ enum OBJ_NAME
 	OBJ_FIXEDMINOSELECT,
 	OBJ_PRACTICEOPTION,
 };
+enum OBJ_PRIORITY
+{
+	PRIO_FIELD,
+	PRIO_MINO,
+	PRIO_RISING,
+	PRIO_OPTION,
+	PRIO_FIXED_MINO_SETTINGS,
+};
 //------------------------------------------------
 
 
@@ -87,7 +95,7 @@ struct UserData
 #include "ObjScore.h"
 #include "ObjGuide.h"
 #include "ObjRisingTimer.h"
-#include "ObjFixedMinoSelect.h"
+#include "ObjFixedMinoSettings.h"
 #include "ObjPracticeOption.h"
 #include "Tetris.h"
 //------------------------------------------------

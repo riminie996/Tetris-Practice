@@ -33,7 +33,7 @@ public:
 	bool BlockPosCheck(int x, int y);//そこにすでにブロックがあるか返す
 	void SetHoldType(MINO_TYPE type);//Hold
 	void LinesCompleteCheck();//ラインがそろったかチェック
-	Tetris::ST_PRACTICE_OPTION GetOptions() {return m_practice_options; }
+	Tetris::ST_PRACTICE_OPTION* GetOptions() {return &m_practice_options; }
 	bool GetIsPause() { return m_pause_flag; }
 
 
@@ -79,7 +79,6 @@ private:
 
 	bool m_common_key_flag;
 	bool m_pause_flag;
-	int m_now_selected_option;
 	int m_mino_count;
 	int m_rising_lines;
 	int m_rising_remain;
@@ -91,7 +90,6 @@ private:
 	void DrawFontOption(float x, float y,float font_size);
 
 	void Restart(); 
-	void DrawPauseModeScreen();
 	void LineClear(int line_y);
 	void BlockDraw(int screen_pos_x, int screen_pos_y, int type);
 	void RisingLinesBlockDraw(int line);

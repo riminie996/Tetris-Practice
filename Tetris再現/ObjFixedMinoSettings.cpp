@@ -1,4 +1,4 @@
-#include "ObjFixedMinoSelect.h"
+#include "ObjFixedMinoSettings.h"
 #include "GameL\SceneManager.h"
 #include "GameL\DrawTexture.h"
 #include "GameL\DrawFont.h"
@@ -11,25 +11,25 @@
 #include <random>
 
 
-ObjFixedMinoSelect::ObjFixedMinoSelect()
+ObjFixedMinoSettings::ObjFixedMinoSettings()
 {
 
 }
 
 //èâä˙âª
-void ObjFixedMinoSelect::Init()
+void ObjFixedMinoSettings::Init()
 {
 	
 }
 
 //êiçs
-void ObjFixedMinoSelect::Action()
+void ObjFixedMinoSettings::Action()
 {
 	
 }
 
 //ï`âÊ
-void ObjFixedMinoSelect::Draw()
+void ObjFixedMinoSettings::Draw()
 {
 
 
