@@ -32,19 +32,19 @@ enum ROTATE_ANGLE
 
 struct ST_PRACTICE_OPTION
 {
+	bool option_flag[Option_Count];
+
+	int rising_timer_sec;
+	int rising_min_line;
+	int rising_max_line;
+	MINO_TYPE fixed_mino_type[TetriminoOrderFixed_End + 1][MINO_MAX_TYPE];
 
 };
 
 enum E_PRACTICE_OPTION
 {
 	TetriminoOrderFixed_1,
-	TetriminoOrderFixed_2,
-	TetriminoOrderFixed_3,
-	TetriminoOrderFixed_4,
-	TetriminoOrderFixed_5,
-	TetriminoOrderFixed_6,
-	TetriminoOrderFixed_7,
-	TetriminoOrderFixed_8,
+	TetriminoOrderFixed_End = TetriminoOrderFixed_1 + 7,
 	NoNaturalDrop,
 	DPCGuide,
 	InfiniteHold,
@@ -285,5 +285,7 @@ namespace Tetris
 
 	const float RISING_LINES_OFFSET_X = 176.0f;	//1PÇÃXç¿ïW
 	const float RISING_LINES_OFFSET_Y = 624.0f;		//1PÇÃYç¿ïW
+
+	
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <list>
 #include "GameL\DrawTexture.h"
 #include "Tetris.h"
 #include "GameHead.h"
@@ -41,3 +42,6 @@ void FieldMapImport(std::string file_name, MapObjects* field);
 std::string OpenFileDialog(std::wstring initial_path);
 // 1024•¶Žš‚Ü‚Å‘Î‰ž
 std::string wchar_to_string(const wchar_t* in_wstr);
+
+std::vector<std::string> LoadDirectory(std::string path);
+std::vector<std::string> LoadDirectory(std::string path, std::string find_str);

@@ -44,7 +44,11 @@ void SceneMain::InitScene()
 	Audio::LoadAudio2(AudioIds::se_Perfect,		"Sound/Perfect.ogg", GameL::SOUND_TYPE::EFFECT);
 	Audio::LoadAudio2(AudioIds::se_Rising,		"Sound/Rising.ogg", GameL::SOUND_TYPE::EFFECT);
 	Audio::LoadAudio2(AudioIds::se_Garbage,		"Sound/Garbage.ogg", GameL::SOUND_TYPE::EFFECT);
-	Audio::LoadAudio2(AudioIds::bgm_1,		"Sound/BGM.ogg", GameL::SOUND_TYPE::BACK_MUSIC);
+
+	std::vector<std::string> vec_bgm_path = LoadDirectory("BGM\\", ".ogg");
+	std::random_device rand;
+
+	Audio::LoadAudio2(AudioIds::bgm_1, vec_bgm_path[rand() % vec_bgm_path.size()].c_str(), GameL::SOUND_TYPE::BACK_MUSIC);
 
 	Audio::VolumeMaster(-0.9f);
 	//èâä˙âª---------------------------------------

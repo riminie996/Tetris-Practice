@@ -67,10 +67,10 @@ void ObjBlock::Init()
 
 	m_fixed_mino[0] = Mino_I;
 	m_fixed_mino[1] = Mino_L;
-	m_fixed_mino[2] = Mino_O;
+	m_fixed_mino[2] = Mino_J;
 	m_fixed_mino[3] = Mino_T;
 	m_fixed_mino[4] = Mino_S;
-	m_fixed_mino[5] = Mino_J;
+	m_fixed_mino[5] = Mino_O;
 	m_fixed_mino[6] = Mino_Z;
 	m_pause_flag = false;
 

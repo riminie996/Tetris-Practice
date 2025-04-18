@@ -10,6 +10,11 @@
 #include <math.h>
 #include <sstream>
 #include <fstream>
+
+
+//LoadDirectory
+#include <filesystem>
+
 //“n‚³‚ê‚½’l‚ÌŒ…”‚ğ•Ô‚·ŠÖ”
 int numOfDigit(int num)
 {
@@ -209,4 +214,26 @@ std::string wchar_to_string(const wchar_t* in_wstr)
 	wcstombs_s(&convertedChars, str_c, sizeof(str_c), in_wstr, _TRUNCATE);
 	std::string out_str = str_c;
 	return out_str;
+}
+
+std::vector<std::string> LoadDirectory(std::string path)
+{
+	return LoadDirectory(path, "");
+}
+std::vector<std::string> LoadDirectory(std::string path, std::string find_str)
+{
+	std::vector<std::string> vec_path;
+	using std::filesystem::recursive_directory_iterator;
+
+
+
+	for (const auto& file : recursive_directory_iterator(path))
+	{
+		if (file.path().string().find(find_str) != -1 || find_str == "")
+		{
+			vec_path.push_back(file.path().string());
+		}
+
+	}
+	return vec_path;
 }
