@@ -62,10 +62,6 @@ void ObjBlock::Init()
 
 	m_pause_flag = false;
 
-	std::random_device rand;
-	//完全にランダムナシード
-	m_random_random_seed = rand();
-
 	m_random_random_engine = std::mt19937(m_random_random_seed);
 
 
@@ -233,17 +229,15 @@ MINO_TYPE ObjBlock::BagToType()
 			bag_mino_count++;
 	}
 
-	//ランダムインスタンス作成
-	std::uniform_int_distribution<int> dist(0, bag_mino_count - 1);
-
 	int rnd = 0;
+	std::random_device rand;
 
 	if (m_bag_round_count <= Tetris::E_PRACTICE_OPTION::TetriminoOrderFixed_End && m_practice_options.option_flag[m_bag_round_count])
 	{
 		return m_practice_options.fixed_mino_type[m_bag_round_count][MINO_MAX_TYPE - bag_mino_count];
 	}
 	else
-		rnd = dist(m_random_random_engine);
+		rnd = rand() % bag_mino_count;
 	
 
 	int count = 0;

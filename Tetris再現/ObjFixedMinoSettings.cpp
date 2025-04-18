@@ -42,10 +42,20 @@ void ObjFixedMinoSettings::Action()
 	}
 	else if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_A))
 	{
-		m_mino_order[m_now_selected] = m_order;
-		m_order++;
-		if (m_order == MINO_MAX_TYPE)
-			this->SetStatus(false);
+		if (m_mino_order[m_now_selected] == -1)
+		{
+			m_mino_order[m_now_selected] = m_order;
+			m_order++;
+			if (m_order == MINO_MAX_TYPE)
+			{
+				ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
+				for (int i = 0; i < MINO_MAX_TYPE; i++)
+				{
+					oBlock->GetOptions()->fixed_mino_type[m_round][m_mino_order[i]] = (MINO_TYPE)i;
+				}
+				this->SetStatus(false);
+			}
+		}
 	}
 }
 

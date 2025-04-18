@@ -93,13 +93,10 @@
     <ClCompile Include="Tetris.cpp">
       <Filter>Block</Filter>
     </ClCompile>
-    <ClCompile Include="ObjPracticeOption.cpp">
-      <Filter>Block</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjPracticeOption.h">
-      <Filter>Block</Filter>
-    </ClCompile>
     <ClCompile Include="ObjPlayerControll.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjPracticeOption.cpp">
       <Filter>Block</Filter>
     </ClCompile>
   </ItemGroup>
@@ -177,6 +174,9 @@
       <Filter>Block</Filter>
     </ClInclude>
     <ClInclude Include="ObjPlayerControll.h">
+      <Filter>Block</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjPracticeOption.h">
       <Filter>Block</Filter>
     </ClInclude>
   </ItemGroup>

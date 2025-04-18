@@ -163,7 +163,6 @@
     <ClCompile Include="ObjMino.cpp" />
     <ClCompile Include="ObjPlayerControll.cpp" />
     <ClCompile Include="ObjPracticeOption.cpp" />
-    <ClCompile Include="ObjPracticeOption.h" />
     <ClCompile Include="ObjScore.cpp" />
     <ClCompile Include="ObjRisingTimer.cpp" />
     <ClCompile Include="Scenemain.cpp" />
@@ -191,6 +190,7 @@
     <ClInclude Include="ObjGuide.h" />
     <ClInclude Include="ObjMino.h" />
     <ClInclude Include="ObjPlayerControll.h" />
+    <ClInclude Include="ObjPracticeOption.h" />
     <ClInclude Include="ObjRisingTimer.h" />
     <ClInclude Include="ObjScore.h" />
     <ClInclude Include="SceneMain.h" />
