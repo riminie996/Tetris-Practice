@@ -11,6 +11,8 @@ enum OBJ_NAME
 	OBJ_SCORE,
 	OBJ_GUIDE,
 	OBJ_RISING,
+	OBJ_FIXEDMINOSELECT,
+	OBJ_PRACTICEOPTION,
 };
 //------------------------------------------------
 
@@ -85,6 +87,8 @@ struct UserData
 #include "ObjScore.h"
 #include "ObjGuide.h"
 #include "ObjRisingTimer.h"
+#include "ObjFixedMinoSelect.h"
+#include "ObjPracticeOption.h"
 #include "Tetris.h"
 //------------------------------------------------
 

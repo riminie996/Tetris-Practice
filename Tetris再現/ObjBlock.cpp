@@ -16,19 +16,15 @@ ObjBlock::ObjBlock()
 	std::random_device rand;
 	//完全にランダムナシード
 	m_random_random_seed = rand();
-	m_random_seed = 2;
-
-	m_random_engine_copy = std::mt19937(m_random_seed);
-	m_random_engine = m_random_engine_copy;
-	for (int i = 0; i < E_PRACTICE_OPTION::Option_Count; i++)
-	{
-		m_practice_options[i] = false;
-	}
+	//for (int i = 0; i < E_PRACTICE_OPTION::Option_Count; i++)
+	//{
+	//	m_practice_options[i] = false;
+	//}
 	m_common_key_flag = false;
 
 	m_bag_round_count = 0;
 	Audio::Start(bgm_1);
-	m_rising_timer_sec = 0;
+	m_practice_options.rising_timer_sec = 0;
 }
 
 //初期化
@@ -57,7 +53,6 @@ void ObjBlock::Init()
 	//ネクスト作成する前に巡目リセット
 	m_mino_count = 0;
 	m_bag_round_count = 0;
-	m_random_engine = m_random_engine_copy;
 	for (int i = 0; i < NEXT_AMOUNT + 1; i++)
 	{
 		//NEXTの数+1で、最初ミノがつくられる
@@ -65,13 +60,6 @@ void ObjBlock::Init()
 	}
 
 
-	m_fixed_mino[0] = Mino_I;
-	m_fixed_mino[1] = Mino_L;
-	m_fixed_mino[2] = Mino_J;
-	m_fixed_mino[3] = Mino_T;
-	m_fixed_mino[4] = Mino_S;
-	m_fixed_mino[5] = Mino_O;
-	m_fixed_mino[6] = Mino_Z;
 	m_pause_flag = false;
 
 	std::random_device rand;
@@ -83,18 +71,18 @@ void ObjBlock::Init()
 
 	ObjRisingTimer* oRisingTimer = (ObjRisingTimer*)Objs::GetObj(OBJ_RISING);
 		
-	if (oRisingTimer != nullptr && m_rising_timer_sec <= 0)
+	if (oRisingTimer != nullptr && m_practice_options.rising_timer_sec <= 0)
 	{
 		oRisingTimer->SetStatus(false);
 	}
-	if (m_rising_timer_sec > 0)
+	if (m_practice_options.rising_timer_sec > 0)
 	{
 		if (oRisingTimer == nullptr)
 		{
 			oRisingTimer = new ObjRisingTimer();
 			Objs::InsertObj(oRisingTimer, OBJ_RISING, 2);
 		}
-		oRisingTimer->SetTimer(m_rising_timer_sec);
+		oRisingTimer->SetTimer(m_practice_options.rising_timer_sec);
 	}
 	
 	m_rising_lines = 0;
@@ -149,23 +137,26 @@ void ObjBlock::Action()
 	{
 		if (m_common_key_flag == true)
 		{
+			//ミノ巡固定
+			if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
+			{
+				m_practice_options.option_flag[m_now_selected_option] = !m_practice_options.option_flag[m_now_selected_option];
+				if (m_practice_options.option_flag[m_now_selected_option])
+				{
+
+				}
+
+			}
+
 			switch (m_now_selected_option)
 			{
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_1:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_2:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_3:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_4:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_5:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_6:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_7:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_8:
 			case E_PRACTICE_OPTION::NoNaturalDrop:
 			case E_PRACTICE_OPTION::DPCGuide:
 			case E_PRACTICE_OPTION::InfiniteHold:
-				m_practice_options[m_now_selected_option] = !m_practice_options[m_now_selected_option];
+				m_practice_options.option_flag[m_now_selected_option] = !m_practice_options.option_flag[m_now_selected_option];
 				break;
 			case E_PRACTICE_OPTION::RisingTimer:
-				m_rising_timer_sec--;
+				m_practice_options.rising_timer_sec--;
 				break;
 			}
 		}
@@ -175,23 +166,25 @@ void ObjBlock::Action()
 	{
 		if (m_common_key_flag == true)
 		{
+			if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
+			{
+				m_practice_options.option_flag[m_now_selected_option] = !m_practice_options.option_flag[m_now_selected_option];
+				if (m_practice_options.option_flag[m_now_selected_option])
+				{
+
+				}
+
+			}
+
 			switch (m_now_selected_option)
 			{
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_1:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_2:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_3:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_4:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_5:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_6:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_7:
-			case E_PRACTICE_OPTION::TetriminoOrderFixed_8:
 			case E_PRACTICE_OPTION::NoNaturalDrop:
 			case E_PRACTICE_OPTION::DPCGuide:
 			case E_PRACTICE_OPTION::InfiniteHold:
-				m_practice_options[m_now_selected_option] = !m_practice_options[m_now_selected_option];
+				m_practice_options.option_flag[m_now_selected_option] = !m_practice_options.option_flag[m_now_selected_option];
 				break;
 			case E_PRACTICE_OPTION::RisingTimer:
-				m_rising_timer_sec++;
+				m_practice_options.rising_timer_sec++;
 				break;
 			}
 		}
@@ -319,9 +312,9 @@ MINO_TYPE ObjBlock::BagToType()
 
 	int rnd = 0;
 
-	if (m_bag_round_count < 8 && m_practice_options[m_bag_round_count])
+	if (m_bag_round_count <= Tetris::E_PRACTICE_OPTION::TetriminoOrderFixed_End && m_practice_options.option_flag[m_bag_round_count])
 	{
-		return m_fixed_mino[MINO_MAX_TYPE - bag_mino_count];
+		return m_practice_options.fixed_mino_type[m_bag_round_count][MINO_MAX_TYPE - bag_mino_count];
 	}
 	else
 		rnd = dist(m_random_random_engine);
@@ -452,7 +445,7 @@ void ObjBlock::LinesCompleteCheck()
 
 		m_ren++;
 
-		int attack_lines = CalcSendAttackLines(lines_count, m_ren, m_btb, tspin, perfect_clear);
+		int attack_lines = CalcSendGarbageLines(lines_count, m_ren, m_btb, tspin, perfect_clear);
 		AttackGarbage(attack_lines);
 		
 	}
@@ -542,18 +535,12 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 	for (int i = 0; i < E_PRACTICE_OPTION::Option_Count; i++)
 	{
 		float option_text_offset_y = font_size * active_options_count;
+
+		if (i <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
+			str = L"テトリミノ" + std::to_wstring(i + 1) + L"巡目固定";
+
 		switch (i)
 		{
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_1:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_2:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_3:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_4:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_5:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_6:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_7:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_8:
-			str = L"テトリミノ" + std::to_wstring(i+1) + L"巡目固定";
-			break;
 		case E_PRACTICE_OPTION::NoNaturalDrop:
 			str = L"自然落下なし";
 			break;
@@ -561,11 +548,13 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 			str = L"無限ホールド";
 			break;
 		case E_PRACTICE_OPTION::RisingTimer:
-			str = L"せりあがりタイマー:" + std::to_wstring(m_rising_timer_sec);
+			str = L"せりあがりタイマー:" + std::to_wstring(m_practice_options.rising_timer_sec);
+			break;
+		default:
 			break;
 		}
 
-		if (m_practice_options[i] == true)
+		if (m_practice_options.option_flag[i] == true)
 		{
 			swprintf_s(wcr, L"%s", str.c_str());
 			Font::StrDraw(wcr, x, y + option_text_offset_y, font_size, ColorA::White);
@@ -599,18 +588,12 @@ void ObjBlock::DrawPauseModeScreen()
 	for (int i = 0; i < E_PRACTICE_OPTION::Option_Count; i++)
 	{
 		float option_text_offset_y = font_size * active_options_count;
+
+
+		if (i <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
+			str = L"テトリミノ" + std::to_wstring(i + 1) + L"巡目固定";
 		switch (i)
 		{
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_1:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_2:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_3:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_4:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_5:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_6:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_7:
-		case E_PRACTICE_OPTION::TetriminoOrderFixed_8:
-			str = L"テトリミノ" + std::to_wstring(i + 1) + L"巡目固定";
-			break;
 		case E_PRACTICE_OPTION::NoNaturalDrop:
 			str = L"自然落下なし";
 			break;
@@ -621,11 +604,11 @@ void ObjBlock::DrawPauseModeScreen()
 			str = L"無限ホールド";
 			break;
 		case E_PRACTICE_OPTION::RisingTimer:
-			str = L"せりあがりタイマー:" + std::to_wstring(m_rising_timer_sec);
+			str = L"せりあがりタイマー:" + std::to_wstring(m_practice_options.rising_timer_sec);
 			break;
 		}
 
-		if (m_practice_options[i])
+		if (m_practice_options.option_flag[i])
 			str += L"\tON";
 		else
 			str += L"\tOFF";
@@ -642,7 +625,7 @@ void ObjBlock::DrawPauseModeScreen()
 
 void ObjBlock::SetHoldFlag(bool status)
 {
-	if (m_practice_options[E_PRACTICE_OPTION::InfiniteHold])
+	if (m_practice_options.option_flag[E_PRACTICE_OPTION::InfiniteHold])
 	{
 		m_hold_flag = true;
 		return;
@@ -770,82 +753,7 @@ void ObjBlock::RisingLinesBlockDraw(int lines)
 	}
 }
 
-int ObjBlock::CalcSendAttackLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin,bool perfect)
-{
-	int garbage_lines = 0;
 
-	//
-	// 
-	//	Clear Type									Rows Cleared	Garbage Rows Sent
-	//	Single										1				0
-	//	Double										2				1
-	//	Triple										3				2
-	//	Tetris										4				4
-	//	Mini T-Spin Single(wherever available)		1				0
-	//	Mini T-Spin Double(wherever available)		2				1
-	//	T-Spin Single								1				2
-	//	T-Spin Double								2				4
-	//	T-Spin Triple								3				6
-	//	Back-to-Back Bonus							0				+1 (MTSS, MTSD; TSS), +2 (TSD; Tetris); +3 (TST)
-	//	Perfect clear								1 - 4			10 (+last line clear type if applicable)
-	//
-
-	//
-	//	0REN +0
-	//	1REN +0 
-	//	2REN +1 
-	//	3REN +1 
-	//	4REN +2 
-	//	5REN +2 
-	//	6REN +3 
-	//	7REN +3 
-	//	8REN +4 
-	//	9REN +4 
-	//	10REN +4
-	//	11REN +5
-	//	12REN +5
-	//	13REN +5
-	//	14REN +5
-
-	//Tスピン
-	if (tspin == E_TSPIN_PATTERN::TSpin)
-	{
-		garbage_lines += clear_line * 2;
-	}
-	else if (clear_line >= 4)
-	{
-		garbage_lines += 4;
-	}
-	else
-	{
-		garbage_lines += clear_line - 1;
-	}
-	//REN
-	if (ren >= 11)
-		garbage_lines += 5;
-	else if (ren >= 8)
-		garbage_lines += 4;
-	else if (ren >= 6)
-		garbage_lines += 3;
-	else if (ren >= 4)
-		garbage_lines += 2;
-	else if (ren >= 2)
-		garbage_lines += 1;
-	else
-		;
-
-
-	if (btb)
-	{
-		garbage_lines += 1;
-	}
-	if (perfect)
-	{
-		garbage_lines += 10;
-	}
-
-	return garbage_lines;
-}
 
 void ObjBlock::FieldUpdate()
 {

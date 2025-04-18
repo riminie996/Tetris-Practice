@@ -158,11 +158,15 @@
     <ClCompile Include="GameL\UserData.cpp" />
     <ClCompile Include="GameL\WinInputs.cpp" />
     <ClCompile Include="ObjBlock.cpp" />
+    <ClCompile Include="ObjFixedMinoSelect.cpp" />
     <ClCompile Include="ObjGuide.cpp" />
     <ClCompile Include="ObjMino.cpp" />
+    <ClCompile Include="ObjPracticeOption.cpp" />
+    <ClCompile Include="ObjPracticeOption.h" />
     <ClCompile Include="ObjScore.cpp" />
     <ClCompile Include="ObjRisingTimer.cpp" />
     <ClCompile Include="Scenemain.cpp" />
+    <ClCompile Include="Tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CControllerInput.h" />
@@ -182,6 +186,7 @@
     <ClInclude Include="GameL\WinInputs.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="ObjBlock.h" />
+    <ClInclude Include="ObjFixedMinoSelect.h" />
     <ClInclude Include="ObjGuide.h" />
     <ClInclude Include="ObjMino.h" />
     <ClInclude Include="ObjRisingTimer.h" />

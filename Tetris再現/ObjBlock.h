@@ -33,7 +33,7 @@ public:
 	bool BlockPosCheck(int x, int y);//そこにすでにブロックがあるか返す
 	void SetHoldType(MINO_TYPE type);//Hold
 	void LinesCompleteCheck();//ラインがそろったかチェック
-	bool GetOptions(E_PRACTICE_OPTION option_num) {return m_practice_options[option_num]; }
+	Tetris::ST_PRACTICE_OPTION GetOptions() {return m_practice_options; }
 	bool GetIsPause() { return m_pause_flag; }
 
 
@@ -71,21 +71,16 @@ private:
 	bool m_btb;
 
 	//ランダム関連
-	int m_random_seed;
 	int m_random_random_seed;
-	std::mt19937 m_random_engine;
-	std::mt19937 m_random_engine_copy;
 	std::mt19937 m_random_random_engine;
 
 	//OPTION
-	bool m_practice_options[E_PRACTICE_OPTION::Option_Count];
-	int m_rising_timer_sec;
+	Tetris::ST_PRACTICE_OPTION m_practice_options;
 
 	bool m_common_key_flag;
 	bool m_pause_flag;
 	int m_now_selected_option;
 	int m_mino_count;
-	MINO_TYPE m_fixed_mino[MINO_MAX_TYPE];
 	int m_rising_lines;
 	int m_rising_remain;
 
@@ -100,7 +95,7 @@ private:
 	void LineClear(int line_y);
 	void BlockDraw(int screen_pos_x, int screen_pos_y, int type);
 	void RisingLinesBlockDraw(int line);
-	int CalcSendAttackLines(int clear_line,int ren,bool btb,E_TSPIN_PATTERN tspin,bool perfect);
+
 	void AttackGarbage(int lines);
 };
 

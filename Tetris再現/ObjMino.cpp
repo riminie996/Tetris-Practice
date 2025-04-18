@@ -143,7 +143,7 @@ void ObjMino::Action()
 		}
 	}
 	//通常降下時はスコアを与えさせないため、分ける
-	if (m_ct_fall.GetMaxReached() && !oBlock->GetOptions(E_PRACTICE_OPTION::NoNaturalDrop))
+	if (m_ct_fall.GetMaxReached() && !oBlock->GetOptions().option_flag[E_PRACTICE_OPTION::NoNaturalDrop])
 	{
 		if (GetMinoBlockFixed() == false)
 		{
@@ -229,7 +229,7 @@ void ObjMino::Action()
 	//終了値に達した
 	if ((m_ct_landing.GetMaxReached()||
 		m_move_count >=15 )&& GetMinoBlockFixed() == true && 
-		!oBlock->GetOptions(E_PRACTICE_OPTION::NoNaturalDrop))
+		!oBlock->GetOptions().option_flag[E_PRACTICE_OPTION::NoNaturalDrop])
 	{
 		SetFieldMino();
 		oBlock->SetHoldFlag(true);

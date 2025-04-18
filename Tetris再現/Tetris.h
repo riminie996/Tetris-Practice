@@ -30,27 +30,8 @@ enum ROTATE_ANGLE
 	RotateAngle_Count,
 };
 
-struct ST_PRACTICE_OPTION
-{
-	bool option_flag[Option_Count];
 
-	int rising_timer_sec;
-	int rising_min_line;
-	int rising_max_line;
-	MINO_TYPE fixed_mino_type[TetriminoOrderFixed_End + 1][MINO_MAX_TYPE];
 
-};
-
-enum E_PRACTICE_OPTION
-{
-	TetriminoOrderFixed_1,
-	TetriminoOrderFixed_End = TetriminoOrderFixed_1 + 7,
-	NoNaturalDrop,
-	DPCGuide,
-	InfiniteHold,
-	RisingTimer,
-	Option_Count,
-};
 
 enum class E_TSPIN_PATTERN
 {
@@ -286,6 +267,42 @@ namespace Tetris
 	const float RISING_LINES_OFFSET_X = 176.0f;	//1PÇÃXç¿ïW
 	const float RISING_LINES_OFFSET_Y = 624.0f;		//1PÇÃYç¿ïW
 
-	
+	enum E_PRACTICE_OPTION
+	{
+		TetriminoOrderFixed_1,
+		TetriminoOrderFixed_End = TetriminoOrderFixed_1 + 7,
+		NoNaturalDrop,
+		DPCGuide,
+		InfiniteHold,
+		RisingTimer,
+		Option_Count,
+	};
+	struct ST_PRACTICE_OPTION
+	{
+		bool option_flag[Option_Count];
+
+		int rising_timer_sec;
+		int rising_min_line;
+		int rising_max_line;
+		MINO_TYPE fixed_mino_type[TetriminoOrderFixed_End + 1][MINO_MAX_TYPE];
+
+		ST_PRACTICE_OPTION()
+		{
+			for (int i = 0; i < Option_Count; i++)
+				option_flag[i] = false;
+			rising_timer_sec = 0;
+			rising_min_line = 1;
+			rising_max_line = 6;
+			for (int i = 0; i < TetriminoOrderFixed_End + 1; i++)
+			{
+				for (int j = 0; j < MINO_MAX_TYPE; j++)
+				{
+					fixed_mino_type[i][j] = (MINO_TYPE)j;
+				}
+			}
+		}
+	};
+
+	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);
 };
 

@@ -87,6 +87,18 @@
     <ClCompile Include="ObjRisingTimer.cpp">
       <Filter>Block</Filter>
     </ClCompile>
+    <ClCompile Include="ObjFixedMinoSelect.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Tetris.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjPracticeOption.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjPracticeOption.h">
+      <Filter>Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameL\Audio.h">
@@ -156,6 +168,9 @@
       <Filter>Block</Filter>
     </ClInclude>
     <ClInclude Include="ObjRisingTimer.h">
+      <Filter>Block</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjFixedMinoSelect.h">
       <Filter>Block</Filter>
     </ClInclude>
   </ItemGroup>
