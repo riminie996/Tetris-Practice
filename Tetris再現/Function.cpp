@@ -237,3 +237,11 @@ std::vector<std::string> LoadDirectory(std::string path, std::string find_str)
 	}
 	return vec_path;
 }
+
+void ColorScreenDraw(COLOR c,float opacity)
+{
+	Draw::SetOpacity(texBlack32, opacity);
+	Draw::SetColor(texBlack32, c);
+	GameL::RECT_F rect_tile = { 0.0f, 0.0f, 32.0f, 32.0f };
+	DrawFill(texBlack32, rect_tile);
+}

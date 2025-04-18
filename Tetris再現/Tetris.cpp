@@ -1,5 +1,6 @@
 #include "Tetris.h"
-
+#include "GameL\DrawTexture.h"
+#include "GameHead.h"
 int Tetris::CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect)
 {
 	int garbage_lines = 0;
@@ -75,4 +76,37 @@ int Tetris::CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATT
 	}
 
 	return garbage_lines;
+}
+
+void Tetris::Mino_Shape_Draw(int x, int y, MINO_TYPE type)
+{
+	float offset_x = 0.0f;
+	float offset_y = 0.0f;
+	//真ん中に表示させたいため、ずらす
+	if (type == Mino_I || type == Mino_O)
+	{
+		offset_y = BLOCK_PIXELS;
+	}
+	else//3×3ブロックのやつ
+	{
+		offset_x = BLOCK_PIXELS / 2.0f;
+		offset_y = BLOCK_PIXELS;
+	}
+
+	//初期位置
+	float bx = x + ((float)MINO_DATABASE_LOW / 2.0f) * -BLOCK_PIXELS + offset_x;
+	float by = y + ((float)MINO_DATABASE_COL / 2.0f) * -BLOCK_PIXELS + offset_y;
+	GameL::RECT_F Color_Block = { 0,BLOCK_PIXELS * type,BLOCK_PIXELS,BLOCK_PIXELS };
+
+	for (int i = 0; i < MINO_DATABASE_COL; i++)
+	{
+		for (int j = 0; j < MINO_DATABASE_LOW; j++)
+		{
+			if (MINO_SHAPE[type][i][j] == 1)
+			{
+				GameL::Draw::Draw(texBlock, bx + (j * BLOCK_PIXELS), by + (i * BLOCK_PIXELS), Color_Block);
+				GameL::Draw::Draw(texBlock, bx + (j * BLOCK_PIXELS), by + (i * BLOCK_PIXELS), BLOCK_LIGHT_SRC_POS);
+			}
+		}
+	}
 }

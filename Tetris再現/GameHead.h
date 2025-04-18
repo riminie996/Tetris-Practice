@@ -13,14 +13,17 @@ enum OBJ_NAME
 	OBJ_RISING,
 	OBJ_FIXEDMINOSELECT,
 	OBJ_PRACTICEOPTION,
+	OBJ_PLAYERCONTROLL,
 };
 enum OBJ_PRIORITY
 {
 	PRIO_FIELD,
+	PRIO_SCORE,
 	PRIO_MINO,
 	PRIO_RISING,
 	PRIO_OPTION,
 	PRIO_FIXED_MINO_SETTINGS,
+	PRIO_CONTROLL,
 };
 //------------------------------------------------
 
@@ -94,9 +97,10 @@ struct UserData
 #include "ObjMino.h"
 #include "ObjScore.h"
 #include "ObjGuide.h"
+#include "ObjPracticeOption.h"
 #include "ObjRisingTimer.h"
 #include "ObjFixedMinoSettings.h"
-#include "ObjPracticeOption.h"
+#include "ObjPlayerControll.h"
 #include "Tetris.h"
 //------------------------------------------------
 

@@ -45,3 +45,4 @@ std::string wchar_to_string(const wchar_t* in_wstr);
 
 std::vector<std::string> LoadDirectory(std::string path);
 std::vector<std::string> LoadDirectory(std::string path, std::string find_str);
+void ColorScreenDraw(COLOR c,float opacity);

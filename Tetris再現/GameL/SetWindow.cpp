@@ -16,7 +16,7 @@ void LSetWindow::NewWindow(int w,int h,wchar_t* name,HINSTANCE hInstance)
 
 	//ウィンドウ作成
 	if( !( m_hWnd = CreateWindow( name, name, 
-		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZE & ~( WS_MAXIMIZEBOX | WS_SIZEBOX ),
+		WS_OVERLAPPEDWINDOW/* ^ WS_MAXIMIZE*/ & ~( WS_MAXIMIZEBOX | WS_SIZEBOX ),
 		CW_USEDEFAULT, 0,  width, height, 0, 0, hInstance, 0) ) )
 	{
 		 return ;

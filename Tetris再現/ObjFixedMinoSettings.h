@@ -14,12 +14,16 @@ using namespace GameL;
 class ObjFixedMinoSettings : public CObj
 {
 public:
-	ObjFixedMinoSettings();
+	ObjFixedMinoSettings(int round);
 	~ObjFixedMinoSettings() {};
 	void Init();
 	void Action();
 	void Draw();
 
 private:
+	int m_round;
+	int m_mino_order[MINO_MAX_TYPE];
+	int m_now_selected;
+	int m_order;
 };
 

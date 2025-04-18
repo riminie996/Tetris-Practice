@@ -61,11 +61,13 @@ void SceneMain::InitScene()
 
 	//オブジェクトの作成--------------------------
 	ObjBlock* oBlock = new ObjBlock();
-	Objs::InsertObj(oBlock, OBJ_BLOCK, 1);
+	Objs::InsertObj(oBlock, OBJ_BLOCK, PRIO_FIELD);
 
 	ObjScore* oScore = new ObjScore();
-	Objs::InsertObj(oScore, OBJ_SCORE, 1);
+	Objs::InsertObj(oScore, OBJ_SCORE, PRIO_SCORE);
 
+	ObjPlayerControll* oCtrl = new ObjPlayerControll();
+	Objs::InsertObj(oCtrl, OBJ_PLAYERCONTROLL, PRIO_CONTROLL);
 	//ObjGuide* oGuide = new ObjGuide();
 	//Objs::InsertObj(oGuide, OBJ_GUIDE, 1);
 

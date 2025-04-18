@@ -305,5 +305,6 @@ namespace Tetris
 	};
 
 	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);
+	void Mino_Shape_Draw(int x, int y, MINO_TYPE type);
 };
 

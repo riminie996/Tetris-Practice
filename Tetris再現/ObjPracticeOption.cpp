@@ -15,6 +15,10 @@ void ObjPracticeOption::Action()
 {
 
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
+	ObjFixedMinoSettings* oFixed = (ObjFixedMinoSettings*)Objs::GetObj(OBJ_FIXEDMINOSELECT);
+
+	if (oFixed != nullptr)return;
+
 	m_p_option = oBlock->GetOptions();
 
 	if (Input::GetVKey(VK_UP) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_UP))
@@ -39,28 +43,7 @@ void ObjPracticeOption::Action()
 	{
 		if (m_common_key_flag == true)
 		{
-			//ミノ巡固定
-			if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
-			{
-				m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
-				if (m_p_option->option_flag[m_now_selected_option])
-				{
-
-				}
-
-			}
-
-			switch (m_now_selected_option)
-			{
-			case E_PRACTICE_OPTION::NoNaturalDrop:
-			case E_PRACTICE_OPTION::DPCGuide:
-			case E_PRACTICE_OPTION::InfiniteHold:
-				m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
-				break;
-			case E_PRACTICE_OPTION::RisingTimer:
-				m_p_option->rising_timer_sec--;
-				break;
-			}
+			ChangeParameter(Left);
 		}
 		m_common_key_flag = false;
 	}
@@ -68,27 +51,7 @@ void ObjPracticeOption::Action()
 	{
 		if (m_common_key_flag == true)
 		{
-			if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
-			{
-				m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
-				if (m_p_option->option_flag[m_now_selected_option])
-				{
-
-				}
-
-			}
-
-			switch (m_now_selected_option)
-			{
-			case E_PRACTICE_OPTION::NoNaturalDrop:
-			case E_PRACTICE_OPTION::DPCGuide:
-			case E_PRACTICE_OPTION::InfiniteHold:
-				m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
-				break;
-			case E_PRACTICE_OPTION::RisingTimer:
-				m_p_option->rising_timer_sec++;
-				break;
-			}
+			ChangeParameter(Right);
 		}
 		m_common_key_flag = false;
 	}
@@ -111,9 +74,7 @@ void ObjPracticeOption::Draw()
 
 	float x = 0.0f, y = 0.0f, font_size = 32.0f;
 
-	Draw::SetOpacity(texBlack32, 0.5f);
-	GameL::RECT_F rect_tile = { 0.0f, 0.0f, 32.0f, 32.0f };
-	DrawFill(texBlack32, rect_tile);
+	ColorScreenDraw(Color::Black, 0.5f);
 
 	std::wstring str;
 	int active_options_count = 1;
@@ -136,7 +97,7 @@ void ObjPracticeOption::Draw()
 			str = L"無限ホールド";
 			break;
 		case E_PRACTICE_OPTION::RisingTimer:
-			str = L"せりあがりタイマー:" + std::to_wstring(m_p_option->rising_timer_sec);
+			str = L"せりあがりタイマー:" + std::to_wstring(m_p_option->rising_timer_sec) + L"秒";
 			break;
 		}
 
@@ -151,5 +112,35 @@ void ObjPracticeOption::Draw()
 		active_options_count++;
 
 
+	}
+}
+
+void ObjPracticeOption::ChangeParameter(DIRECTION dir)
+{
+	int num = dir == Left ? -1 : 1;
+
+	//ミノ巡固定
+	if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
+	{
+		m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
+		if (m_p_option->option_flag[m_now_selected_option])
+		{
+			ObjFixedMinoSettings* oFixed = new ObjFixedMinoSettings(m_now_selected_option);
+			Objs::InsertObj(oFixed, OBJ_FIXEDMINOSELECT, PRIO_FIXED_MINO_SETTINGS);
+
+		}
+
+	}
+
+	switch (m_now_selected_option)
+	{
+	case E_PRACTICE_OPTION::NoNaturalDrop:
+	case E_PRACTICE_OPTION::DPCGuide:
+	case E_PRACTICE_OPTION::InfiniteHold:
+		m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
+		break;
+	case E_PRACTICE_OPTION::RisingTimer:
+		m_p_option->rising_timer_sec += num;
+		break;
 	}
 }

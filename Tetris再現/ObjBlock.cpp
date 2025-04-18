@@ -139,11 +139,12 @@ void ObjBlock::Draw()
 		{
 			float x = FIELD_1P_POS_X + NEXT_OFFSET_X;
 			float y = i * NEXT_HEIGHT + FIELD_1P_POS_Y + NEXT_OFFSET_Y;
+			Draw::SetColor(texNext, Color::White);
 			Draw::CenterDraw(texNext, x, y);
 			//0 - 6の場合
 			if (m_next[i] > Mino_Empty)
 			{
-				Next_Mino_Draw(x, y, m_next[i]);
+				Mino_Shape_Draw(x, y, m_next[i]);
 			}
 		}
 		//								64 = 中心に描画したいため、枠のピクセル数である128÷2の位置
@@ -153,7 +154,7 @@ void ObjBlock::Draw()
 		Draw::CenterDraw(texNext, hx, hy);
 		if (m_hold_type != Mino_Empty)
 		{
-			Next_Mino_Draw(hx, hy, m_hold_type);
+			Mino_Shape_Draw(hx, hy, m_hold_type);
 		}
 		Font::StrCenterDraw(L"NEXT", FIELD_1P_POS_X + NEXT_OFFSET_X, FIELD_1P_POS_Y + NEXT_OFFSET_Y + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
 		Font::StrCenterDraw(L"HOLD", hx, hy + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
