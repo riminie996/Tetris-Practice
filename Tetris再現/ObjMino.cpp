@@ -211,25 +211,6 @@ void ObjMino::Draw()
 		Draw::Draw(texBlock, bx, by, BLOCK_LIGHT_SRC_POS);
 	}
 	
-	//デバッグ用　T-Spinチェッカー描画
-	
-	//for (int i = 0; i < MINO_DATABASE_COL; i++)
-	//{
-	//	for (int j = 0; j < MINO_DATABASE_LOW; j++)
-	//	{
-	//		float bx = (m_px + j) * BLOCK_PIXELS + FIELD_1P_POS_X + FIELD_OFFSET_X;
-	//		float by = (m_py +i) * BLOCK_PIXELS + FIELD_1P_POS_Y + FIELD_OFFSET_Y;
-	//		if (Tetris::TSPIN_CHECKER[(int)m_rotate_angle][i][j] == 1 && m_mino_type == Mino_T)
-	//		{
-
-
-	//			RECT_F Color_Block_Frame = { BLOCK_PIXELS,BLOCK_PIXELS * m_mino_type,BLOCK_PIXELS,BLOCK_PIXELS };
-	//			Draw::Draw(texBlock, bx, by, Color_Block_Frame);
-	//		}
-
-	//	}
-	//}
-	//	
 	
 }
 
