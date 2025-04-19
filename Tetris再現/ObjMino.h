@@ -36,10 +36,6 @@ private:
 
 	CCounter m_ct_landing;//着地してから置かれるまでの時間
 
-	////長押し回避用フラグ
-	//bool m_key_flag[4];
-	////左か右を押し続ける間、この値は増え続ける
-	//CCounter m_ct_input_move;
 
 	//ロックダウン関連
 	int m_move_count;
