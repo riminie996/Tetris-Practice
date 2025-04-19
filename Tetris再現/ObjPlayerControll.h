@@ -39,8 +39,7 @@ public:
 	void Draw();
 	bool GetButtonInput(E_PLAYER_CONTROLL cont);
 	bool GetButtonInputOnce(E_PLAYER_CONTROLL cont);
+	unsigned int GetButtonLongPressFrame(E_PLAYER_CONTROLL cont);
 private:
-	bool m_button_once_status[(int)E_PLAYER_CONTROLL::ButtonTypeCount];
-	bool m_button_flag[(int)E_PLAYER_CONTROLL::ButtonTypeCount];
-
+	unsigned int m_button_status[(int)E_PLAYER_CONTROLL::ButtonTypeCount];
 };

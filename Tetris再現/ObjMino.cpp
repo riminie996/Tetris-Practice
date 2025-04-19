@@ -36,12 +36,12 @@ void ObjMino::Init()
 	m_py = MINO_INIT_POS_Y;
 	m_rotate_angle = RotateAngle0;
 
-	m_key_flag[0] = false;
-	m_key_flag[1] = false;
-	m_key_flag[2] = false;
+	//m_key_flag[0] = false;
+	//m_key_flag[1] = false;
+	//m_key_flag[2] = false;
 
-	//1秒
-	m_ct_input_move = { CCounter(0.0f,0.0f, FRAME_MINO_INPUT_MOVE, STOP) };
+	////1秒
+	//m_ct_input_move = { CCounter(0.0f,0.0f, FRAME_MINO_INPUT_MOVE, STOP) };
 	m_ct_landing = { CCounter(0.0f,0.0f, FRAME_MINO_LANDING, STOP) };
 	m_ct_fall = { CCounter(0.0f,0.0f, FRAME_MINO_FALL, STOP) };
 
@@ -54,8 +54,7 @@ void ObjMino::Init()
 
 	if (oBlock != nullptr)
 	{
-
-		//生成できない場合、1ブロックあげてみる
+			//生成できない場合、1ブロックあげてみる
 		for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
 		{
 			int bx = m_px + m_mino_x[i];
@@ -76,6 +75,8 @@ void ObjMino::Action()
 	//ブロックの情報を取得
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 	ObjScore* oScore = (ObjScore*)Objs::GetObj(OBJ_SCORE);
+
+	ObjPlayerControll* ctrl = (ObjPlayerControll*)Objs::GetObj(OBJ_PLAYERCONTROLL);
 	if (m_mino_first_action)
 	{
 
@@ -97,42 +98,30 @@ void ObjMino::Action()
 
 	//CCounter処理
 	m_ct_landing.Add(1.0f);
-	m_ct_input_move.Add(1.0f);
+	//m_ct_input_move.Add(1.0f);
 	m_ct_fall.Add(1.0f);
 
 		//移動
-	if (Input::GetVKey('A') || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_LEFT))
+	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_LEFT))
 	{
-		if (m_key_flag[0] == true)
+		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_LEFT) || 
+			ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_LEFT) >= FRAME_MINO_INPUT_MOVE)
 		{
 			MinoMove(Left);
-			m_key_flag[0] = false;
 		}
 	}
-	else if (Input::GetVKey('D') || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_RIGHT))
+	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_RIGHT))
 	{
-		if (m_key_flag[0] == true)
+		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_RIGHT) ||
+			ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_RIGHT) >= FRAME_MINO_INPUT_MOVE)
 		{
 			MinoMove(Right);
-			m_key_flag[0] = false;
 		}
+	}
 
-	}
-	else
-	{
-		m_key_flag[0] = true;
-		//左右どちらも押されていない時、Startが実行され続けるため、
-		//常に0になる
-		m_ct_input_move.Reset();
-	}
-	//終了値に達した
-	if (m_ct_input_move.GetMaxReached() == true)
-	{
-		m_key_flag[0] = true;
-	}
 	
 	//下がるごとに移動回数がリセット
-	if (Input::GetVKey('S') || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_DOWN))
+	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_DOWN))
 	{
 		if (GetMinoBlockFixed() == false)
 		{
@@ -153,64 +142,36 @@ void ObjMino::Action()
 		}
 	}
 
-	if (Input::GetVKey('W') || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_UP))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_UP))
 	{
-		if (m_key_flag[2] == true)
-		{
-			//落として配置
-			MinoHardDrop();
-			SetFieldMino();
-			return;
-		}
-		m_key_flag[2] = false;
+		//落として配置
+		MinoHardDrop();
+		SetFieldMino();
+		return;
 	}
-	else
-	{
-		m_key_flag[2] = true;
-	}
-	
 	//左回転
-	if (Input::GetVKey(VK_LEFT) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_B))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_B))
 	{
-		if (m_key_flag[1] == true)
-		{
 			RotateMino(Left);
 			m_move_count++;
-		}
-		m_key_flag[1] = false;
 	}
 	//右回転
-	else if (Input::GetVKey(VK_RIGHT) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_A))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_A))
 	{
-		
-		if (m_key_flag[1] == true)
-		{
-			RotateMino(Right);
-			m_move_count++;
-		}
-		m_key_flag[1] = false;
+
+		RotateMino(Right);
+		m_move_count++;
 	}
 
-	else
-	{
-		m_key_flag[1] = true;
-	}
 
-	if ((Input::GetVKey(VK_UP) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_L1) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_R1)) && oBlock->GetHoldFlag() == true)
+	if ((ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_L) || ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_R)) && 
+		oBlock->GetHoldFlag() == true)
 	{
-		if (m_key_flag[3] == true)
-		{
 			Audio::Start(se_Mino_Hold);
 			oBlock->SetHoldType(m_mino_type);
 			oBlock->SetHoldFlag(false);
 			this->SetStatus(false);
 			return;
-		}
-		m_key_flag[3] = false;
-	}
-	else
-	{
-		m_key_flag[3] = true;
 	}
 	
 	if(GetMinoBlockFixed() == false)

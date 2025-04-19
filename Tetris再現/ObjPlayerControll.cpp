@@ -12,10 +12,10 @@
 //初期化
 void ObjPlayerControll::Init()
 {
+	//押されていない場合、0
 	for (int i = 0; i < (int)E_PLAYER_CONTROLL::ButtonTypeCount; i++)
 	{
-		m_button_flag[i] = false;
-		m_button_once_status[i] = false;
+		m_button_status[i] = 0;
 	}
 }
 
@@ -25,20 +25,16 @@ void ObjPlayerControll::Action()
 	for (int i = 0; i < (int)E_PLAYER_CONTROLL::ButtonTypeCount; i++)
 	{
 
-		m_button_once_status[i] = false;
 		bool status = GetButtonInput((E_PLAYER_CONTROLL)i);
 
 		if (status)
 		{
-			if (m_button_flag[i] == true)
-			{
-				m_button_once_status[i] = true;
-				m_button_flag[i] = false;
-			}
+			m_button_status[i]++;
+
 		}
 		else
 		{
-			m_button_flag[i] = true;
+			m_button_status[i] = 0;
 		}
 	}
 }
@@ -87,7 +83,12 @@ bool ObjPlayerControll::GetButtonInput(E_PLAYER_CONTROLL cont)
 		return CConInput::GetConInput(Controller_Input_DualShock4::INPUT_TOUCHPAD);
 	}
 }
+//1フレーム目のみ判定を行う。
 bool ObjPlayerControll::GetButtonInputOnce(E_PLAYER_CONTROLL cont)
 {
-	return GetButtonInput(cont) && m_button_once_status[(int)cont];
+	return m_button_status[(int)cont] == 1;
+}
+unsigned int ObjPlayerControll::GetButtonLongPressFrame(E_PLAYER_CONTROLL cont)
+{
+	return m_button_status[(int)cont];
 }
