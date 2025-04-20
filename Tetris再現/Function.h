@@ -6,7 +6,7 @@
 #include "GameHead.h"
 #include "Structure.h"
 //•Ö—˜‚ÈŠÖ”’u‚«ê
-
+#define USER_DATA ((UserData*)Save::GetData())
 
 
 //—^‚¦‚ç‚ê‚½”’l‚ÌŒ…”‚ğ’²‚×‚éŠÖ”

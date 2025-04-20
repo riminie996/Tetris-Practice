@@ -270,6 +270,7 @@ namespace Tetris
 	const float RISING_LINES_OFFSET_X = 176.0f;	//1PÇÃXç¿ïW
 	const float RISING_LINES_OFFSET_Y = 624.0f;		//1PÇÃYç¿ïW
 
+
 	enum E_PRACTICE_OPTION
 	{
 		TetriminoOrderFixed_1,
@@ -278,6 +279,11 @@ namespace Tetris
 		DPCGuide,
 		InfiniteHold,
 		RisingTimer,
+		User_ARR,
+		User_DAS,
+		User_SDF,
+		User_CounterClockwise,
+		User_AccidentalHardDrop,
 		Option_Count,
 	};
 	struct ST_PRACTICE_OPTION
@@ -305,6 +311,7 @@ namespace Tetris
 			}
 		}
 	};
+	std::wstring GetOptionName(E_PRACTICE_OPTION option);
 
 	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);
 	void Mino_Shape_Draw(int x, int y, MINO_TYPE type);

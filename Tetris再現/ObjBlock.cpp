@@ -463,19 +463,22 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 	{
 		float option_text_offset_y = font_size * active_options_count;
 
-		if (i <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
-			str = L"テトリミノ" + std::to_wstring(i + 1) + L"巡目固定";
-
+		str = Tetris::GetOptionName((E_PRACTICE_OPTION)i);
 		switch (i)
 		{
-		case E_PRACTICE_OPTION::NoNaturalDrop:
-			str = L"自然落下なし";
-			break;
-		case E_PRACTICE_OPTION::InfiniteHold:
-			str = L"無限ホールド";
-			break;
+
 		case E_PRACTICE_OPTION::RisingTimer:
-			str = L"せりあがりタイマー:" + std::to_wstring(m_practice_options.rising_timer_sec);
+			str += std::to_wstring(m_practice_options.rising_timer_sec) + L"秒";
+			break;
+		case E_PRACTICE_OPTION::User_ARR:
+			break;
+		case E_PRACTICE_OPTION::User_DAS:
+			break;
+		case E_PRACTICE_OPTION::User_SDF:
+			break;
+		case E_PRACTICE_OPTION::User_CounterClockwise:
+			break;
+		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 			break;
 		default:
 			break;

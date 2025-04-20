@@ -75,6 +75,8 @@ void SceneMain::InitScene()
 	//ObjGuide* oGuide = new ObjGuide();
 	//Objs::InsertObj(oGuide, OBJ_GUIDE, 1);
 
+	Save::Open();
+
 }
 //é¿çsíÜ
 void SceneMain::Scene()

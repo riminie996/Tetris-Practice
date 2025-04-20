@@ -15,6 +15,7 @@ public:
 	~SceneMain() ;
 	void InitScene() ;//‰Šú‰»
 	void Scene();//Às’†
+
 private:
 	
 };

@@ -82,29 +82,31 @@ void ObjPracticeOption::Draw()
 	{
 		float option_text_offset_y = font_size * active_options_count;
 
-
-		if (i <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
-			str = L"テトリミノ" + std::to_wstring(i + 1) + L"巡目固定";
+		str = Tetris::GetOptionName((E_PRACTICE_OPTION)i);
 		switch (i)
 		{
-		case E_PRACTICE_OPTION::NoNaturalDrop:
-			str = L"自然落下なし";
-			break;
-		case E_PRACTICE_OPTION::DPCGuide:
-			str = L"";
-			break;
-		case E_PRACTICE_OPTION::InfiniteHold:
-			str = L"無限ホールド";
-			break;
+
 		case E_PRACTICE_OPTION::RisingTimer:
-			str = L"せりあがりタイマー:" + std::to_wstring(m_p_option->rising_timer_sec) + L"秒";
+			str += std::to_wstring(m_p_option->rising_timer_sec) + L"秒";
+			break;
+		case E_PRACTICE_OPTION::User_ARR:
+			break;
+		case E_PRACTICE_OPTION::User_DAS:
+			break;
+		case E_PRACTICE_OPTION::User_SDF:
+			break;
+		case E_PRACTICE_OPTION::User_CounterClockwise:
+			break;
+		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
+			break;
+		default:
+			if (m_p_option->option_flag[i])
+				str += L"\tON";
+			else
+				str += L"\tOFF";
 			break;
 		}
 
-		if (m_p_option->option_flag[i])
-			str += L"\tON";
-		else
-			str += L"\tOFF";
 
 		COLOR_A text_color = m_now_selected_option == i ? ColorA::Red : ColorA::White;
 
@@ -141,6 +143,16 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		break;
 	case E_PRACTICE_OPTION::RisingTimer:
 		m_p_option->rising_timer_sec += num;
+		break;
+	case E_PRACTICE_OPTION::User_ARR:
+		break;
+	case E_PRACTICE_OPTION::User_DAS:
+		break;
+	case E_PRACTICE_OPTION::User_SDF:
+		break;
+	case E_PRACTICE_OPTION::User_CounterClockwise:
+		break;
+	case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 		break;
 	}
 }
