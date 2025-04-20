@@ -82,7 +82,11 @@ enum AudioIds
 struct UserData
 {
 	//ユーザーが直接変更できるデータ
-	
+	int m_ARR_frame;
+	int m_DAS_frame;
+	int m_SDF_frame;
+	int m_accidental_harddrop_frame;
+	bool m_counter_clockwise;
 };
 //------------------------------------------------
 
