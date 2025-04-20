@@ -58,6 +58,8 @@ void SceneMain::InitScene()
 	Draw::LoadImageW(L"Next.png",			texNext, TEX_SIZE_128);
 	Draw::LoadImageW(L"Base.png",			texBase, TEX_SIZE_128);
 	Draw::LoadImageW(L"Block32.png",		texBlack32, TEX_SIZE_128);
+	Draw::LoadImageW(L"Texture/Text.png",		texText, TEX_SIZE_128);
+	Draw::LoadImageW(L"Texture/ScoreNum.png",		texNumber, TEX_SIZE_128);
 
 	//オブジェクトの作成--------------------------
 	ObjBlock* oBlock = new ObjBlock();
@@ -68,6 +70,8 @@ void SceneMain::InitScene()
 
 	ObjPlayerControll* oCtrl = new ObjPlayerControll();
 	Objs::InsertObj(oCtrl, OBJ_PLAYERCONTROLL, PRIO_CONTROLL);
+	ObjClearText* oText = new ObjClearText();
+	Objs::InsertObj(oText, OBJ_CLEARTEXT, PRIO_CLEARTEXT);
 	//ObjGuide* oGuide = new ObjGuide();
 	//Objs::InsertObj(oGuide, OBJ_GUIDE, 1);
 

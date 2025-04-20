@@ -141,8 +141,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CAnime3.cpp" />
     <ClCompile Include="CControllerInput.cpp" />
     <ClCompile Include="CCounter.cpp" />
+    <ClCompile Include="CFileFormat.cpp" />
+    <ClCompile Include="CNumTexSource.cpp" />
+    <ClCompile Include="CTimeCounter.cpp" />
     <ClCompile Include="Function.cpp" />
     <ClCompile Include="GameL\Audio.cpp" />
     <ClCompile Include="GameL\DirectXDevice.cpp" />
@@ -158,6 +162,7 @@
     <ClCompile Include="GameL\UserData.cpp" />
     <ClCompile Include="GameL\WinInputs.cpp" />
     <ClCompile Include="ObjBlock.cpp" />
+    <ClCompile Include="ObjClearText.cpp" />
     <ClCompile Include="ObjFixedMinoSettings.cpp" />
     <ClCompile Include="ObjGuide.cpp" />
     <ClCompile Include="ObjMino.cpp" />
@@ -169,8 +174,12 @@
     <ClCompile Include="Tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CAnime3.h" />
     <ClInclude Include="CControllerInput.h" />
     <ClInclude Include="CCounter.h" />
+    <ClInclude Include="CFileFormat.h" />
+    <ClInclude Include="CNumTexSource.h" />
+    <ClInclude Include="CTimeCounter.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="GameHead.h" />
     <ClInclude Include="GameL\Audio.h" />
@@ -186,6 +195,7 @@
     <ClInclude Include="GameL\WinInputs.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="ObjBlock.h" />
+    <ClInclude Include="ObjClearText.h" />
     <ClInclude Include="ObjFixedMinoSettings.h" />
     <ClInclude Include="ObjGuide.h" />
     <ClInclude Include="ObjMino.h" />
@@ -194,6 +204,7 @@
     <ClInclude Include="ObjRisingTimer.h" />
     <ClInclude Include="ObjScore.h" />
     <ClInclude Include="SceneMain.h" />
+    <ClInclude Include="Structure.h" />
     <ClInclude Include="Tetris.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

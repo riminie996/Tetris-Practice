@@ -305,6 +305,7 @@ void ObjBlock::LinesCompleteCheck()
 {
 	int lines_count = 0;
 	bool perfect_clear = false;
+	bool btb = m_btb;
 	for (int y = 0; y < FIELD_HEIGHT; y++)
 	{
 		for (int x = 0; x < FIELD_WIDTH;)
@@ -346,6 +347,8 @@ void ObjBlock::LinesCompleteCheck()
 		ObjMino* mino = (ObjMino*)Objs::GetObj(OBJ_MINO);
 		E_TSPIN_PATTERN tspin = mino->GetTSpinFlag();
 
+
+		//BTB‚Ì”»’è‚ÍÅŒã‚És‚¤B
 		if (tspin != E_TSPIN_PATTERN::NoTSpin)
 		{
 			Audio::Start(AudioIds::se_Line_TSpin);
@@ -360,14 +363,18 @@ void ObjBlock::LinesCompleteCheck()
 		{
 			Audio::Start(AudioIds::se_Line_Clear);
 			m_btb = false;
+			btb = false;
 		}
-
 
 		m_ren++;
 
-		int attack_lines = CalcSendGarbageLines(lines_count, m_ren, m_btb, tspin, perfect_clear);
+		int attack_lines = CalcSendGarbageLines(lines_count, m_ren, btb, tspin, perfect_clear);
 		AttackGarbage(attack_lines);
-		
+
+		ObjClearText* text = (ObjClearText*)Objs::GetObj(OBJ_CLEARTEXT);
+		text->AnimeStart(m_ren, lines_count, btb, tspin, perfect_clear);
+
+
 	}
 	else//0ƒ‰ƒCƒ“
 	{

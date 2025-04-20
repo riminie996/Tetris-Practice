@@ -15,6 +15,7 @@
 //LoadDirectory
 #include <filesystem>
 
+
 //“n‚³‚ê‚½’l‚ÌŒ…”‚ğ•Ô‚·ŠÖ”
 int numOfDigit(int num)
 {
@@ -238,7 +239,7 @@ std::vector<std::string> LoadDirectory(std::string path, std::string find_str)
 	return vec_path;
 }
 
-void ColorScreenDraw(COLOR c,float opacity)
+void ColorScreenDraw(GameL::COLOR c,float opacity)
 {
 	Draw::SetOpacity(texBlack32, opacity);
 	Draw::SetColor(texBlack32, c);

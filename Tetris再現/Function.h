@@ -2,10 +2,12 @@
 #include <vector>
 #include <string>
 #include <list>
-#include "GameL\DrawTexture.h"
 #include "Tetris.h"
 #include "GameHead.h"
+#include "Structure.h"
 //•Ö—˜‚ÈŠÖ”’u‚«ê
+
+
 
 //—^‚¦‚ç‚ê‚½”’l‚ÌŒ…”‚ğ’²‚×‚éŠÖ”
 int numOfDigit(int num);
@@ -45,4 +47,4 @@ std::string wchar_to_string(const wchar_t* in_wstr);
 
 std::vector<std::string> LoadDirectory(std::string path);
 std::vector<std::string> LoadDirectory(std::string path, std::string find_str);
-void ColorScreenDraw(COLOR c,float opacity);
+void ColorScreenDraw(GameL::COLOR c,float opacity);

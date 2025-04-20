@@ -2,6 +2,8 @@
 //‚±‚ÌƒQ[ƒ€ŒÀ’è‚Åg‚¤’è”‚Æ‚©
 #include "GameL\DrawTexture.h"
 
+
+
 enum MINO_TYPE
 {
 	Mino_Empty = -1,

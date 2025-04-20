@@ -19,6 +19,9 @@
     <Filter Include="Block">
       <UniqueIdentifier>{93378ea5-7124-4a08-9990-003a7dd9dcfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class">
+      <UniqueIdentifier>{5030e3bd-2955-4314-8d6f-dfacd017b3ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameL\Audio.cpp">
@@ -99,6 +102,21 @@
     <ClCompile Include="ObjPracticeOption.cpp">
       <Filter>Block</Filter>
     </ClCompile>
+    <ClCompile Include="CAnime3.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="CNumTexSource.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjClearText.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
+    <ClCompile Include="CFileFormat.cpp">
+      <Filter>Class</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeCounter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameL\Audio.h">
@@ -178,6 +196,24 @@
     </ClInclude>
     <ClInclude Include="ObjPracticeOption.h">
       <Filter>Block</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnime3.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="CNumTexSource.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjClearText.h">
+      <Filter>Block</Filter>
+    </ClInclude>
+    <ClInclude Include="CFileFormat.h">
+      <Filter>Class</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeCounter.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Structure.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ enum OBJ_NAME
 	OBJ_FIXEDMINOSELECT,
 	OBJ_PRACTICEOPTION,
 	OBJ_PLAYERCONTROLL,
+	OBJ_CLEARTEXT,
 };
 enum OBJ_PRIORITY
 {
@@ -23,6 +24,7 @@ enum OBJ_PRIORITY
 	PRIO_RISING,
 	PRIO_OPTION,
 	PRIO_FIXED_MINO_SETTINGS,
+	PRIO_CLEARTEXT,
 	PRIO_CONTROLL,
 };
 //------------------------------------------------
@@ -35,6 +37,8 @@ enum TEXTURE_NAME
 	texNext,
 	texBase,
 	texBlack32,
+	texText,
+	texNumber,
 };
 //オブジェクト番号
 enum MapObjects 
@@ -88,7 +92,11 @@ struct UserData
 
 //------------------------------------------------
 //ゲーム内で使用するクラスヘッダ------------------
-#include "CCounter.h"
+//#include "CCounter.h"
+//#include "CTimeCounter.h"
+//#include "Function.h"
+//#include "CAnime3.h"
+//#include "CNumTexSource.h"
 
 //----------------------------------------------
 
@@ -101,7 +109,8 @@ struct UserData
 #include "ObjRisingTimer.h"
 #include "ObjFixedMinoSettings.h"
 #include "ObjPlayerControll.h"
-#include "Tetris.h"
+#include "ObjClearText.h"
+//#include "Tetris.h"
 //------------------------------------------------
 
 //ゲームシーンクラスヘッダ------------------------
