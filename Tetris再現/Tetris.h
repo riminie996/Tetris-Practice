@@ -74,9 +74,11 @@ namespace Tetris
 
 	const int MINO_MOVE_DISTANCE = 1;
 
-	const float FRAME_MINO_FALL = 60.0f;
-	const float FRAME_MINO_LANDING = 30.0f;
-	const float FRAME_MINO_INPUT_MOVE = 10.0f;
+	const int FRAME_MINO_FALL = 60;
+	const int FRAME_MINO_LANDING = 30;
+	const int FRAME_MINO_INPUT_MOVE = 10;
+	const int FRAME_MINO_SOFTDROP = 3;
+	const int FRAME_MINO_MOVE_SPEED = 2;
 	const int LOCKDOWN_MAX_MOVECOUNT = 15;
 	const float ROTATION_ANGLE = 90.0f;
 
@@ -282,8 +284,9 @@ namespace Tetris
 		User_ARR,
 		User_DAS,
 		User_SDF,
-		User_CounterClockwise,
+		User_ReverseRotate,
 		User_AccidentalHardDrop,
+		User_NextCreateDelayFrame,
 		Option_Count,
 	};
 	struct ST_PRACTICE_OPTION

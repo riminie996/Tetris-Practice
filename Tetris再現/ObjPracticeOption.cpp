@@ -5,6 +5,7 @@
 #include "Function.h"
 #include "GameL\WinInputs.h"
 #include "CControllerInput.h"
+#include "GameL\UserData.h"
 
 void ObjPracticeOption::Init()
 {
@@ -60,6 +61,7 @@ void ObjPracticeOption::Action()
 		if (m_common_key_flag == true)
 		{
 			this->SetStatus(false);
+			Save::Seve();
 		}
 		m_common_key_flag = false;
 	}
@@ -90,14 +92,17 @@ void ObjPracticeOption::Draw()
 			str += std::to_wstring(m_p_option->rising_timer_sec) + L"秒";
 			break;
 		case E_PRACTICE_OPTION::User_ARR:
+			str += std::to_wstring(USER_DATA->m_ARR_frame) + L"フレーム";
 			break;
 		case E_PRACTICE_OPTION::User_DAS:
+			str += std::to_wstring(USER_DATA->m_DAS_frame) + L"フレーム";
 			break;
 		case E_PRACTICE_OPTION::User_SDF:
-			break;
-		case E_PRACTICE_OPTION::User_CounterClockwise:
+			str += std::to_wstring(USER_DATA->m_SDF_frame) + L"フレーム";
 			break;
 		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
+			break;
+		case E_PRACTICE_OPTION::User_NextCreateDelayFrame:
 			break;
 		default:
 			if (m_p_option->option_flag[i])
@@ -119,7 +124,7 @@ void ObjPracticeOption::Draw()
 
 void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 {
-	int num = dir == Left ? -1 : 1;
+	int add = dir == Left ? -1 : 1;
 
 	//ミノ巡固定
 	if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
@@ -142,17 +147,25 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
 		break;
 	case E_PRACTICE_OPTION::RisingTimer:
-		m_p_option->rising_timer_sec += num;
+		m_p_option->rising_timer_sec += add;
 		break;
 	case E_PRACTICE_OPTION::User_ARR:
+		USER_DATA->m_ARR_frame += add;
 		break;
 	case E_PRACTICE_OPTION::User_DAS:
+		USER_DATA->m_DAS_frame += add;
 		break;
 	case E_PRACTICE_OPTION::User_SDF:
+		USER_DATA->m_SDF_frame += add;
 		break;
-	case E_PRACTICE_OPTION::User_CounterClockwise:
+	case E_PRACTICE_OPTION::User_ReverseRotate:
+		USER_DATA->m_reverse_rotate = !USER_DATA->m_reverse_rotate;
 		break;
 	case E_PRACTICE_OPTION::User_AccidentalHardDrop:
+		USER_DATA->m_accidental_harddrop_frame += add;
+		break;
+	case E_PRACTICE_OPTION::User_NextCreateDelayFrame:
+		USER_DATA->m_next_create_delay_frame += add;
 		break;
 	}
 }

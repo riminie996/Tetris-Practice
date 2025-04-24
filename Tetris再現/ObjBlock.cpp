@@ -476,7 +476,7 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 			break;
 		case E_PRACTICE_OPTION::User_SDF:
 			break;
-		case E_PRACTICE_OPTION::User_CounterClockwise:
+		case E_PRACTICE_OPTION::User_ReverseRotate:
 			break;
 		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 			break;

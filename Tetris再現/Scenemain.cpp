@@ -32,6 +32,16 @@ SceneMain::~SceneMain()
 //èâä˙âª
 void SceneMain::InitScene()
 {
+	if (!Save::Open())
+	{
+		USER_DATA->m_ARR_frame = FRAME_MINO_MOVE_SPEED;//â°à⁄ìÆÇÃë¨ìx(Ç®
+		USER_DATA->m_DAS_frame = FRAME_MINO_INPUT_MOVE;//â°ÇΩÇﬂéûä‘
+		USER_DATA->m_SDF_frame = FRAME_MINO_SOFTDROP;//Softdrop speed
+		USER_DATA->m_accidental_harddrop_frame = 0;
+		USER_DATA->m_reverse_rotate = false;
+		USER_DATA->m_next_create_delay_frame = 6;
+	}
+
 	Audio::LoadAudio2(AudioIds::se_Mino_Move,	"Sound/Mino_Move.ogg", GameL::SOUND_TYPE::EFFECT);
 	Audio::LoadAudio2(AudioIds::se_Mino_Drop,	"Sound/Mino_Drop.ogg", GameL::SOUND_TYPE::EFFECT);
 	Audio::LoadAudio2(AudioIds::se_Mino_Spin,	"Sound/Mino_Spin.ogg", GameL::SOUND_TYPE::EFFECT);
@@ -75,7 +85,6 @@ void SceneMain::InitScene()
 	//ObjGuide* oGuide = new ObjGuide();
 	//Objs::InsertObj(oGuide, OBJ_GUIDE, 1);
 
-	Save::Open();
 
 }
 //é¿çsíÜ

@@ -86,7 +86,8 @@ struct UserData
 	int m_DAS_frame;//‰¡‚½‚ßŽžŠÔ
 	int m_SDF_frame;//Softdrop speed
 	int m_accidental_harddrop_frame;
-	bool m_counter_clockwise;
+	bool m_reverse_rotate;
+	int m_next_create_delay_frame;
 };
 //------------------------------------------------
 

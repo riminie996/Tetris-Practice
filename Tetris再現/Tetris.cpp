@@ -130,10 +130,12 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 		return L"DAS";
 	else if (option == User_SDF)
 		return L"SDF";
-	else if (option == User_CounterClockwise)
+	else if (option == User_ReverseRotate)
 		return L"‰ñ“]‘€ì”½“]";
 	else if (option == User_AccidentalHardDrop)
 		return L"ãƒL[–\”­‘Îô";
+	else if (option == User_NextCreateDelayFrame)
+		return L"Ÿ‚Ìƒ~ƒm¶¬‚³‚ê‚é‚Ü‚Å‚ÌƒtƒŒ[ƒ€";
 
 	return L"error";
 }

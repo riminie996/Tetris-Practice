@@ -41,6 +41,8 @@ private:
 	int m_move_count;
 	int m_down_Block_line;
 	CCounter m_ct_fall;//—Ž‰º‚Ü‚Å‚ÌŽžŠÔ
+	CCounter m_ct_softdrop;//—Ž‰º‚Ü‚Å‚ÌŽžŠÔ
+	CCounter m_ct_arr;//‰¡ˆÚ“®‚Ì‘¬“x(‚¨‚µ‚Á‚Ï)
 
 
 	//Ží—Þ

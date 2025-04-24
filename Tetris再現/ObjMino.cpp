@@ -7,6 +7,7 @@
 #include "CControllerInput.h"
 #include "Function.h"
 #include "GameL\Audio.h"
+#include "GameL/UserData.h"
 
 ObjMino::ObjMino(MINO_TYPE minoType)
 {
@@ -66,6 +67,9 @@ void ObjMino::Init()
 			}
 		}
 	}
+
+	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, STOP) };
+	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_ARR_frame, STOP) };
 }
 
 //進行
@@ -105,31 +109,48 @@ void ObjMino::Action()
 	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_LEFT))
 	{
 		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_LEFT) || 
-			ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_LEFT) >= FRAME_MINO_INPUT_MOVE)
+			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_LEFT) >= USER_DATA->m_DAS_frame && m_ct_arr.GetMaxReached()))
 		{
 			MinoMove(Left);
+			m_ct_arr.Reset();
 		}
+		m_ct_arr.Add(1.0f);
+		
 	}
-	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_RIGHT))
+	else if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_RIGHT))
 	{
 		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_RIGHT) ||
-			ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_RIGHT) >= FRAME_MINO_INPUT_MOVE)
+			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_RIGHT) >= USER_DATA->m_DAS_frame && m_ct_arr.GetMaxReached()))
 		{
 			MinoMove(Right);
+			m_ct_arr.Reset();
 		}
+		m_ct_arr.Add(1.0f);
 	}
-
+	else
+	{
+		m_ct_arr.Reset();
+	}
 	
 	//下がるごとに移動回数がリセット
 	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_DOWN))
 	{
-		if (GetMinoBlockFixed() == false)
+		if (GetMinoBlockFixed() == false && m_ct_softdrop.GetMinReached())
 		{
 			MinoMove(Down);
 			m_move_count = 0;
 			oScore->AddScore(FALL_ADD_SCORE);
 			m_ct_fall.Reset();
 		}
+		m_ct_softdrop.Add(1);
+		if (m_ct_softdrop.GetMaxReached())
+		{
+			m_ct_softdrop.Reset();
+		}
+	}
+	else
+	{
+		m_ct_softdrop.Reset();
 	}
 	//通常降下時はスコアを与えさせないため、分ける
 	if (m_ct_fall.GetMaxReached() && !oBlock->GetOptions()->option_flag[E_PRACTICE_OPTION::NoNaturalDrop])
