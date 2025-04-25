@@ -44,7 +44,7 @@ private:
 	CCounter m_ct_fall;//—Ž‰º‚Ü‚Å‚ÌŽžŠÔ
 	CCounter m_ct_softdrop;//—Ž‰º‚Ü‚Å‚ÌŽžŠÔ
 	CCounter m_ct_arr;//‰¡ˆÚ“®‚Ì‘¬“x(‚¨‚µ‚Á‚Ï)
-
+	CCounter m_ct_next_delay;//‰¡ˆÚ“®‚Ì‘¬“x(‚¨‚µ‚Á‚Ï)
 
 	//Ží—Þ
 	MINO_TYPE m_mino_type;

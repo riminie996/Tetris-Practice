@@ -117,6 +117,7 @@ void ObjPracticeOption::Draw()
 		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 			break;
 		case E_PRACTICE_OPTION::User_NextCreateDelayFrame:
+			str += std::to_wstring(USER_DATA->m_next_create_delay_frame) + L"ƒtƒŒ[ƒ€";
 			break;
 		default:
 			if (m_p_option->option_flag[i])

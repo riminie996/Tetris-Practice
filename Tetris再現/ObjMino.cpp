@@ -53,6 +53,9 @@ void ObjMino::Init()
 	m_mino_first_action = true;
 	m_tspin_pattern = E_TSPIN_PATTERN::NoTSpin;
 
+	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, STOP) };
+	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_frame_AutoRepeatRate, STOP) };
+	m_ct_arr.NowValue = USER_DATA->m_frame_AutoRepeatRate;
 	if (oBlock != nullptr)
 	{
 			//生成できない場合、1ブロックあげてみる
@@ -66,11 +69,13 @@ void ObjMino::Init()
 				break;
 			}
 		}
+
+		//ホールドでミノを入れ替えた場合、遅延はなし
+		if (oBlock->GetHoldFlag())
+			m_ct_next_delay = { CCounter(0.0f,0.0f,USER_DATA->m_next_create_delay_frame,STOP) };
 	}
 
-	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, STOP) };
-	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_frame_AutoRepeatRate, STOP) };
-	m_ct_arr.NowValue = USER_DATA->m_frame_AutoRepeatRate;
+
 }
 
 //進行
@@ -80,6 +85,13 @@ void ObjMino::Action()
 	//ブロックの情報を取得
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 	ObjScore* oScore = (ObjScore*)Objs::GetObj(OBJ_SCORE);
+
+	if (!m_ct_next_delay.GetMaxReached() && m_ct_next_delay.GetUse())
+	{
+		m_ct_next_delay.Add(1);
+		return;
+	}
+
 
 	ObjPlayerControll* ctrl = (ObjPlayerControll*)Objs::GetObj(OBJ_PLAYERCONTROLL);
 	if (m_mino_first_action)
@@ -185,8 +197,8 @@ void ObjMino::Action()
 		oBlock->GetHoldFlag() == true)
 	{
 			Audio::Start(se_Mino_Hold);
-			oBlock->SetHoldType(m_mino_type);
 			oBlock->SetHoldFlag(false);
+			oBlock->SetHoldType(m_mino_type);
 			this->SetStatus(false);
 			return;
 	}
@@ -210,7 +222,6 @@ void ObjMino::Action()
 		!oBlock->GetOptions()->option_flag[E_PRACTICE_OPTION::NoNaturalDrop])
 	{
 		SetFieldMino();
-		oBlock->SetHoldFlag(true);
 		return;
 	}
 }
@@ -218,6 +229,12 @@ void ObjMino::Action()
 //描画
 void ObjMino::Draw()
 {
+	if (!m_ct_next_delay.GetMaxReached() && m_ct_next_delay.GetUse())
+	{
+		m_ct_next_delay.Add(1);
+		return;
+	}
+
 	GhostDraw();
 	for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
 	{
@@ -492,7 +509,6 @@ void ObjMino::SetFieldMino()
 	oBlock->AddMinoCount();
 
 	Audio::Start(AudioIds::se_Mino_Drop);
-//	oBlock->LinesCompleteCheck();
 	oBlock->FieldUpdate();
 
 	if (gameover)

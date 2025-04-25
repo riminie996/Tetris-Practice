@@ -16,6 +16,8 @@ bool CConInput::GetControllerIsActive()
 bool CConInput::GetConInput(Controller_Input_DualShock4 type)
 {
     JOYINFOEX JoyInfo;
+	JoyInfo.dwSize = sizeof(JOYINFOEX);
+	JoyInfo.dwFlags = JOY_RETURNBUTTONS;
     unsigned long input_state = 0;
 
 
