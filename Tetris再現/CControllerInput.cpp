@@ -25,10 +25,10 @@ bool CConInput::GetConInput(Controller_Input_DualShock4 type)
 		//if (JoyInfo.dwXpos > INPUT_P)      input_state |=		INPUT_RIGHT;
 		//if (JoyInfo.dwYpos < INPUT_N)      input_state |=		INPUT_UP;
 		//if (JoyInfo.dwYpos > INPUT_P)      input_state |=		INPUT_DOWN;
-		if(type == Controller_Input_DualShock4::INPUT_UP)	return JoyInfo.dwPOV == 0;
-		if(type == Controller_Input_DualShock4::INPUT_RIGHT	)return JoyInfo.dwPOV == 9000;
-		if(type == Controller_Input_DualShock4::INPUT_DOWN	)return JoyInfo.dwPOV == 18000;
-		if(type == Controller_Input_DualShock4::INPUT_LEFT	)return JoyInfo.dwPOV == 27000;
+		if(type == Controller_Input_DualShock4::INPUT_UP)	return (JoyInfo.dwPOV > 27000 && JoyInfo.dwPOV < 36000) || JoyInfo.dwPOV < 9000;
+		if(type == Controller_Input_DualShock4::INPUT_RIGHT	)return JoyInfo.dwPOV > 0 && JoyInfo.dwPOV < 18000;
+		if (type == Controller_Input_DualShock4::INPUT_DOWN)return JoyInfo.dwPOV > 9000 && JoyInfo.dwPOV < 27000;
+		if (type == Controller_Input_DualShock4::INPUT_LEFT)return JoyInfo.dwPOV > 18000 && JoyInfo.dwPOV < 36000;
 		if(type == Controller_Input_DualShock4::INPUT_Y		)return JoyInfo.dwButtons & JOY_BUTTON1;
 		if(type == Controller_Input_DualShock4::INPUT_B		)return JoyInfo.dwButtons & JOY_BUTTON2;
 		if(type == Controller_Input_DualShock4::INPUT_A		)return JoyInfo.dwButtons & JOY_BUTTON3;

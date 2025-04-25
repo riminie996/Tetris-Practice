@@ -34,8 +34,8 @@ void SceneMain::InitScene()
 {
 	if (!Save::Open())
 	{
-		USER_DATA->m_ARR_frame = FRAME_MINO_MOVE_SPEED;//横移動の速度(お
-		USER_DATA->m_DAS_frame = FRAME_MINO_INPUT_MOVE;//横ため時間
+		USER_DATA->m_frame_AutoRepeatRate = FRAME_MINO_MOVE_SPEED;//横移動の速度(お
+		USER_DATA->m_frame_DelayerAutoShift = FRAME_MINO_INPUT_MOVE;//横ため時間
 		USER_DATA->m_SDF_frame = FRAME_MINO_SOFTDROP;//Softdrop speed
 		USER_DATA->m_accidental_harddrop_frame = 0;
 		USER_DATA->m_reverse_rotate = false;
@@ -70,6 +70,8 @@ void SceneMain::InitScene()
 	Draw::LoadImageW(L"Block32.png",		texBlack32, TEX_SIZE_128);
 	Draw::LoadImageW(L"Texture/Text.png",		texText, TEX_SIZE_128);
 	Draw::LoadImageW(L"Texture/ScoreNum.png",		texNumber, TEX_SIZE_128);
+	Draw::LoadImageW(L"Texture/Controller/Base.png", texControllerBase, TEX_SIZE_128);
+	Draw::LoadImageW(L"Texture/Controller/Input.png", texControllerInput, TEX_SIZE_128);
 
 	//オブジェクトの作成--------------------------
 	ObjBlock* oBlock = new ObjBlock();

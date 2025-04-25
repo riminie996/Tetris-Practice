@@ -91,14 +91,21 @@ void ObjPracticeOption::Draw()
 		case E_PRACTICE_OPTION::RisingTimer:
 			str += std::to_wstring(m_p_option->rising_timer_sec) + L"秒";
 			break;
-		case E_PRACTICE_OPTION::User_ARR:
-			str += std::to_wstring(USER_DATA->m_ARR_frame) + L"フレーム";
+		case E_PRACTICE_OPTION::User_AutoRepeatRate:
+			str += std::to_wstring(USER_DATA->m_frame_AutoRepeatRate) + L"フレーム";
 			break;
-		case E_PRACTICE_OPTION::User_DAS:
-			str += std::to_wstring(USER_DATA->m_DAS_frame) + L"フレーム";
+		case E_PRACTICE_OPTION::User_DelayerAutoShift:
+			str += std::to_wstring(USER_DATA->m_frame_DelayerAutoShift) + L"フレーム";
 			break;
 		case E_PRACTICE_OPTION::User_SDF:
 			str += std::to_wstring(USER_DATA->m_SDF_frame) + L"フレーム";
+			break;
+		case E_PRACTICE_OPTION::User_ReverseRotate:
+			
+				if (USER_DATA->m_reverse_rotate)
+					str += L"\tON";
+				else
+					str += L"\tOFF";
 			break;
 		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 			break;
@@ -142,18 +149,18 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 	switch (m_now_selected_option)
 	{
 	case E_PRACTICE_OPTION::NoNaturalDrop:
-	case E_PRACTICE_OPTION::DPCGuide:
+	case E_PRACTICE_OPTION::ShowController:
 	case E_PRACTICE_OPTION::InfiniteHold:
 		m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
 		break;
 	case E_PRACTICE_OPTION::RisingTimer:
 		m_p_option->rising_timer_sec += add;
 		break;
-	case E_PRACTICE_OPTION::User_ARR:
-		USER_DATA->m_ARR_frame += add;
+	case E_PRACTICE_OPTION::User_AutoRepeatRate:
+		USER_DATA->m_frame_AutoRepeatRate += add;
 		break;
-	case E_PRACTICE_OPTION::User_DAS:
-		USER_DATA->m_DAS_frame += add;
+	case E_PRACTICE_OPTION::User_DelayerAutoShift:
+		USER_DATA->m_frame_DelayerAutoShift += add;
 		break;
 	case E_PRACTICE_OPTION::User_SDF:
 		USER_DATA->m_SDF_frame += add;

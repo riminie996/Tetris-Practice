@@ -69,7 +69,8 @@ void ObjMino::Init()
 	}
 
 	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, STOP) };
-	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_ARR_frame, STOP) };
+	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_frame_AutoRepeatRate, STOP) };
+	m_ct_arr.NowValue = USER_DATA->m_frame_AutoRepeatRate;
 }
 
 //進行
@@ -105,31 +106,26 @@ void ObjMino::Action()
 	//m_ct_input_move.Add(1.0f);
 	m_ct_fall.Add(1.0f);
 
+	m_ct_arr.Add(1.0f);
 		//移動
 	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_LEFT))
 	{
 		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_LEFT) || 
-			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_LEFT) >= USER_DATA->m_DAS_frame && m_ct_arr.GetMaxReached()))
+			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_LEFT) >= USER_DATA->m_frame_DelayerAutoShift && m_ct_arr.GetMaxReached()))
 		{
 			MinoMove(Left);
 			m_ct_arr.Reset();
 		}
-		m_ct_arr.Add(1.0f);
 		
 	}
 	else if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_RIGHT))
 	{
 		if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_RIGHT) ||
-			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_RIGHT) >= USER_DATA->m_DAS_frame && m_ct_arr.GetMaxReached()))
+			(ctrl->GetButtonLongPressFrame(E_PLAYER_CONTROLL::Button_RIGHT) >= USER_DATA->m_frame_DelayerAutoShift && m_ct_arr.GetMaxReached()))
 		{
 			MinoMove(Right);
 			m_ct_arr.Reset();
 		}
-		m_ct_arr.Add(1.0f);
-	}
-	else
-	{
-		m_ct_arr.Reset();
 	}
 	
 	//下がるごとに移動回数がリセット
@@ -173,14 +169,14 @@ void ObjMino::Action()
 	//左回転
 	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_B))
 	{
-			RotateMino(Left);
+			RotateMino(GetRotateKey(E_PLAYER_CONTROLL::Button_B));
 			m_move_count++;
 	}
 	//右回転
 	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_A))
 	{
 
-		RotateMino(Right);
+		RotateMino(GetRotateKey(E_PLAYER_CONTROLL::Button_A));
 		m_move_count++;
 	}
 
@@ -627,4 +623,14 @@ void ObjMino::SpinSoundPlay(bool spin_result)
 	{
 		Audio::Start(AudioIds::se_Mino_Spin);
 	}
+}
+
+DIRECTION ObjMino::GetRotateKey(E_PLAYER_CONTROLL ctrl)
+{
+	DIRECTION dir = Left;
+	if (USER_DATA->m_reverse_rotate)
+		dir = ctrl == E_PLAYER_CONTROLL::Button_B ? Right : Left;
+	else
+		dir = ctrl == E_PLAYER_CONTROLL::Button_B ? Left : Right;
+	return dir;
 }

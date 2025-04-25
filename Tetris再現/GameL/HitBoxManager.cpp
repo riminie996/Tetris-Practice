@@ -2,7 +2,7 @@
 #include "HitBoxManager.h"
 using namespace GameL;
 
-#define SAFE_DELETE_ARRAY(p) {if(p) { delete[] (p); (p)=nullptr;}}
+#define SAFE_DELETE_AutoRepeatRateAY(p) {if(p) { delete[] (p); (p)=nullptr;}}
 
 //“–‚½‚è”»’è‚Ì•¡”“¯”»’è—Ê
 #define MAX_HITS	(10)
@@ -26,8 +26,8 @@ CHitBox::CHitBox()
 }
 CHitBox::~CHitBox()
 {
-	SAFE_DELETE_ARRAY(m_hit_data);
-	SAFE_DELETE_ARRAY(m_hit_search_data);
+	SAFE_DELETE_AutoRepeatRateAY(m_hit_data);
+	SAFE_DELETE_AutoRepeatRateAY(m_hit_search_data);
 }
 void CHitBox::SetObj(void* t)
 {

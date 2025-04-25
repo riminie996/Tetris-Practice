@@ -470,9 +470,9 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 		case E_PRACTICE_OPTION::RisingTimer:
 			str += std::to_wstring(m_practice_options.rising_timer_sec) + L"•b";
 			break;
-		case E_PRACTICE_OPTION::User_ARR:
+		case E_PRACTICE_OPTION::User_AutoRepeatRate:
 			break;
-		case E_PRACTICE_OPTION::User_DAS:
+		case E_PRACTICE_OPTION::User_DelayerAutoShift:
 			break;
 		case E_PRACTICE_OPTION::User_SDF:
 			break;

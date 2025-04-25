@@ -1,13 +1,10 @@
 #pragma once
-#include "CCounter.h"
 #include "GameHead.h"
-#include "ObjBlock.h"
 #include "Tetris.h"
-//GameLÇÃÉwÉbÉ_Å[
-#include "GameL\SceneObjManager.h"
-
+#include "Structure.h"
 using namespace GameL;
-using namespace Tetris;
+
+
 
 enum class E_PLAYER_CONTROLL
 {

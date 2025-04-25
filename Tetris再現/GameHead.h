@@ -39,6 +39,8 @@ enum TEXTURE_NAME
 	texBlack32,
 	texText,
 	texNumber,
+	texControllerBase,
+	texControllerInput,
 };
 //オブジェクト番号
 enum MapObjects 
@@ -82,8 +84,8 @@ enum AudioIds
 struct UserData
 {
 	//ユーザーが直接変更できるデータ
-	int m_ARR_frame;//横移動の速度(おしっぱ)
-	int m_DAS_frame;//横ため時間
+	int m_frame_AutoRepeatRate;//横移動の速度(おしっぱ)
+	int m_frame_DelayerAutoShift;//横ため時間
 	int m_SDF_frame;//Softdrop speed
 	int m_accidental_harddrop_frame;
 	bool m_reverse_rotate;

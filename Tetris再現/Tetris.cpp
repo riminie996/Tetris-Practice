@@ -118,16 +118,16 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 		return L"テトリミノ" + std::to_wstring(type + 1) + L"巡目固定";
 	else if (option == NoNaturalDrop)
 		return L"自然落下なし";
-	else if (option == DPCGuide)
-		return L"未使用";
+	else if (option == ShowController)
+		return L"コントローラー表示";
 	else if (option == InfiniteHold)
 		return L"無限ホールド";
 	else if (option == RisingTimer)
 		return L"せりあがりタイマー:";
-	else if (option == User_ARR)
-		return L"ARR";
-	else if (option == User_DAS)
-		return L"DAS";
+	else if (option == User_AutoRepeatRate)
+		return L"AutoRepeatRate";
+	else if (option == User_DelayerAutoShift)
+		return L"DelayerAutoShift";
 	else if (option == User_SDF)
 		return L"SDF";
 	else if (option == User_ReverseRotate)

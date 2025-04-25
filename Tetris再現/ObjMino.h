@@ -3,6 +3,7 @@
 #include "GameHead.h"
 #include "ObjBlock.h"
 #include "Tetris.h"
+#include "ObjPlayerControll.h"
 //GameLÇÃÉwÉbÉ_Å[
 #include "GameL\SceneObjManager.h"
 
@@ -65,6 +66,6 @@ private:
 
 	void SpinSoundPlay(bool spin_result);
 
-
+	DIRECTION GetRotateKey(E_PLAYER_CONTROLL ctrl);
 	
 };

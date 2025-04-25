@@ -7,7 +7,21 @@
 #include "CControllerInput.h"
 #include "Function.h"
 #include "GameL\Audio.h"
-
+namespace Tetris
+{
+	namespace Controll
+	{
+		const Point BASE_POS = { 640,360 };
+		const Point BUTTON_LEFT_NUMBER_OFFSET = {88,116 };
+		const Point BUTTON_RIGHT_NUMBER_OFFSET = {145,116 };
+		const RECT_F RECT_BUTTON_L = { 105.0f,31.0f,73.0f,16.0f };
+		const RECT_F RECT_BUTTON_R={ 462.0f,31.0f,73.0f,16.0f };
+		const RECT_F RECT_BUTTON_UP={ 120.0f,85.0f,34.0f,40.0f };
+		const RECT_F RECT_BUTTON_DOWN={ 120.0f,141.0f,34.0f,40.0f };
+		const RECT_F RECT_BUTTON_A={ 528.0f,114.0f,38.0f,38.0f };
+		const RECT_F RECT_BUTTON_B={ 485.0f,157.0f,38.0f,38.0f };
+	}
+}
 
 //‰Šú‰»
 void ObjPlayerControll::Init()
@@ -43,7 +57,40 @@ void ObjPlayerControll::Action()
 void ObjPlayerControll::Draw()
 {
 
+	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 
+	if (!oBlock->GetOptions()->option_flag[E_PRACTICE_OPTION::ShowController])return;
+
+	Draw::Draw(texControllerBase, Tetris::Controll::BASE_POS.x, Tetris::Controll::BASE_POS.y);
+	std::wstring strnum = std::to_wstring(m_button_status[(int)E_PLAYER_CONTROLL::Button_LEFT]);
+	Font::StrDraw(strnum.c_str(), Tetris::Controll::BASE_POS.x + Tetris::Controll::BUTTON_LEFT_NUMBER_OFFSET.x, Tetris::Controll::BASE_POS.y + Tetris::Controll::BUTTON_LEFT_NUMBER_OFFSET.y,32.0f,ColorA::White);
+	strnum = std::to_wstring(m_button_status[(int)E_PLAYER_CONTROLL::Button_RIGHT]);
+	Font::StrDraw(strnum.c_str(), Tetris::Controll::BASE_POS.x + Tetris::Controll::BUTTON_RIGHT_NUMBER_OFFSET.x, Tetris::Controll::BASE_POS.y + Tetris::Controll::BUTTON_RIGHT_NUMBER_OFFSET.y, 32.0f, ColorA::White);
+	
+	RECT_F rect = Tetris::Controll::RECT_BUTTON_UP;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_UP])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect); 
+
+	rect = Tetris::Controll::RECT_BUTTON_DOWN;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_DOWN])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect);
+
+	rect = Tetris::Controll::RECT_BUTTON_A;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_A])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect);
+
+	rect = Tetris::Controll::RECT_BUTTON_B;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_B])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect);
+
+	rect = Tetris::Controll::RECT_BUTTON_L;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_L])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect);
+
+
+	rect = Tetris::Controll::RECT_BUTTON_R;
+	if (m_button_status[(int)E_PLAYER_CONTROLL::Button_R])
+		Draw::Draw(texControllerInput, Tetris::Controll::BASE_POS.x + rect.m_x, Tetris::Controll::BASE_POS.y + rect.m_y, rect);
 }
 
 

@@ -1,6 +1,6 @@
 //開放マクロ
 #define SAFE_DELETE(p)       { if (p) { delete (p);        (p)=nullptr;  }  }
-#define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);      (p)=nullptr;  }  }
+#define SAFE_DELETE_AutoRepeatRateAY(p) { if (p) { delete[] (p);      (p)=nullptr;  }  }
 #define SAFE_RELEASE(p)      { if (p) { (p)->Release();    (p)=nullptr;  }	}
 
 #include "DirectXDevice.h"
@@ -367,7 +367,7 @@ void CDirectXDeviec:: ShutDown()
     // アウトプットを解放
     for (UINT i = 0; i < m_nDXGIOutputArraySize; i ++) 
         SAFE_RELEASE(m_ppDXGIOutputArray[i]);
-    SAFE_DELETE_ARRAY(m_ppDXGIOutputArray);
+    SAFE_DELETE_AutoRepeatRateAY(m_ppDXGIOutputArray);
 
 	// ラスタライザー
 	SAFE_RELEASE(m_pRS3D);
