@@ -90,6 +90,7 @@ struct UserData
 	int m_accidental_harddrop_frame;
 	bool m_reverse_rotate;
 	int m_next_create_delay_frame;
+	bool m_show_controller_input;
 };
 //------------------------------------------------
 

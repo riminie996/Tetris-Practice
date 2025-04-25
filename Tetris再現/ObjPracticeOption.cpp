@@ -107,6 +107,13 @@ void ObjPracticeOption::Draw()
 				else
 					str += L"\tOFF";
 			break;
+		case E_PRACTICE_OPTION::ShowController:
+			
+				if (USER_DATA->m_show_controller_input)
+					str += L"\tON";
+				else
+					str += L"\tOFF";
+			break;
 		case E_PRACTICE_OPTION::User_AccidentalHardDrop:
 			break;
 		case E_PRACTICE_OPTION::User_NextCreateDelayFrame:
@@ -149,7 +156,6 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 	switch (m_now_selected_option)
 	{
 	case E_PRACTICE_OPTION::NoNaturalDrop:
-	case E_PRACTICE_OPTION::ShowController:
 	case E_PRACTICE_OPTION::InfiniteHold:
 		m_p_option->option_flag[m_now_selected_option] = !m_p_option->option_flag[m_now_selected_option];
 		break;
@@ -173,6 +179,9 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		break;
 	case E_PRACTICE_OPTION::User_NextCreateDelayFrame:
 		USER_DATA->m_next_create_delay_frame += add;
+		break;
+	case E_PRACTICE_OPTION::ShowController:
+		USER_DATA->m_show_controller_input = !USER_DATA->m_show_controller_input;
 		break;
 	}
 }

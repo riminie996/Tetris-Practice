@@ -40,6 +40,7 @@ void SceneMain::InitScene()
 		USER_DATA->m_accidental_harddrop_frame = 0;
 		USER_DATA->m_reverse_rotate = false;
 		USER_DATA->m_next_create_delay_frame = 6;
+		USER_DATA->m_show_controller_input = false;
 	}
 
 	Audio::LoadAudio2(AudioIds::se_Mino_Move,	"Sound/Mino_Move.ogg", GameL::SOUND_TYPE::EFFECT);
