@@ -1,6 +1,7 @@
 #pragma once
 #include "GameHead.h"
 #include "GameL\SceneObjManager.h"
+#include "CNumTexSource.h"
 
 using namespace GameL;
 
@@ -14,6 +15,19 @@ public:
 	void Draw();
 
 	void AddScore(int add) { m_score.Add(add); }
+	void AddMinoCount();
+	void AddAttackLines(int add);
+	void TimerStart();
+	void TimerStop();
+	void Reset();
 private:
 	CCounter m_score;
+	CCounter m_time;
+	int m_piece_placed;
+	int m_attack_lines;
+	float m_pps;
+	float m_apm;
+	float CalcPiecesPerSeconds();
+	float CalcAttackPerMinutes();
+	CNumTexSource m_num_score;
 };

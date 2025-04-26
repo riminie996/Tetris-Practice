@@ -97,7 +97,10 @@ void CNumTexSource::Draw(float val, int x, int y, int width)
 {
 	Draw(std::to_string(val), x, y, width);
 }
-
+void CNumTexSource::Draw(int val, int x, int y, int width)
+{
+	Draw(std::to_string(val), x, y, width);
+}
 
 //各数字を中心基準で描画するだけで、
 //真ん中寄せなどになることはない。

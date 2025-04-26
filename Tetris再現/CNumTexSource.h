@@ -24,6 +24,7 @@ public:
 	void Draw(string numstr, int x, int y,int width);
 	void CenterDraw(string numstr, int x, int y,int width);
 	void Draw(float val,int x,int y,int width);
+	void Draw(int val,int x,int y,int width);
 	void CenterDraw(int val,int x,int y,int width);
 	void LeftCenterDraw(int val,int x,int y,int width);
 private:

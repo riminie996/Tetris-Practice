@@ -303,6 +303,9 @@ void ObjBlock::Bag_All_Check()
 
 void ObjBlock::LinesCompleteCheck()
 {
+	//消されたライン数に応じてスコアを加算
+	ObjScore* oScore = (ObjScore*)Objs::GetObj(OBJ_SCORE);
+
 	int lines_count = 0;
 	bool perfect_clear = false;
 	bool btb = m_btb;
@@ -335,9 +338,7 @@ void ObjBlock::LinesCompleteCheck()
 				perfect_clear = true;
 			}
 		}
-		//消されたライン数に応じてスコアを加算
-		ObjScore* oScore = (ObjScore*)Objs::GetObj(OBJ_SCORE);
-		oScore->AddScore(ADD_SCORE_LINES[lines_count]);
+
 
 		if (perfect_clear)
 		{
@@ -375,11 +376,15 @@ void ObjBlock::LinesCompleteCheck()
 		text->AnimeStart(m_ren, lines_count, btb, tspin, perfect_clear);
 
 
+		oScore->AddScore(ADD_SCORE_LINES[lines_count]);
+
+		oScore->AddAttackLines(attack_lines);
 	}
 	else//0ライン
 	{
 		m_ren = -1;
 	}
+	oScore->AddMinoCount();
 }
 
 void ObjBlock::InitField()
@@ -502,6 +507,8 @@ void ObjBlock::Restart()
 		mino->SetStatus(false);
 	}
 	Init();
+	ObjScore* score = (ObjScore*)Objs::GetObj(OBJ_SCORE);
+	score->Reset();
 }
 
 
