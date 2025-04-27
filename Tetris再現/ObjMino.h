@@ -56,7 +56,7 @@ private:
 	void RotateMino(int direction);//ƒ~ƒm‰ñ“]
 	void RotationMino(int* minoPosX, int* minoPosY, float rotation,float axis);//ƒ~ƒm‰ñ“]ˆ—
 	bool SuperRotationSystem(int* minoPosX, int* minoPosY, int rotate_dir, int mino_type);//
-	E_TSPIN_PATTERN TSpinCheck(int blockPosX, int blockPosY, ROTATE_ANGLE angle);
+	E_TSPIN_PATTERN TSpinCheck(int blockPosX, int blockPosY, ROTATE_ANGLE angle,int srs_pattern);
 
 	//ƒ~ƒm‚ª’…’n‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©”»’f‚·‚é
 	bool GetMinoBlockFixed();

@@ -49,7 +49,7 @@ public:
 	void GarbageRising(int height);
 	void AddGarbageLines(int height);
 
-	void FieldUpdate();
+	void FieldUpdate();//ミノが置かれたときに入る処理
 private:
 	bool m_first_mino;//ゲームオーバー判定を行う必要があるか
 	MINO_TYPE m_next[NEXT_AMOUNT];
@@ -95,5 +95,6 @@ private:
 	void RisingLinesBlockDraw(int line);
 
 	void AttackGarbage(int lines);
+	int CalcScore(int lines,int ren,E_TSPIN_PATTERN tspin,bool btb,bool perfect);
 };
 

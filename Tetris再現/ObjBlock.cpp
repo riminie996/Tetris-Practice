@@ -127,45 +127,43 @@ void ObjBlock::Draw()
 {
 	//文字色
 	float c[4] = { 1.0f,1.0f,1.0f,1.0f };
-	if (m_gameover == false)
+
+	FieldDraw(FIELD_1P_POS_X + FIELD_OFFSET_X, FIELD_1P_POS_Y + FIELD_OFFSET_Y, m_field);
+
+	for (int i = 0; i < NEXT_AMOUNT; i++)
 	{
-		FieldDraw(FIELD_1P_POS_X + FIELD_OFFSET_X, FIELD_1P_POS_Y + FIELD_OFFSET_Y,m_field);
-
-		for (int i = 0; i < NEXT_AMOUNT; i++)
+		float x = FIELD_1P_POS_X + NEXT_OFFSET_X;
+		float y = i * NEXT_HEIGHT + FIELD_1P_POS_Y + NEXT_OFFSET_Y;
+		Draw::SetColor(texNext, Color::White);
+		Draw::CenterDraw(texNext, x, y);
+		//0 - 6の場合
+		if (m_next[i] > Mino_Empty)
 		{
-			float x = FIELD_1P_POS_X + NEXT_OFFSET_X;
-			float y = i * NEXT_HEIGHT + FIELD_1P_POS_Y + NEXT_OFFSET_Y;
-			Draw::SetColor(texNext, Color::White);
-			Draw::CenterDraw(texNext, x, y);
-			//0 - 6の場合
-			if (m_next[i] > Mino_Empty)
-			{
-				Mino_Shape_Draw(x, y, m_next[i]);
-			}
+			Mino_Shape_Draw(x, y, m_next[i]);
 		}
-		//								64 = 中心に描画したいため、枠のピクセル数である128÷2の位置
-
-		float hx = FIELD_1P_POS_X + HOLD_OFFSET_X;
-		float hy = FIELD_1P_POS_Y + HOLD_OFFSET_Y;
-		Draw::CenterDraw(texNext, hx, hy);
-		if (m_hold_type != Mino_Empty)
-		{
-			Mino_Shape_Draw(hx, hy, m_hold_type);
-		}
-		Font::StrCenterDraw(L"NEXT", FIELD_1P_POS_X + NEXT_OFFSET_X, FIELD_1P_POS_Y + NEXT_OFFSET_Y + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
-		Font::StrCenterDraw(L"HOLD", hx, hy + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
-
-		wchar_t wcr[64];
-		std::wstring str = std::to_wstring(m_mino_count);
-		swprintf_s(wcr, L"%s", str.c_str());
-		Font::StrDraw(wcr, COUNT_TEXT_X, COUNT_TEXT_Y, COUNT_TEXT_SIZE, ColorA::White);
-
-
-
-		//オプションの描画
-		DrawFontOption(OPTION_TEXT_OFFSET_X, OPTION_TEXT_OFFSET_Y, OPTION_TEXT_SIZE);
 	}
-	else if (m_gameover == true)
+	//								64 = 中心に描画したいため、枠のピクセル数である128÷2の位置
+
+	float hx = FIELD_1P_POS_X + HOLD_OFFSET_X;
+	float hy = FIELD_1P_POS_Y + HOLD_OFFSET_Y;
+	Draw::CenterDraw(texNext, hx, hy);
+	if (m_hold_type != Mino_Empty)
+	{
+		Mino_Shape_Draw(hx, hy, m_hold_type);
+	}
+	Font::StrCenterDraw(L"NEXT", FIELD_1P_POS_X + NEXT_OFFSET_X, FIELD_1P_POS_Y + NEXT_OFFSET_Y + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
+	Font::StrCenterDraw(L"HOLD", hx, hy + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
+
+	wchar_t wcr[64];
+	std::wstring str = std::to_wstring(m_mino_count);
+	swprintf_s(wcr, L"%s", str.c_str());
+	Font::StrDraw(wcr, COUNT_TEXT_X, COUNT_TEXT_Y, COUNT_TEXT_SIZE, ColorA::White);
+
+
+
+	//オプションの描画
+	DrawFontOption(OPTION_TEXT_OFFSET_X, OPTION_TEXT_OFFSET_Y, OPTION_TEXT_SIZE);
+	if (m_gameover == true)
 	{
 		Font::StrCenterDraw(L"GAME OVER", GAMEOVER_TEXT_X, GAMEOVER_TEXT_Y, GAMEOVER_TEXT_SIZE, c);
 	}
@@ -375,10 +373,12 @@ void ObjBlock::LinesCompleteCheck()
 		ObjClearText* text = (ObjClearText*)Objs::GetObj(OBJ_CLEARTEXT);
 		text->AnimeStart(m_ren, lines_count, btb, tspin, perfect_clear);
 
-
-		oScore->AddScore(ADD_SCORE_LINES[lines_count]);
+		int add_score = CalcScore(lines_count, m_ren, tspin, btb, perfect_clear);
+		oScore->AddScore(add_score);
 
 		oScore->AddAttackLines(attack_lines);
+
+		oScore->AddClearLines(lines_count);
 	}
 	else//0ライン
 	{
@@ -671,4 +671,32 @@ void ObjBlock::AttackGarbage(int lines)
 			m_rising_lines = 0;
 	}
 
+}
+
+int ObjBlock::CalcScore(int lines, int ren, E_TSPIN_PATTERN tspin, bool btb, bool perfect)
+{
+	int add_score = 0;
+	
+	//ライン消去スコア加算
+	if (tspin == E_TSPIN_PATTERN::TSpin)
+		add_score += Score::ADD_SCORE_TSPIN[lines];
+	else
+		add_score += Score::ADD_SCORE_LINES[lines];
+
+	//REN
+	add_score += ren * Score::ADD_REN_SCORE;
+
+	//BTBの場合、1.5倍
+	if (btb)
+		add_score *= Score::BTB_SCORE_SCALE;
+	
+	//TSpinMiniボーナス
+	if (tspin == E_TSPIN_PATTERN::TSpinMini)
+		add_score += Score::ADD_TSPINMINI_SCORE;
+
+	//パーフェクトの場合、スコアボーナス
+	if (perfect)
+		add_score += Score::ADD_SCORE_PERFECT[lines];
+
+	return add_score;
 }

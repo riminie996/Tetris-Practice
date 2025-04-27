@@ -8,7 +8,7 @@ using namespace GameL;
 class ObjScore :public CObj
 {
 public:
-	ObjScore() {}
+	ObjScore();
 	~ObjScore() {}
 	void Init();
 	void Action();
@@ -17,6 +17,7 @@ public:
 	void AddScore(int add) { m_score.Add(add); }
 	void AddMinoCount();
 	void AddAttackLines(int add);
+	void AddClearLines(int add) { m_clear_lines += add; }
 	void TimerStart();
 	void TimerStop();
 	void Reset();
@@ -25,6 +26,7 @@ private:
 	CCounter m_time;
 	int m_piece_placed;
 	int m_attack_lines;
+	int m_clear_lines;
 	float m_pps;
 	float m_apm;
 	float CalcPiecesPerSeconds();

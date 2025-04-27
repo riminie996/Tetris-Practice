@@ -107,16 +107,38 @@ namespace Tetris
 	const float COUNT_TEXT_Y = 224.0f;
 	const float COUNT_TEXT_SIZE = 32.0f;
 	
-	//消したライン数によって加算するスコアが変わる
-	const int ADD_SCORE_LINES[] =
-	{ 
-		0,//0ライン
-		40,//1ライン
-		100,//2ライン
-		300,//3
-		1200, //4
-	};
+	namespace Score
+	{
 
+
+		//消したライン数によって加算するスコアが変わる
+		const int ADD_SCORE_LINES[] =
+		{
+			0,//0ライン
+			100,//1ライン
+			300,//2ライン
+			500,//3
+			800, //4
+		};
+		const int ADD_SCORE_TSPIN[] =
+		{
+			400,//0
+			800,//1
+			1200,//2
+			1600,//3
+		};
+		const int ADD_SCORE_PERFECT[] =
+		{
+			0,
+			800,//1
+			1000,//2
+			1800,//3
+			2000,//4
+		};
+		const int ADD_REN_SCORE = 50;//50*REN数
+		const int ADD_TSPINMINI_SCORE = 100;//50*REN数
+		const float BTB_SCORE_SCALE = 1.5f;//btbスコア倍率
+	}
 
 	//カタチ
 	const int MINO_SHAPE[MINO_MAX_TYPE][MINO_DATABASE_COL][MINO_DATABASE_LOW] =

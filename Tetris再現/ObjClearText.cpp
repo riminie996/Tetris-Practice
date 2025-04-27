@@ -54,7 +54,11 @@ void ObjClearText::Draw()
 		Draw::SetRotationZ(texText, m_ani_tspin.GetValue("TSpin").rotate_z);
 		Draw::SetScaleX(texText, m_ani_tspin.GetValue("TSpin").scale_x);
 		Draw::SetScaleY(texText, m_ani_tspin.GetValue("TSpin").scale_y);
+
+		if(m_tspin_type == E_TSPIN_PATTERN::TSpin)
 		Draw::CenterDraw(texText, DISPLAYED_TSPIN_POS.x + m_ani_tspin.GetValue("TSpin").x, DISPLAYED_TSPIN_POS.y + m_ani_tspin.GetValue("TSpin").y, RECT_TSPIN, false, false);
+		if (m_tspin_type == E_TSPIN_PATTERN::TSpinMini)
+			Draw::CenterDraw(texText, DISPLAYED_TSPIN_POS.x + m_ani_tspin.GetValue("TSpin").x, DISPLAYED_TSPIN_POS.y + m_ani_tspin.GetValue("TSpin").y, RECT_TSPINMINI, false, false);
 
 	}
 	if (m_ani_btb.GetStart())

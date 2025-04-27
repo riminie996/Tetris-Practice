@@ -284,6 +284,7 @@ void ObjMino::RotateMino(int direction)
 	if (m_mino_type == Mino_O)
 	{
 		SpinSoundPlay(false);
+		m_ct_landing.Reset();
 		return;
 	}
 
@@ -412,7 +413,7 @@ bool ObjMino::SuperRotationSystem(int* minoPosX, int* minoPosY, int rotate_dir, 
 			}
 
 			if (m_mino_type == Mino_T)
-				m_tspin_pattern = TSpinCheck(m_px, m_py, m_rotate_angle);
+				m_tspin_pattern = TSpinCheck(m_px, m_py, m_rotate_angle,i);
 
 			return true;
 		}
@@ -587,7 +588,7 @@ void ObjMino::MinoMove(int direction)
 	m_move_count++;
 }
 
-E_TSPIN_PATTERN ObjMino::TSpinCheck(int blockPosX, int blockPosY,ROTATE_ANGLE angle)
+E_TSPIN_PATTERN ObjMino::TSpinCheck(int blockPosX, int blockPosY,ROTATE_ANGLE angle, int srs_pattern)
 {
 	int checker_count = 0;
 	bool tspin_flag = true;
@@ -619,7 +620,8 @@ E_TSPIN_PATTERN ObjMino::TSpinCheck(int blockPosX, int blockPosY,ROTATE_ANGLE an
 	{
 		return E_TSPIN_PATTERN::NoTSpin;
 	}
-	else if(tspin_flag)
+	//ただし、SRSのパターンが5パターン目の場合、Miniにはならない
+	else if(tspin_flag || srs_pattern == Tetris::SRS_PATTERN - 1)
 	{
 		return E_TSPIN_PATTERN::TSpin;
 	}
