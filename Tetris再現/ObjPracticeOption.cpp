@@ -140,6 +140,7 @@ void ObjPracticeOption::Draw()
 void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 {
 	int add = dir == Left ? -1 : 1;
+	float addf = dir == Left ? -0.5f : 0.5f;
 
 	//É~ÉmèÑå≈íË
 	if (m_now_selected_option <= E_PRACTICE_OPTION::TetriminoOrderFixed_End)
@@ -170,7 +171,7 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		USER_DATA->m_frame_DelayerAutoShift += add;
 		break;
 	case E_PRACTICE_OPTION::User_SDF:
-		USER_DATA->m_SDF_frame += add;
+		USER_DATA->m_SDF_frame += addf;
 		break;
 	case E_PRACTICE_OPTION::User_ReverseRotate:
 		USER_DATA->m_reverse_rotate = !USER_DATA->m_reverse_rotate;

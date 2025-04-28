@@ -53,7 +53,7 @@ void ObjMino::Init()
 	m_mino_first_action = true;
 	m_tspin_pattern = E_TSPIN_PATTERN::NoTSpin;
 
-	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, STOP) };
+	m_ct_softdrop = { CCounter(0.0f,0.0f, USER_DATA->m_SDF_frame, FREE) };
 	m_ct_arr = { CCounter(0.0f,0.0f, USER_DATA->m_frame_AutoRepeatRate, STOP) };
 	m_ct_arr.NowValue = USER_DATA->m_frame_AutoRepeatRate;
 	if (oBlock != nullptr)
@@ -143,18 +143,15 @@ void ObjMino::Action()
 	//‰º‚ª‚é‚²‚Æ‚ÉˆÚ“®‰ñ”‚ªƒŠƒZƒbƒg
 	if (ctrl->GetButtonInput(E_PLAYER_CONTROLL::Button_DOWN))
 	{
-		if (GetMinoBlockFixed() == false && m_ct_softdrop.GetMinReached())
+		if (GetMinoBlockFixed() == false && m_ct_softdrop.GetMaxReached())
 		{
 			MinoMove(Down);
 			m_move_count = 0;
 			oScore->AddScore(FALL_ADD_SCORE);
 			m_ct_fall.Reset();
+			m_ct_softdrop.Sub(m_ct_softdrop.MaxValue);
 		}
 		m_ct_softdrop.Add(1);
-		if (m_ct_softdrop.GetMaxReached())
-		{
-			m_ct_softdrop.Reset();
-		}
 	}
 	else
 	{

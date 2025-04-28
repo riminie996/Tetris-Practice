@@ -82,6 +82,7 @@ void ObjScore::AddMinoCount()
 {
 	 m_piece_placed++;
 	 m_pps = CalcPiecesPerSeconds();
+	 m_apm = CalcAttackPerMinutes();
 }
 void ObjScore::AddAttackLines(int add)
 { 

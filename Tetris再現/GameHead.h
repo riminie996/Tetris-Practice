@@ -86,7 +86,7 @@ struct UserData
 	//ユーザーが直接変更できるデータ
 	int m_frame_AutoRepeatRate;//横移動の速度(おしっぱ)
 	int m_frame_DelayerAutoShift;//横ため時間
-	int m_SDF_frame;//Softdrop speed
+	float m_SDF_frame;//Softdrop speed
 	int m_accidental_harddrop_frame;
 	bool m_reverse_rotate;
 	int m_next_create_delay_frame;
