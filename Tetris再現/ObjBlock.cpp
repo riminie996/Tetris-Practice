@@ -120,7 +120,6 @@ void ObjBlock::Action()
 void ObjBlock::Draw()
 {
 	//文字色
-	float c[4] = { 1.0f,1.0f,1.0f,1.0f };
 
 	FieldDraw(FIELD_1P_POS_X + FIELD_OFFSET_X, FIELD_1P_POS_Y + FIELD_OFFSET_Y, m_field);
 
@@ -136,7 +135,6 @@ void ObjBlock::Draw()
 			Mino_Shape_Draw(x, y, m_next[i]);
 		}
 	}
-	//								64 = 中心に描画したいため、枠のピクセル数である128÷2の位置
 
 	float hx = FIELD_1P_POS_X + HOLD_OFFSET_X;
 	float hy = FIELD_1P_POS_Y + HOLD_OFFSET_Y;
@@ -145,25 +143,20 @@ void ObjBlock::Draw()
 	{
 		Mino_Shape_Draw(hx, hy, m_hold_type);
 	}
-	Font::StrCenterDraw(L"NEXT", FIELD_1P_POS_X + NEXT_OFFSET_X, FIELD_1P_POS_Y + NEXT_OFFSET_Y + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
-	Font::StrCenterDraw(L"HOLD", hx, hy + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, c);
-
-	wchar_t wcr[64];
-	std::wstring str = std::to_wstring(m_mino_count);
-	swprintf_s(wcr, L"%s", str.c_str());
-	Font::StrDraw(wcr, COUNT_TEXT_X, COUNT_TEXT_Y, COUNT_TEXT_SIZE, ColorA::White);
-
+	Font::StrCenterDraw(L"NEXT", FIELD_1P_POS_X + NEXT_OFFSET_X, FIELD_1P_POS_Y + NEXT_OFFSET_Y + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, ColorA::White);
+	Font::StrCenterDraw(L"HOLD", hx, hy + NEXT_MOJI_OFFSET_Y, BLOCK_PIXELS, ColorA::White);
 
 
 	//オプションの描画
 	DrawFontOption(OPTION_TEXT_OFFSET_X, OPTION_TEXT_OFFSET_Y, OPTION_TEXT_SIZE);
 	if (m_gameover == true)
 	{
-		Font::StrCenterDraw(L"GAME OVER", GAMEOVER_TEXT_X, GAMEOVER_TEXT_Y, GAMEOVER_TEXT_SIZE, c);
+		Font::StrCenterDraw(L"GAME OVER", GAMEOVER_TEXT_X, GAMEOVER_TEXT_Y, GAMEOVER_TEXT_SIZE, ColorA::White);
 	}
-
 	RisingLinesBlockDraw(m_rising_lines);
-
+	std::wstring str_mode = Tetris::PracticeOption::GetStrGameMode(m_practice_options.gamemode);
+	Font::StrRightDraw(str_mode.c_str(), GAMEMODE_POS.x, GAMEMODE_POS.y - GAMEOVER_TEXT_SIZE, GAMEOVER_TEXT_SIZE, ColorA::White);
+	
 
 }
 

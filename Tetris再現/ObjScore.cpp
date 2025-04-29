@@ -17,6 +17,7 @@ namespace Tetris
 		const Point TIME_POS = { 704,350 };
 		const Point NUMBER_OFFSET = { 128,32 };
 		const RECT_F RECT_UMBER_COMMA = { 460,0,14,64 };
+
 	}
 }
 ObjScore::ObjScore()
@@ -47,6 +48,14 @@ void ObjScore::Action()
 
 	if (m_timeract)
 		m_time.Add(1.0f / 60.0f);
+
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_ULTRA)
+	{
+		if (m_time.GetMaxReached())
+		{
+			oBlock->SetGameOverFlag(true);
+		}
+	}
 
 
 	m_pps = CalcPiecesPerSeconds();
@@ -89,7 +98,11 @@ void ObjScore::Draw()
 
 	}
 	Font::StrDraw(L"Time", Tetris::Score::TIME_POS.x, Tetris::Score::TIME_POS.y, SCORE_FONT_SIZE, ColorA::White);
-	m_num_score.Draw(m_time.NowValue, Tetris::Score::TIME_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::TIME_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+
+	float time = m_time.NowValue;
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_ULTRA)
+		time = m_time.MaxValue - m_time.NowValue;
+	m_num_score.Draw(time, Tetris::Score::TIME_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::TIME_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
 }
 
 void ObjScore::AddMinoCount()
@@ -124,6 +137,18 @@ void ObjScore::Reset()
 	m_score.Reset();
 	m_time.Reset();
 	Init();
+
+	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_ULTRA)
+	{
+		m_time = { CCounter(0.0f,0.0f,Tetris::ULTRA_MODE_SEC,STOP) };
+	}
+	else
+	{
+		m_time = { CCounter(0.0f,0.0f,0.0f,FREE) };
+	}
+
+
 }
 
 void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
@@ -136,6 +161,7 @@ void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
 		m_clear_lines >= 40)
 	{
 		TimerStop();
+		oBlock->SetGameClearFlag(true);
 	}
 	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_TSD20)
 	{
@@ -146,6 +172,8 @@ void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
 		if (m_tspin_lines >= 40)
 		{
 			TimerStop();
+
+			oBlock->SetGameClearFlag(true);
 		}
 	}
 		

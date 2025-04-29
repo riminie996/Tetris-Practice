@@ -31,7 +31,7 @@ public:
 	void SetGameOverFlag(bool status) { m_gameover = status; }
 	void SetGameClearFlag(bool status) { m_gameclear = status; }
 	bool GetGameOverFlag() { return m_gameover; }
-	bool GetGameClearFlag() { return m_gameover; }
+	bool GetGameClearFlag() { return m_gameclear; }
 	bool BlockPosCheck(int x, int y);//そこにすでにブロックがあるか返す
 	void SetHoldType(MINO_TYPE type);//Hold
 	void LinesCompleteCheck();//ラインがそろったかチェック

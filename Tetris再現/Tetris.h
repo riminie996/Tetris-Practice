@@ -1,7 +1,7 @@
 #pragma once
 //Ç±ÇÃÉQÅ[ÉÄå¿íËÇ≈égÇ§íËêîÇ∆Ç©
 #include "GameL\DrawTexture.h"
-
+#include "Structure.h"
 
 
 enum MINO_TYPE
@@ -106,6 +106,10 @@ namespace Tetris
 	const float COUNT_TEXT_X = 0.0f;
 	const float COUNT_TEXT_Y = 224.0f;
 	const float COUNT_TEXT_SIZE = 32.0f;
+	const Point GAMEMODE_POS = {1280,720};
+
+
+	const int ULTRA_MODE_SEC = 180;
 
 	const int OVERLAP_MAX_UP_COUNT = 2;
 	
