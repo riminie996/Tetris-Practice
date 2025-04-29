@@ -91,7 +91,10 @@ void ObjPracticeOption::Draw()
 		case E_PRACTICE_OPTION::RisingTimer:
 			str += std::to_wstring(m_p_option->rising_timer_sec) + L"•b";
 			break;
-		case E_PRACTICE_OPTION::User_AutoRepeatRate:
+		case E_PRACTICE_OPTION::GameMode:
+			str += Tetris::PracticeOption::GetStrGameMode(m_p_option->gamemode);
+			break;
+			case E_PRACTICE_OPTION::User_AutoRepeatRate:
 			str += std::to_wstring(USER_DATA->m_frame_AutoRepeatRate) + L"ƒtƒŒ[ƒ€";
 			break;
 		case E_PRACTICE_OPTION::User_DelayerAutoShift:
@@ -164,6 +167,13 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 	case E_PRACTICE_OPTION::RisingTimer:
 		m_p_option->rising_timer_sec += add;
 		break;
+	case E_PRACTICE_OPTION::GameMode:
+		if (add > 0)
+			++m_p_option->gamemode;
+		else
+			--m_p_option->gamemode;
+		break;
+
 	case E_PRACTICE_OPTION::User_AutoRepeatRate:
 		USER_DATA->m_frame_AutoRepeatRate += add;
 		break;
@@ -187,3 +197,4 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		break;
 	}
 }
+

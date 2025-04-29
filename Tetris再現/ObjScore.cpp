@@ -14,6 +14,7 @@ namespace Tetris
 		const Point ATTACK_LINES_POS = { 704,140 };
 		const Point APM_POS = { 704,210 };
 		const Point CLEAR_LINES_POS = { 704,280 };
+		const Point TIME_POS = { 704,350 };
 		const Point NUMBER_OFFSET = { 128,32 };
 		const RECT_F RECT_UMBER_COMMA = { 460,0,14,64 };
 	}
@@ -34,27 +35,29 @@ void ObjScore::Init()
 	m_pps = 0.0f;
 	m_apm = 0.0f;
 	m_clear_lines = 0;
-
+	m_timeract = true;
+	m_tspin_lines = 0;
 }
 
 //is
 void ObjScore::Action()
 {
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
-	if (oBlock->GetGameOverFlag())return;
+	if (oBlock->GetGameOverFlag() || oBlock->GetIsPause())return;
 
-	m_time.Add(1.0f / 60.0f);
+	if (m_timeract)
+		m_time.Add(1.0f / 60.0f);
 
-	//m_pps = CalcPiecesPerSeconds();
 
-	//m_apm = CalcAttackPerMinutes();
+	m_pps = CalcPiecesPerSeconds();
+	m_apm = CalcAttackPerMinutes();
 }
 
 //•`‰æ
 void ObjScore::Draw()
 {
 	//”’
-
+	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 
 	Draw::SetOpacity(texNumber, 1.0f);
 	Draw::SetScaleX(texNumber, 1.0f);
@@ -74,15 +77,24 @@ void ObjScore::Draw()
 	m_num_score.Draw(m_attack_lines, Tetris::Score::ATTACK_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::ATTACK_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
 	Font::StrDraw(L"Attack Per Minutes", Tetris::Score::APM_POS.x, Tetris::Score::APM_POS.y, SCORE_FONT_SIZE, ColorA::White);
 	m_num_score.Draw(m_apm, Tetris::Score::APM_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::APM_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_TSD20)
+	{
+		Font::StrDraw(L"TSpin Lines", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
+		m_num_score.Draw(m_tspin_lines, Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+	}
+	else
+	{
 	Font::StrDraw(L"Clear Lines", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
 	m_num_score.Draw(m_clear_lines, Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+
+	}
+	Font::StrDraw(L"Time", Tetris::Score::TIME_POS.x, Tetris::Score::TIME_POS.y, SCORE_FONT_SIZE, ColorA::White);
+	m_num_score.Draw(m_time.NowValue, Tetris::Score::TIME_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::TIME_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
 }
 
 void ObjScore::AddMinoCount()
 {
 	 m_piece_placed++;
-	 m_pps = CalcPiecesPerSeconds();
-	 m_apm = CalcAttackPerMinutes();
 }
 void ObjScore::AddAttackLines(int add)
 { 
@@ -112,4 +124,30 @@ void ObjScore::Reset()
 	m_score.Reset();
 	m_time.Reset();
 	Init();
+}
+
+void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
+{
+	m_clear_lines += add;
+
+
+	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_40Line &&
+		m_clear_lines >= 40)
+	{
+		TimerStop();
+	}
+	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_TSD20)
+	{
+		if (tspin != E_TSPIN_PATTERN::NoTSpin)
+		{
+			m_tspin_lines += add;
+		}
+		if (m_tspin_lines >= 40)
+		{
+			TimerStop();
+		}
+	}
+		
+	return;
 }

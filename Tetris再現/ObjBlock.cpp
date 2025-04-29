@@ -16,15 +16,12 @@ ObjBlock::ObjBlock()
 	std::random_device rand;
 	//完全にランダムナシード
 	m_random_random_seed = rand();
-	//for (int i = 0; i < E_PRACTICE_OPTION::Option_Count; i++)
-	//{
-	//	m_practice_options[i] = false;
-	//}
+
 	m_common_key_flag = false;
 
 	m_bag_round_count = 0;
 	Audio::Start(bgm_1);
-	m_practice_options.rising_timer_sec = 0;
+
 }
 
 //初期化
@@ -33,6 +30,7 @@ void ObjBlock::Init()
 	InitField();
 	m_lines_complete = false;
 	m_gameover = false;
+	m_gameclear = false;
 
 	for (int i = 0; i < MINO_MAX_TYPE; i++)
 	{
@@ -45,10 +43,6 @@ void ObjBlock::Init()
 	}
 	m_hold_type = Mino_Empty;
 	m_hold_flag = true;
-
-	//ランダム関連
-	//unsigned int now = (unsigned int)time(0);
-	//srand(now);
 
 	//ネクスト作成する前に巡目リセット
 	m_mino_count = 0;
@@ -378,7 +372,8 @@ void ObjBlock::LinesCompleteCheck()
 
 		oScore->AddAttackLines(attack_lines);
 
-		oScore->AddClearLines(lines_count);
+		//TSPINの引数は、TSD20モード用
+		oScore->AddClearLines(lines_count , tspin);
 	}
 	else//0ライン
 	{
@@ -474,6 +469,9 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 
 		case E_PRACTICE_OPTION::RisingTimer:
 			str += std::to_wstring(m_practice_options.rising_timer_sec) + L"秒";
+			break;
+		case E_PRACTICE_OPTION::GameMode:
+			str += Tetris::PracticeOption::GetStrGameMode(m_practice_options.gamemode);
 			break;
 		case E_PRACTICE_OPTION::User_AutoRepeatRate:
 			break;

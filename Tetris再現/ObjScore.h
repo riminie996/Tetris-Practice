@@ -17,9 +17,10 @@ public:
 	void AddScore(int add) { m_score.Add(add); }
 	void AddMinoCount();
 	void AddAttackLines(int add);
-	void AddClearLines(int add) { m_clear_lines += add; }
-	void TimerStart();
-	void TimerStop();
+//	void AddClearLines(int add);
+	void AddClearLines(int add,E_TSPIN_PATTERN tspin);
+	void TimerStart() { m_timeract = true; }
+	void TimerStop() { m_timeract = false; }
 	void Reset();
 private:
 	CCounter m_score;
@@ -29,7 +30,10 @@ private:
 	int m_clear_lines;
 	float m_pps;
 	float m_apm;
+	CNumTexSource m_num_score;
+	int m_tspin_lines;
+	bool m_timeract;
+
 	float CalcPiecesPerSeconds();
 	float CalcAttackPerMinutes();
-	CNumTexSource m_num_score;
 };

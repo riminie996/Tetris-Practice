@@ -124,6 +124,8 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 		return L"無限ホールド";
 	else if (option == RisingTimer)
 		return L"せりあがりタイマー:";
+	else if (option == GameMode)
+		return L"ゲームモード:";
 	else if (option == User_AutoRepeatRate)
 		return L"AutoRepeatRate";
 	else if (option == User_DelayerAutoShift)
@@ -136,6 +138,45 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 		return L"上キー暴発対策";
 	else if (option == User_NextCreateDelayFrame)
 		return L"次のミノ生成されるまでのフレーム";
+
+	return L"error";
+}
+
+Tetris::E_GAME_MODE& Tetris::operator++(E_GAME_MODE& mode)
+{
+	int nMode = (int)mode;
+	nMode++;
+
+	if (nMode >= (int)E_GAME_MODE::mode_count)
+	{
+		nMode = (int)E_GAME_MODE::mode_count - 1;
+	}
+	mode = (E_GAME_MODE)nMode;
+	return mode;
+};
+Tetris::E_GAME_MODE& Tetris::operator--(E_GAME_MODE& mode)
+{
+	int nMode = (int)mode;
+	nMode--;
+
+	if (nMode  <0)
+	{
+		nMode = 0;
+	}
+	mode = (E_GAME_MODE)nMode;
+	return mode;
+};
+
+std::wstring Tetris::PracticeOption::GetStrGameMode(E_GAME_MODE mode)
+{
+	if (mode == E_GAME_MODE::mode_Standard)
+		return L"スタンダード";
+	else if (mode == E_GAME_MODE::mode_40Line)
+		return L"40ライン";
+	else if (mode == E_GAME_MODE::mode_TSD20)
+		return L"TSD20";
+	else if (mode == E_GAME_MODE::mode_ULTRA);
+		return L"ウルトラ";
 
 	return L"error";
 }

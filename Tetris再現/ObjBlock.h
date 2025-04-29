@@ -29,7 +29,9 @@ public:
 	void MinoCreate(MINO_TYPE type);//ミノを作成
 	void NextCreate();//ネクストを作成
 	void SetGameOverFlag(bool status) { m_gameover = status; }
+	void SetGameClearFlag(bool status) { m_gameclear = status; }
 	bool GetGameOverFlag() { return m_gameover; }
+	bool GetGameClearFlag() { return m_gameover; }
 	bool BlockPosCheck(int x, int y);//そこにすでにブロックがあるか返す
 	void SetHoldType(MINO_TYPE type);//Hold
 	void LinesCompleteCheck();//ラインがそろったかチェック
@@ -62,6 +64,7 @@ private:
 	bool m_bag[MINO_MAX_TYPE];
 	bool m_lines_complete;
 	bool m_gameover;
+	bool m_gameclear;
 	int m_bag_round_count;
 
 	MINO_TYPE m_hold_type;
@@ -82,6 +85,7 @@ private:
 	int m_mino_count;
 	int m_rising_lines;
 	int m_rising_remain;
+
 
 	void InitField();//ブロック配置
 	MINO_TYPE BagToType();//バッグからミノを受け取る

@@ -60,11 +60,12 @@ private:
 
 	//ミノが着地しているかどうか判断する
 	bool GetMinoBlockFixed();
-	bool MinoOverlapCheck(int x, int y);//そこにブロックがすでにあるかチェック
+	bool FieldOverlapCheck(int x, int y);//そこにブロックがすでにあるかチェック
 	void SetFieldMino();//ブロックにミノを配置
 	void GhostDraw();//ゴーストを描画
 
 	void SpinSoundPlay(bool spin_result);
+	bool MinoOverlapCheck(int offset_x, int offset_y);
 
 	DIRECTION GetRotateKey(E_PLAYER_CONTROLL ctrl);
 	

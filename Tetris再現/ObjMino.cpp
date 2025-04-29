@@ -58,16 +58,15 @@ void ObjMino::Init()
 	m_ct_arr.NowValue = USER_DATA->m_frame_AutoRepeatRate;
 	if (oBlock != nullptr)
 	{
-			//生成できない場合、1ブロックあげてみる
-		for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
+		//生成できない場合、1ブロックあげてみる(最大２回)
+		for (int i = 0; i < OVERLAP_MAX_UP_COUNT && MinoOverlapCheck(m_px, m_py); i++)
 		{
-			int bx = m_px + m_mino_x[i];
-			int by = m_py + m_mino_y[i];
-			if (oBlock->BlockPosCheck(bx, by))
-			{
-				m_py -= 1;
-				break;
-			}
+			m_py--;
+		}
+		//揚げてもなお、重なっている場合ゲームオーバー
+		if (MinoOverlapCheck(m_px, m_py))
+		{
+			oBlock->SetGameOverFlag(false);
 		}
 
 		//ホールドでミノを入れ替えた場合、遅延はなし
@@ -94,24 +93,10 @@ void ObjMino::Action()
 
 
 	ObjPlayerControll* ctrl = (ObjPlayerControll*)Objs::GetObj(OBJ_PLAYERCONTROLL);
-	if (m_mino_first_action)
-	{
 
-		for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
-		{
-			if (MinoOverlapCheck(m_px + m_mino_x[i], m_py + m_mino_y[i]) == true)
-			{
-
-				oBlock->SetGameOverFlag(true);
-				SetFieldMino();
-				break;
-			}
-		}
-
-		m_mino_first_action = false;
-	}
 
 	if (oBlock->GetIsPause() == true)return;
+	if (oBlock->GetGameClearFlag())return;
 
 	//CCounter処理
 	m_ct_landing.Add(1.0f);
@@ -247,24 +232,16 @@ void ObjMino::Draw()
 
 void ObjMino::MinoHardDrop()
 {
-
 	ObjScore* oScore = (ObjScore*)Objs::GetObj(OBJ_SCORE);
 	while (1)
 	{
-		for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
+
+		//ミノ座標の1マス左にブロックがあるか確認する。
+		if (MinoOverlapCheck(m_px, m_py + 1) == true)
 		{
-			//座標に変換
-			int bx = m_px + (m_mino_x[i]);
-			int by = m_py + (m_mino_y[i]);
-			//ミノ座標の1マス左にブロックがあるか確認する。
-			if (MinoOverlapCheck(bx, by + 1) == true)
-			{
-				return;
-			}
+			return;
 		}
 		m_py += 1;
-
-
 		oScore->AddScore(FALL_ADD_SCORE);
 	}
 }
@@ -365,7 +342,7 @@ bool ObjMino::SuperRotationSystem(int* minoPosX, int* minoPosY, int rotate_dir, 
 
 			//4回ずつ調べ、trueが返ってきた時点でそこにあるということ。
 			//4回falseの場合はそこにないということ
-			if (MinoOverlapCheck(bx, by) == true)
+			if (FieldOverlapCheck(bx, by) == true)
 			{
 				isBlock = true;
 				break;
@@ -420,7 +397,7 @@ bool ObjMino::SuperRotationSystem(int* minoPosX, int* minoPosY, int rotate_dir, 
 
 //その位置にすでにブロックがあるかどうか確認する。
 //存在した場合、trueを返す。
-bool ObjMino::MinoOverlapCheck(int x, int y)
+bool ObjMino::FieldOverlapCheck(int x, int y)
 {
 	//ブロックの情報を取得
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
@@ -431,18 +408,14 @@ bool ObjMino::MinoOverlapCheck(int x, int y)
 bool ObjMino::GetMinoBlockFixed()
 {
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
-	for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
-	{
-		//座標に変換
-		int bx = m_px + (m_mino_x[i]);
-		int by = m_py + (m_mino_y[i]);
+
 		//ミノ座標の1マス下にブロックがあるか確認する。
-		if (oBlock->m_field[by + 1][bx] != BlockEmpty || by + 1 >= FIELD_HEIGHT)
-		{
-			//あった
-			return true;
-		}
+	if (MinoOverlapCheck(m_px, m_py + 1))
+	{
+		//あった
+		return true;
 	}
+	
 	return false;
 }
 
@@ -527,18 +500,13 @@ void ObjMino::GhostDraw()
 	while (isBlock == false)
 	{
 
-		for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
+		//ミノ座標の1マス下にブロックがあるか確認する。
+		if (MinoOverlapCheck(gx, gy + 1) == true)
 		{
-			//座標に変換
-			int bx = gx + m_mino_x[i]  ;
-			int by = gy + m_mino_y[i] ;
-			//ミノ座標の1マス下にブロックがあるか確認する。
-			if (MinoOverlapCheck(bx, by + 1) == true)
-			{
-				isBlock = true;
-				break;
-			}
+			isBlock = true;
+			break;
 		}
+		
 		if (isBlock == false)
 			gy += 1;
 	}
@@ -562,17 +530,12 @@ void ObjMino::MinoMove(int direction)
 	else if (direction == Right)plus_x = MINO_MOVE_DISTANCE;
 	else if (direction == Down)plus_y = MINO_MOVE_DISTANCE;
 
-	for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
-	{
-		//座標に変換
-		int bx = m_px + m_mino_x[i] + plus_x;
-		int by = m_py + m_mino_y[i] + plus_y;
 		//ミノ座標の1マス左にブロックがあるか確認する。
-		if (MinoOverlapCheck(bx, by) == true)
-		{
-			return;
-		}
+	if (MinoOverlapCheck(m_px + plus_x, m_py + plus_y) == true)
+	{
+		return;
 	}
+	
 	//ブロックがない場合、移動する
 	m_px += plus_x;
 	m_py += plus_y;
@@ -598,7 +561,7 @@ E_TSPIN_PATTERN ObjMino::TSpinCheck(int blockPosX, int blockPosY,ROTATE_ANGLE an
 
 			if (Tetris::TSPIN_CHECKER[(int)angle][i][j] >= 1)
 			{
-				if (MinoOverlapCheck(bx, by) == true)
+				if (FieldOverlapCheck(bx, by) == true)
 				{
 					checker_count++;
 				}
@@ -648,4 +611,18 @@ DIRECTION ObjMino::GetRotateKey(E_PLAYER_CONTROLL ctrl)
 	else
 		dir = ctrl == E_PLAYER_CONTROLL::Button_B ? Left : Right;
 	return dir;
+}
+bool ObjMino::MinoOverlapCheck(int offset_x, int offset_y)
+{
+	for (int i = 0; i < MINO_BLOCK_AMOUNT; i++)
+	{
+		//座標に変換
+		int bx = m_mino_x[i] + offset_x;
+		int by = m_mino_y[i] + offset_y;
+		if (FieldOverlapCheck(bx, by) == true)
+		{
+			return true;
+		}
+	}
+	return false;
 }

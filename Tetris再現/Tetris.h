@@ -106,6 +106,8 @@ namespace Tetris
 	const float COUNT_TEXT_X = 0.0f;
 	const float COUNT_TEXT_Y = 224.0f;
 	const float COUNT_TEXT_SIZE = 32.0f;
+
+	const int OVERLAP_MAX_UP_COUNT = 2;
 	
 	namespace Score
 	{
@@ -295,6 +297,7 @@ namespace Tetris
 	const float RISING_LINES_OFFSET_Y = 624.0f;		//1PÇÃYç¿ïW
 
 
+
 	enum E_PRACTICE_OPTION
 	{
 		TetriminoOrderFixed_1,
@@ -303,6 +306,7 @@ namespace Tetris
 		ShowController,
 		InfiniteHold,
 		RisingTimer,
+		GameMode,
 		User_AutoRepeatRate,
 		User_DelayerAutoShift,
 		User_SDF,
@@ -311,6 +315,16 @@ namespace Tetris
 		User_NextCreateDelayFrame,
 		Option_Count,
 	};
+	enum class E_GAME_MODE
+	{
+		mode_Standard,
+		mode_40Line,
+		mode_TSD20,
+		mode_ULTRA,
+		mode_count,
+	};
+	E_GAME_MODE& operator++(E_GAME_MODE& mode);
+	E_GAME_MODE& operator--(E_GAME_MODE& mode);
 	struct ST_PRACTICE_OPTION
 	{
 		bool option_flag[Option_Count];
@@ -319,6 +333,7 @@ namespace Tetris
 		int rising_min_line;
 		int rising_max_line;
 		MINO_TYPE fixed_mino_type[TetriminoOrderFixed_End + 1][MINO_MAX_TYPE];
+		Tetris::E_GAME_MODE gamemode;
 
 		ST_PRACTICE_OPTION()
 		{
@@ -334,9 +349,16 @@ namespace Tetris
 					fixed_mino_type[i][j] = (MINO_TYPE)j;
 				}
 			}
+			gamemode = E_GAME_MODE::mode_Standard;
 		}
 	};
+
 	std::wstring GetOptionName(E_PRACTICE_OPTION option);
+
+	namespace PracticeOption
+	{
+		std::wstring GetStrGameMode(E_GAME_MODE mode);
+	}
 
 	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);
 	void Mino_Shape_Draw(int x, int y, MINO_TYPE type);

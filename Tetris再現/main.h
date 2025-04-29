@@ -13,4 +13,4 @@
 #define BACK_COLOR      {0.0f, 0.0f, 0.0f, 1.0f}
 
 //ウィンドウゲームタイトル名
-#define GAME_NAME L"ライブラリ"
+#define GAME_NAME L"練習用テトリス"
