@@ -289,7 +289,6 @@ namespace Tetris
 
 	const int FALL_ADD_SCORE = 2;
 
-	const int RISING_MAX_LINES = 15;
 	const int RISING_INTERVAL_SEC = 10;
 	const float RISING_TEXT_OFFSET_X = 768.0f;
 	const float RISING_TEXT_OFFSET_Y = 128.0f;
@@ -325,6 +324,7 @@ namespace Tetris
 		mode_40Line,
 		mode_TSD20,
 		mode_ULTRA,
+		mode_100LineCheez,
 		mode_count,
 	};
 	E_GAME_MODE& operator++(E_GAME_MODE& mode);
@@ -362,6 +362,18 @@ namespace Tetris
 	namespace PracticeOption
 	{
 		std::wstring GetStrGameMode(E_GAME_MODE mode);
+	}
+	namespace RisingGarbage
+	{
+
+		const int RISING_MAX_LINES = 15;
+
+		struct ST_FIELD_GARBAGE
+		{
+			int rising_time_remain;
+			bool rising_reach;
+			int lines;
+		};
 	}
 
 	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);

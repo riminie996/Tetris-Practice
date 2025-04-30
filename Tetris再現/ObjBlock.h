@@ -99,6 +99,6 @@ private:
 	void RisingLinesBlockDraw(int line);
 
 	void AttackGarbage(int lines);
-	int CalcScore(int lines,int ren,E_TSPIN_PATTERN tspin,bool btb,bool perfect);
+	int CalcScore(int lines,int ren,E_TSPIN_PATTERN tspin,bool btb,bool perfect);//加算するスコアを計算
 };
 

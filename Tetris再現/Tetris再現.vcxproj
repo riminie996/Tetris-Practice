@@ -161,6 +161,7 @@
     <ClCompile Include="GameL\SetWindow.cpp" />
     <ClCompile Include="GameL\UserData.cpp" />
     <ClCompile Include="GameL\WinInputs.cpp" />
+    <ClCompile Include="Obj100LineCheez.cpp" />
     <ClCompile Include="ObjBlock.cpp" />
     <ClCompile Include="ObjClearText.cpp" />
     <ClCompile Include="ObjFixedMinoSettings.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="GameL\UserData.h" />
     <ClInclude Include="GameL\WinInputs.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Obj100LineCheez.h" />
     <ClInclude Include="ObjBlock.h" />
     <ClInclude Include="ObjClearText.h" />
     <ClInclude Include="ObjFixedMinoSettings.h" />

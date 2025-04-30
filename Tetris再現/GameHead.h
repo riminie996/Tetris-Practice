@@ -15,6 +15,7 @@ enum OBJ_NAME
 	OBJ_PRACTICEOPTION,
 	OBJ_PLAYERCONTROLL,
 	OBJ_CLEARTEXT,
+	OBJ_100LINECHEEZ,
 };
 enum OBJ_PRIORITY
 {
@@ -24,6 +25,7 @@ enum OBJ_PRIORITY
 	PRIO_RISING,
 	PRIO_OPTION,
 	PRIO_FIXED_MINO_SETTINGS,
+	PRIO_100LINECHEEZ,
 	PRIO_CLEARTEXT,
 	PRIO_CONTROLL,
 };
@@ -118,7 +120,7 @@ struct UserData
 #include "ObjFixedMinoSettings.h"
 #include "ObjPlayerControll.h"
 #include "ObjClearText.h"
-//#include "Tetris.h"
+#include "Obj100LineCheez.h"
 //------------------------------------------------
 
 //ゲームシーンクラスヘッダ------------------------

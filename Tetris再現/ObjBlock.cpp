@@ -176,7 +176,7 @@ void ObjBlock::MinoCreate(MINO_TYPE type)
 void ObjBlock::NextCreate()
 {
 	//ミノを作成する段階でゲームオーバーの場合、作成しない
-	if (m_gameover == true)
+	if (GetGameOverFlag())
 		return;
 
 
@@ -409,44 +409,9 @@ void ObjBlock::SetHoldType(MINO_TYPE type)
 	}
 }
 
-void ObjBlock::Next_Mino_Draw(float x, float y, int type)
-{
-	float offset_x = 0.0f;
-	float offset_y = 0.0f;
-	//真ん中に表示させたいため、ずらす
-	if (type == Mino_I || type == Mino_O)
-	{
-		offset_y = BLOCK_PIXELS;
-	}
-	else//3×3ブロックのやつ
-	{
-		offset_x = BLOCK_PIXELS / 2.0f;
-		offset_y = BLOCK_PIXELS;
-	}
-
-	//初期位置
-	float bx = x + ((float)MINO_DATABASE_LOW / 2.0f) * -BLOCK_PIXELS + offset_x;
-	float by = y + ((float)MINO_DATABASE_COL / 2.0f) * -BLOCK_PIXELS + offset_y;
-	RECT_F Color_Block = { 0,BLOCK_PIXELS * type,BLOCK_PIXELS,BLOCK_PIXELS };
-
-	for (int i = 0; i < MINO_DATABASE_COL; i++)
-	{
-		for (int j = 0; j < MINO_DATABASE_LOW; j++)
-		{
-			if (MINO_SHAPE[type][i][j] == 1)
-			{
-				Draw::Draw(texBlock, bx + (j * BLOCK_PIXELS), by + (i * BLOCK_PIXELS), Color_Block);
-				Draw::Draw(texBlock, bx + (j * BLOCK_PIXELS), by + (i * BLOCK_PIXELS), BLOCK_LIGHT_SRC_POS);
-			}
-		}
-	}
-}
-
 void ObjBlock::DrawFontOption(float x, float y, float font_size) 
 {
-	//文字色
-	float c[4] = { 1.0f,1.0f,1.0f,1.0f };
-	//Font::StrDraw(L"OPTIONS:", x, y, font_size, c);
+	//文字
 	Font::StrDraw(L"OPTIONS", x, y, font_size, ColorA::White);
 
 	wchar_t wcr[64];
@@ -570,7 +535,7 @@ void ObjBlock::GarbageRising(int height)
 		//せりあがる高さ分のラインのみブロックがあるか判定する。
 		if (m_field[height - 1][i] != BlockEmpty)
 		{
-			m_gameover = true;
+			SetGameOverFlag(true);
 		}
 	}
 

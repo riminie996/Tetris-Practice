@@ -75,6 +75,10 @@ int Tetris::CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATT
 		garbage_lines += 10;
 	}
 
+	//0以下なら0
+	if (garbage_lines <= 0)
+		return 0;
+
 	return garbage_lines;
 }
 
@@ -175,8 +179,10 @@ std::wstring Tetris::PracticeOption::GetStrGameMode(E_GAME_MODE mode)
 		return L"40ライン";
 	else if (mode == E_GAME_MODE::mode_TSD20)
 		return L"TSD20";
-	else if (mode == E_GAME_MODE::mode_ULTRA);
+	else if (mode == E_GAME_MODE::mode_ULTRA)
 		return L"ウルトラ";
+	else if (mode == E_GAME_MODE::mode_100LineCheez)
+	return L"100ラインチーズ";
 
 	return L"error";
 }

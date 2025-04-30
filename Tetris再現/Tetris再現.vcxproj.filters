@@ -117,6 +117,9 @@
     <ClCompile Include="CTimeCounter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Obj100LineCheez.cpp">
+      <Filter>Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameL\Audio.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="Structure.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Obj100LineCheez.h">
+      <Filter>Block</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
