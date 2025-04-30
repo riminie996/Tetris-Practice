@@ -90,7 +90,6 @@ private:
 	void InitField();//ブロック配置
 	MINO_TYPE BagToType();//バッグからミノを受け取る
 	void Bag_All_Check();//バッグからすべてのミノを取り出したかチェック
-	void Next_Mino_Draw(float x,float y,int type);
 	void DrawFontOption(float x, float y,float font_size);
 
 	void Restart(); 

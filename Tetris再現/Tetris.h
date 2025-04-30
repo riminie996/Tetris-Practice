@@ -3,6 +3,7 @@
 #include "GameL\DrawTexture.h"
 #include "Structure.h"
 
+#define REN_NONE (-1)
 
 enum MINO_TYPE
 {

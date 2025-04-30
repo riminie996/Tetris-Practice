@@ -74,10 +74,24 @@ void ObjBlock::Init()
 		}
 		oRisingTimer->SetTimer(m_practice_options.rising_timer_sec);
 	}
+	Obj100LineCheez* o100line = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
+
+	if (o100line != nullptr && m_practice_options.gamemode == E_GAME_MODE::mode_100LineCheez)
+	{
+		o100line->SetStatus(false);
+	}
+	if (m_practice_options.gamemode != E_GAME_MODE::mode_100LineCheez)
+	{
+		if (o100line == nullptr)
+		{
+			o100line = new Obj100LineCheez();
+			Objs::InsertObj(o100line, OBJ_100LINECHEEZ, PRIO_100LINECHEEZ);
+		}
+	}
 	
 	m_rising_lines = 0;
 	m_btb = false;
-	m_ren = -1;
+	m_ren = REN_NONE;
 	m_rising_remain = 0;
 }
 
@@ -370,7 +384,7 @@ void ObjBlock::LinesCompleteCheck()
 	}
 	else//0ƒ‰ƒCƒ“
 	{
-		m_ren = -1;
+		m_ren = REN_NONE;
 	}
 	oScore->AddMinoCount();
 }
