@@ -19,7 +19,6 @@ public:
 	void Init();
 	void Action();
 	void Draw();
-
 private:
 	int m_round;
 	int m_mino_order[MINO_MAX_TYPE];

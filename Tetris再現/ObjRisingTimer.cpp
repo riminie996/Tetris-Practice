@@ -15,7 +15,7 @@ void ObjRisingTimer::Action()
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 	if (!oBlock->GetIsPause())
 	{
-		m_ct_interval.Sub(1.0f / 60.0f);
+		m_ct_interval.Sub(FRAME_TO_SEC);
 	}
 	if (m_ct_interval.GetMinReached())
 	{

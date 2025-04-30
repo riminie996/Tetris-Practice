@@ -2,8 +2,10 @@
 //Ç±ÇÃÉQÅ[ÉÄå¿íËÇ≈égÇ§íËêîÇ∆Ç©
 #include "GameL\DrawTexture.h"
 #include "Structure.h"
+#include "CCounter.h"
 
 #define REN_NONE (-1)
+#define FRAME_TO_SEC (1.0f / 60.0f)
 
 enum MINO_TYPE
 {
@@ -291,7 +293,7 @@ namespace Tetris
 	const int FALL_ADD_SCORE = 2;
 
 	const int RISING_INTERVAL_SEC = 10;
-	const float RISING_TEXT_OFFSET_X = 768.0f;
+	const float RISING_TEXT_OFFSET_X = 896.0f;
 	const float RISING_TEXT_OFFSET_Y = 128.0f;
 	const float RISING_TIMER_OFFSET_X = 768.0f;
 	const float RISING_TIMER_OFFSET_Y = 160.0f;
@@ -371,7 +373,7 @@ namespace Tetris
 
 		struct ST_FIELD_GARBAGE
 		{
-			int rising_time_remain;
+			CCounter rising_time_remain_sec;
 			bool rising_reach;
 			int lines;
 		};

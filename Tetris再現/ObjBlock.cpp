@@ -74,25 +74,33 @@ void ObjBlock::Init()
 		}
 		oRisingTimer->SetTimer(m_practice_options.rising_timer_sec);
 	}
+	m_list_garbage.clear();
+
+	//100ラインチーズモード専用
 	Obj100LineCheez* o100line = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
 
-	if (o100line != nullptr && m_practice_options.gamemode == E_GAME_MODE::mode_100LineCheez)
+	if (o100line != nullptr && m_practice_options.gamemode != E_GAME_MODE::mode_100LineCheez)
 	{
 		o100line->SetStatus(false);
 	}
-	if (m_practice_options.gamemode != E_GAME_MODE::mode_100LineCheez)
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_100LineCheez)
 	{
 		if (o100line == nullptr)
 		{
 			o100line = new Obj100LineCheez();
 			Objs::InsertObj(o100line, OBJ_100LINECHEEZ, PRIO_100LINECHEEZ);
 		}
+
+		o100line->Init();
+		o100line->GiveCheezLine(Tetris::Cheez100::INIT_CHEEZ_LINE);
+		GarbageRising(Tetris::Cheez100::INIT_CHEEZ_LINE);
 	}
-	
+
 	m_rising_lines = 0;
 	m_btb = false;
 	m_ren = REN_NONE;
 	m_rising_remain = 0;
+
 }
 
 //進行
@@ -128,6 +136,8 @@ void ObjBlock::Action()
 	{
 		m_common_key_flag = true;
 	}
+
+
 }
 
 //描画
@@ -167,7 +177,7 @@ void ObjBlock::Draw()
 	{
 		Font::StrCenterDraw(L"GAME OVER", GAMEOVER_TEXT_X, GAMEOVER_TEXT_Y, GAMEOVER_TEXT_SIZE, ColorA::White);
 	}
-	RisingLinesBlockDraw(m_rising_lines);
+	RisingLinesBlockDraw(/*m_rising_lines*/);
 	std::wstring str_mode = Tetris::PracticeOption::GetStrGameMode(m_practice_options.gamemode);
 	Font::StrRightDraw(str_mode.c_str(), GAMEMODE_POS.x, GAMEMODE_POS.y - GAMEOVER_TEXT_SIZE, GAMEOVER_TEXT_SIZE, ColorA::White);
 	
@@ -308,12 +318,22 @@ void ObjBlock::LinesCompleteCheck()
 	int lines_count = 0;
 	bool perfect_clear = false;
 	bool btb = m_btb;
+	int clear_garbage_lines = 0;//おじゃま消したかどうか Cheez100ラインモード用に追加
+
 	for (int y = 0; y < FIELD_HEIGHT; y++)
 	{
+			bool is_garbage = false;
 		for (int x = 0; x < FIELD_WIDTH;)
 		{
+
 			//X座標のループを抜ける
 			if (m_field[y][x] == BlockEmpty)break;
+
+			//Cheez100ライン
+			if (is_garbage == false && m_field[y][x] == BlockWall)
+			{
+				is_garbage = true;
+			}
 
 			x++;
 			//一番右まで到達した
@@ -321,6 +341,9 @@ void ObjBlock::LinesCompleteCheck()
 			{
 				lines_count++;
 				LineClear(y);
+
+				if (is_garbage)
+					clear_garbage_lines++;
 			}
 		}
 	}
@@ -381,6 +404,16 @@ void ObjBlock::LinesCompleteCheck()
 
 		//TSPINの引数は、TSD20モード用
 		oScore->AddClearLines(lines_count , tspin);
+
+		Obj100LineCheez* oCheez = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
+		if (oCheez != nullptr)
+		{
+			oCheez->ReportClearCheezLine(clear_garbage_lines);
+			Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage = oCheez->GiveCheezLine(clear_garbage_lines);
+			AddGarbageLines(garbage);
+		}
+
+
 	}
 	else//0ライン
 	{
@@ -569,8 +602,8 @@ void ObjBlock::GarbageRising(int height)
 
 	for (int i = FIELD_HEIGHT - height; i < FIELD_HEIGHT; i++)
 	{
-		//30%の確率で再抽選
-		if (dist(m_random_random_engine) < 3)
+		//30%の確率で再抽選 100ラインチーズの場合100%再抽選
+		if (dist(m_random_random_engine) < 3 || m_practice_options.gamemode == E_GAME_MODE::mode_100LineCheez)
 		{
 			space_x = dist(m_random_random_engine);
 		}
@@ -589,6 +622,7 @@ void ObjBlock::GarbageRising(int height)
 	Audio::Start(AudioIds::se_Rising);
 }
 
+
 void ObjBlock::BlockDraw(int screen_pos_x, int screen_pos_y, int type)
 {
 	RECT_F src = { 0,BLOCK_PIXELS * (type - 1),BLOCK_PIXELS,BLOCK_PIXELS };
@@ -602,13 +636,25 @@ void ObjBlock::AddGarbageLines(int height)
 	m_rising_remain = 1;
 	Audio::Start(AudioIds::se_Garbage);
 }
-
-void ObjBlock::RisingLinesBlockDraw(int lines)
+void ObjBlock::AddGarbageLines(Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage)
 {
-	for (int i = 0; i < lines; i++)
+	//m_rising_lines += height;
+	//m_rising_remain = 1;
+	m_list_garbage.push_back(garbage);
+	Audio::Start(AudioIds::se_Garbage);
+}
+
+void ObjBlock::RisingLinesBlockDraw(/*int lines*/)
+{
+	int block_count = 0;
+	for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end(); itr++)
 	{
-		MapObjects color = m_rising_remain == 0 ? BlockRed : BlockWall;
-		BlockDraw(Tetris::RISING_LINES_OFFSET_X, Tetris::RISING_LINES_OFFSET_Y + i * (-Tetris::BLOCK_PIXELS), color);
+		for (int i = 0; i < itr->lines; i++)
+		{
+			MapObjects color = itr->rising_reach == true ? BlockRed : BlockWall;
+			BlockDraw(Tetris::RISING_LINES_OFFSET_X, Tetris::RISING_LINES_OFFSET_Y + block_count * (-Tetris::BLOCK_PIXELS), color);
+			block_count++;
+		}
 	}
 }
 
@@ -618,27 +664,57 @@ void ObjBlock::FieldUpdate()
 {
 	LinesCompleteCheck();
 
-	if (m_rising_remain <= 0)
+	Obj100LineCheez* oCheez = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
+	if (oCheez != nullptr)
 	{
-		if (m_rising_lines > 0)
+		for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end();)
 		{
-			GarbageRising(m_rising_lines);
-			m_rising_lines = 0;
+			itr->rising_time_remain_sec.Sub(FRAME_TO_SEC);
+			if (itr->rising_time_remain_sec.GetMinReached() && itr->rising_reach == false)
+			{
+				itr->rising_reach = true;
+			}
+			else if (itr->rising_reach == true)
+			{
+				GarbageRising(itr->lines);
+				itr = m_list_garbage.erase(itr);
+				continue;
+			}
+			itr++;
 		}
 	}
-	else
-	{
-		m_rising_remain--;
-	}
+	//if (m_rising_remain <= 0)
+	//{
+	//	if (m_rising_lines > 0)
+	//	{
+	//		GarbageRising(m_rising_lines);
+	//		m_rising_lines = 0;
+	//	}
+	//}
+	//else
+	//{
+	//	m_rising_remain--;
+	//}
 }
 void ObjBlock::AttackGarbage(int lines)
 {
-	if (m_rising_lines > 0)
+	//相殺なし
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_100LineCheez)
+		return;
+
+	//相殺の処理
+	for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end(); itr++)
 	{
-		m_rising_lines -= lines;
-	
-		if (m_rising_lines < 0)
-			m_rising_lines = 0;
+		if (lines < itr->lines)
+		{
+			itr->lines -= lines;
+			break;
+		}
+		else //if (lines >= itr->lines)
+		{
+			lines -= itr->lines;
+			itr->lines = 0;
+		}
 	}
 
 }

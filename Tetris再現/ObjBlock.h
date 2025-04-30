@@ -49,7 +49,9 @@ public:
 
 
 	void GarbageRising(int height);
+	void GarbageRising(Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage);
 	void AddGarbageLines(int height);
+	void AddGarbageLines(Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage);
 
 	void FieldUpdate();//ミノが置かれたときに入る処理
 private:
@@ -83,8 +85,9 @@ private:
 	bool m_common_key_flag;
 	bool m_pause_flag;
 	int m_mino_count;
-	int m_rising_lines;
-	int m_rising_remain;
+	int m_rising_lines;//のちのち消える
+	int m_rising_remain;//のちのち消える
+	std::list<Tetris::RisingGarbage::ST_FIELD_GARBAGE> m_list_garbage;
 
 
 	void InitField();//ブロック配置
@@ -95,7 +98,7 @@ private:
 	void Restart(); 
 	void LineClear(int line_y);
 	void BlockDraw(int screen_pos_x, int screen_pos_y, int type);
-	void RisingLinesBlockDraw(int line);
+	void RisingLinesBlockDraw(/*int line*/);
 
 	void AttackGarbage(int lines);
 	int CalcScore(int lines,int ren,E_TSPIN_PATTERN tspin,bool btb,bool perfect);//加算するスコアを計算

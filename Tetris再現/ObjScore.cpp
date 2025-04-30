@@ -47,7 +47,7 @@ void ObjScore::Action()
 	if (oBlock->GetGameOverFlag() || oBlock->GetIsPause())return;
 
 	if (m_timeract)
-		m_time.Add(1.0f / 60.0f);
+		m_time.Add(FRAME_TO_SEC);
 
 	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_ULTRA)
 	{
