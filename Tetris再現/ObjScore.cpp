@@ -44,7 +44,7 @@ void ObjScore::Init()
 void ObjScore::Action()
 {
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
-	if (oBlock->GetGameOverFlag() || oBlock->GetIsPause())return;
+	if (oBlock->GetGameOverFlag() || oBlock->GetIsPause() || oBlock->GetGameClearFlag())return;
 
 	if (m_timeract)
 		m_time.Add(FRAME_TO_SEC);
@@ -91,10 +91,19 @@ void ObjScore::Draw()
 		Font::StrDraw(L"TSpin Lines", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
 		m_num_score.Draw(m_tspin_lines, Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
 	}
+	else if(oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_100LineCheez)
+	{
+		Obj100LineCheez* o100Line = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
+		if (o100Line != nullptr)
+		{
+			Font::StrDraw(L"Lines Remaining", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
+			m_num_score.Draw(o100Line->GetLinesRemain(), Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+		}
+	}
 	else
 	{
-	Font::StrDraw(L"Clear Lines", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
-	m_num_score.Draw(m_clear_lines, Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
+		Font::StrDraw(L"Clear Lines", Tetris::Score::CLEAR_LINES_POS.x, Tetris::Score::CLEAR_LINES_POS.y, SCORE_FONT_SIZE, ColorA::White);
+		m_num_score.Draw(m_clear_lines, Tetris::Score::CLEAR_LINES_POS.x + Tetris::Score::NUMBER_OFFSET.x, Tetris::Score::CLEAR_LINES_POS.y + Tetris::Score::NUMBER_OFFSET.y, 20.0f);
 
 	}
 	Font::StrDraw(L"Time", Tetris::Score::TIME_POS.x, Tetris::Score::TIME_POS.y, SCORE_FONT_SIZE, ColorA::White);

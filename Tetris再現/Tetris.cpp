@@ -139,7 +139,7 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 	else if (option == User_ReverseRotate)
 		return L"回転操作反転";
 	else if (option == User_AccidentalHardDrop)
-		return L"上キー暴発対策";
+		return L"未使用";
 	else if (option == User_NextCreateDelayFrame)
 		return L"次のミノ生成されるまでのフレーム";
 

@@ -27,6 +27,7 @@ public:
 
 	Tetris::RisingGarbage::ST_FIELD_GARBAGE GiveCheezLine(int clear_lines);
 	void ReportClearCheezLine(int lines);
+	int GetLinesRemain() { return m_clear_line_remains; }
 private:
 	int m_cheez_remains;
 	int m_clear_line_remains;

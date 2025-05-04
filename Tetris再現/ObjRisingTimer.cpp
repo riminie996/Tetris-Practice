@@ -23,7 +23,14 @@ void ObjRisingTimer::Action()
 		std::random_device rand;
 		std::uniform_int_distribution<int> dist(1, 7);
 
-		oBlock->AddGarbageLines(dist(rand));
+		Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage;
+		garbage.lines = dist(rand);
+		garbage.rising_reach = false;
+		
+		garbage.rising_time_remain_sec = { CCounter(4.0f,0.0f,4.0f,STOP) };
+		
+
+		oBlock->AddGarbageLines(garbage);
 		
 		/*m_rising_lines++;*/
 	}

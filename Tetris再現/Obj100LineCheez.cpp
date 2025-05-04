@@ -26,12 +26,12 @@ void Obj100LineCheez::Action()
 //•`‰æ
 void Obj100LineCheez::Draw()
 {
-	Draw::SetOpacity(texNumber, 1.0f);
-	Draw::SetScaleX(texNumber, 1.0f);
-	Draw::SetScaleY(texNumber, 1.0f);
+	//Draw::SetOpacity(texNumber, 1.0f);
+	//Draw::SetScaleX(texNumber, 1.0f);
+	//Draw::SetScaleY(texNumber, 1.0f);
 
-	m_num_score.Draw(m_cheez_remains,RISING_TEXT_OFFSET_X, RISING_TEXT_OFFSET_Y,40);
-	m_num_score.Draw(m_clear_line_remains,RISING_TEXT_OFFSET_X, RISING_TEXT_OFFSET_Y + 60,40);
+	//m_num_score.Draw(m_cheez_remains,RISING_TEXT_OFFSET_X, RISING_TEXT_OFFSET_Y,40);
+	//m_num_score.Draw(m_clear_line_remains,RISING_TEXT_OFFSET_X, RISING_TEXT_OFFSET_Y + 60,40);
 }
 
 Tetris::RisingGarbage::ST_FIELD_GARBAGE Obj100LineCheez::GiveCheezLine(int clear_lines)

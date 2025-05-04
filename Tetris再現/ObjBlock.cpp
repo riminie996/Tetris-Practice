@@ -137,7 +137,12 @@ void ObjBlock::Action()
 		m_common_key_flag = true;
 	}
 
-
+	for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end(); itr++)
+	{
+		itr->rising_time_remain_sec.Sub(FRAME_TO_SEC);
+		if (itr->rising_time_remain_sec.GetMinReached())
+			itr->rising_reach = true;
+	}
 }
 
 //•`‰æ
@@ -664,37 +669,18 @@ void ObjBlock::FieldUpdate()
 {
 	LinesCompleteCheck();
 
-	Obj100LineCheez* oCheez = (Obj100LineCheez*)Objs::GetObj(OBJ_100LINECHEEZ);
-	if (oCheez != nullptr)
+
+	for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end();)
 	{
-		for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end();)
+
+		if (itr->rising_reach == true)
 		{
-			itr->rising_time_remain_sec.Sub(FRAME_TO_SEC);
-			if (itr->rising_time_remain_sec.GetMinReached() && itr->rising_reach == false)
-			{
-				itr->rising_reach = true;
-			}
-			else if (itr->rising_reach == true)
-			{
-				GarbageRising(itr->lines);
-				itr = m_list_garbage.erase(itr);
-				continue;
-			}
-			itr++;
+			GarbageRising(itr->lines);
+			itr = m_list_garbage.erase(itr);
+			continue;
 		}
+		itr++;
 	}
-	//if (m_rising_remain <= 0)
-	//{
-	//	if (m_rising_lines > 0)
-	//	{
-	//		GarbageRising(m_rising_lines);
-	//		m_rising_lines = 0;
-	//	}
-	//}
-	//else
-	//{
-	//	m_rising_remain--;
-	//}
 }
 void ObjBlock::AttackGarbage(int lines)
 {
