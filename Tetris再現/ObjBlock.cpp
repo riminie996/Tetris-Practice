@@ -36,23 +36,24 @@ void ObjBlock::Init()
 	{
 		m_bag[i] = true;
 	}
-	for (int i = 0; i < NEXT_AMOUNT; i++)
-	{
-		// -1 = empty
-		m_next[i] = Mino_Empty;
-	}
+
 	m_hold_type = Mino_Empty;
 	m_hold_flag = true;
 
 	//ネクスト作成する前に巡目リセット
 	m_mino_count = 0;
 	m_bag_round_count = 0;
-	for (int i = 0; i < NEXT_AMOUNT + 1; i++)
+	for (int i = 0; i < NEXT_AMOUNT; i++)
+	{
+		m_next[i] = Mino_Empty;
+	}
+	NextCreate();
+	MinoCreateFromNext();
+ 	for (int i = 0; i < NEXT_AMOUNT; i++)
 	{
 		//NEXTの数+1で、最初ミノがつくられる
 		NextCreate();
 	}
-
 
 	m_pause_flag = false;
 
@@ -204,14 +205,25 @@ void ObjBlock::MinoCreate(MINO_TYPE type)
 }
 void ObjBlock::NextCreate()
 {
+	for (int i = 0; i < NEXT_AMOUNT; i++)
+	{
+		if (m_next[i] == Mino_Empty)
+		{
+			MINO_TYPE mino_type = BagToType();
+
+			m_bag[mino_type] = false;
+
+
+			m_next[i] = mino_type;
+			return;
+		}
+	}
+}
+void ObjBlock::MinoCreateFromNext()
+{
 	//ミノを作成する段階でゲームオーバーの場合、作成しない
 	if (GetGameOverFlag())
 		return;
-
-
-	MINO_TYPE mino_type = BagToType();
-
-	m_bag[mino_type] = false;
 
 	if (m_next[0] != Mino_Empty)
 	{
@@ -221,12 +233,10 @@ void ObjBlock::NextCreate()
 	//順番入れ替え
 	for (int i = 0; i < NEXT_AMOUNT - 1; i++)
 	{
-		m_next[i] = m_next[i+1];
-	
+		m_next[i] = m_next[i + 1];
 	}
-	m_next[NEXT_AMOUNT - 1] = mino_type;
-	
 
+	m_next[NEXT_AMOUNT - 1] = Mino_Empty;
 }
 
 MINO_TYPE ObjBlock::BagToType()
@@ -451,6 +461,7 @@ void ObjBlock::SetHoldType(MINO_TYPE type)
 
 	if (old_hold == Mino_Empty)
 	{
+		MinoCreateFromNext();
 		//ホールドに何もなかった場合
 		NextCreate();
 	 }
@@ -681,6 +692,9 @@ void ObjBlock::FieldUpdate()
 		}
 		itr++;
 	}
+
+	MinoCreateFromNext();
+	NextCreate();
 }
 void ObjBlock::AttackGarbage(int lines)
 {

@@ -476,17 +476,16 @@ void ObjMino::SetFieldMino()
 	}
 
 
+	if (gameover)
+		oBlock->SetGameOverFlag(true);
+
 
 	oBlock->AddMinoCount();
 
 	Audio::Start(AudioIds::se_Mino_Drop);
 	oBlock->FieldUpdate();
-
-	if (gameover)
-		oBlock->SetGameOverFlag(true);
 	//HoldFlag‚ğ–ß‚µANext‚ğì¬
 	oBlock->SetHoldFlag(true);
-	oBlock->NextCreate();
 	this->SetStatus(false);
 }
 

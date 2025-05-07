@@ -167,7 +167,7 @@ void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
 
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 	if (oBlock->GetOptions()->gamemode == Tetris::E_GAME_MODE::mode_40Line &&
-		m_clear_lines >= 40)
+		m_clear_lines >= MODE_40LINE_CLEAR_LINES)
 	{
 		TimerStop();
 		oBlock->SetGameClearFlag(true);
@@ -178,7 +178,7 @@ void ObjScore::AddClearLines(int add, E_TSPIN_PATTERN tspin)
 		{
 			m_tspin_lines += add;
 		}
-		if (m_tspin_lines >= 40)
+		if (m_tspin_lines >= MODE_20TSD_CLEAR_LINES)
 		{
 			TimerStop();
 

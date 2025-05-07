@@ -26,8 +26,7 @@ public:
 	void SetHoldFlag(bool status);
 
 	
-	void MinoCreate(MINO_TYPE type);//ミノを作成
-	void NextCreate();//ネクストを作成
+
 	void SetGameOverFlag(bool status) { m_gameover = status; }
 	void SetGameClearFlag(bool status) { m_gameclear = status; }
 	bool GetGameOverFlag() { return m_gameover; }
@@ -102,5 +101,8 @@ private:
 
 	void AttackGarbage(int lines);
 	int CalcScore(int lines,int ren,E_TSPIN_PATTERN tspin,bool btb,bool perfect);//加算するスコアを計算
+	void MinoCreate(MINO_TYPE type);//ミノを作成
+	void MinoCreateFromNext();//ネクストを作成
+	void NextCreate();//ネクストを作成
 };
 

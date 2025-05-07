@@ -302,7 +302,9 @@ namespace Tetris
 	const float RISING_LINES_OFFSET_X = 176.0f;	//1PÇÃXç¿ïW
 	const float RISING_LINES_OFFSET_Y = 624.0f;		//1PÇÃYç¿ïW
 
-
+	const int MODE_40LINE_CLEAR_LINES = 40;
+	const int MODE_20TSD_CLEAR_LINES = 40;
+	const int MODE_CHEEZ_CLEAR_LINES = 100;
 
 	enum E_PRACTICE_OPTION
 	{
