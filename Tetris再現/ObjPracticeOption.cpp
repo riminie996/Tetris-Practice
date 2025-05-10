@@ -17,59 +17,60 @@ void ObjPracticeOption::Action()
 
 	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
 	ObjFixedMinoSettings* oFixed = (ObjFixedMinoSettings*)Objs::GetObj(OBJ_FIXEDMINOSELECT);
+	ObjPlayerControll* ctrl = (ObjPlayerControll*)Objs::GetObj(OBJ_PLAYERCONTROLL);
 
 	if (oFixed != nullptr)return;
 
 	m_p_option = oBlock->GetOptions();
 
-	if (Input::GetVKey(VK_UP) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_UP))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_UP))
 	{
-		if (m_common_key_flag == true)
-		{
+		//if (m_common_key_flag == true)
+		//{
 			if (m_now_selected_option > 0)
 				m_now_selected_option--;
-		}
-		m_common_key_flag = false;
+		//}
+		//m_common_key_flag = false;
 	}
-	else if (Input::GetVKey(VK_DOWN) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_DOWN))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_DOWN))
 	{
-		if (m_common_key_flag == true)
-		{
+		//if (m_common_key_flag == true)
+		//{
 			if (m_now_selected_option < E_PRACTICE_OPTION::Option_Count - 1)
 				m_now_selected_option++;
-		}
-		m_common_key_flag = false;
+		//}
+		//m_common_key_flag = false;
 	}
-	else if ((Input::GetVKey(VK_LEFT) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_LEFT)))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_LEFT))
 	{
-		if (m_common_key_flag == true)
-		{
+		//if (m_common_key_flag == true)
+		//{
 			ChangeParameter(Left);
-		}
-		m_common_key_flag = false;
+		//}
+		//m_common_key_flag = false;
 	}
-	else if (Input::GetVKey(VK_RIGHT) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_RIGHT))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_RIGHT))
 	{
-		if (m_common_key_flag == true)
-		{
+		//if (m_common_key_flag == true)
+		//{
 			ChangeParameter(Right);
-		}
-		m_common_key_flag = false;
+		//}
+		//m_common_key_flag = false;
 	}
-	else if (Input::GetVKey(VK_SPACE) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_TOUCHPAD))
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_TOUCHPAD))
 	{
-		if (m_common_key_flag == true)
-		{
+		//if (m_common_key_flag == true)
+		//{
 			this->SetStatus(false);
 			Save::Seve();
-		}
-		m_common_key_flag = false;
+		//}
+		//m_common_key_flag = false;
 	}
 
-	else
-	{
-		m_common_key_flag = true;
-	}
+	//else
+	//{
+	//	m_common_key_flag = true;
+	//}
 }
 void ObjPracticeOption::Draw()
 {

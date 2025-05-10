@@ -10,6 +10,7 @@
 #include <time.h>
 #include <random>
 
+#define ORDER_UNDEFINED (-1)
 
 ObjFixedMinoSettings::ObjFixedMinoSettings(int round)
 {
@@ -20,7 +21,7 @@ ObjFixedMinoSettings::ObjFixedMinoSettings(int round)
 void ObjFixedMinoSettings::Init()
 {
 	for (int i = 0; i < MINO_MAX_TYPE; i++)
-		m_mino_order[i] = -1;
+		m_mino_order[i] = ORDER_UNDEFINED;
 
 	m_now_selected = 0;
 	m_order = 0;
@@ -42,21 +43,21 @@ void ObjFixedMinoSettings::Action()
 	}
 	else if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_A))
 	{
-		if (m_mino_order[m_now_selected] == -1)
-		{
-			m_mino_order[m_now_selected] = m_order;
+		//if (m_mino_order[m_order] == ORDER_UNDEFINED)
+		//{
+			m_mino_order[m_order] = m_now_selected;
 			m_order++;
 			if (m_order == MINO_MAX_TYPE)
 			{
-				ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
-				for (int i = 0; i < MINO_MAX_TYPE; i++)
-				{
-					oBlock->GetOptions()->fixed_mino_type[m_round][m_mino_order[i]] = (MINO_TYPE)i;
-				}
-				this->SetStatus(false);
+				SettingEnd();
 			}
-		}
+		//}
 	}
+	else if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_B))
+	{
+
+			SettingEnd();
+			}
 }
 
 //•`‰æ
@@ -71,15 +72,32 @@ void ObjFixedMinoSettings::Draw()
 	{
 		float x = 640.0f-384.0f;
 		float y = 360.0f;
+
 		x += i * 128.0f;
 
 		COLOR c_next = m_now_selected == i ? Color::Red : Color::White;
 		Draw::SetColor(texNext, c_next);
 		Draw::CenterDraw(texNext, x, y);
 		Mino_Shape_Draw(x, y, (MINO_TYPE)i);
-		std::wstring wstr = std::to_wstring(m_mino_order[i]);
-		Font::StrDraw(wstr.c_str(), x + text_offset_y, y + text_offset_y, 32.0f, ColorA::White);
-	}
 
+		
+	}
+	for (int i = 0; i < MINO_MAX_TYPE; i++)
+	{
+		float text_x = 640.0f - 384.0f;
+		float y = 360.0f;
+		std::wstring wstr = std::to_wstring(i);
+		Font::StrDraw(wstr.c_str(), text_x + m_mino_order[i] * 128.0f + text_offset_x, y + text_offset_y, 32.0f, ColorA::White);
+	}
 }
 
+
+void ObjFixedMinoSettings::SettingEnd()
+{
+	ObjBlock* oBlock = (ObjBlock*)Objs::GetObj(OBJ_BLOCK);
+	for (int i = 0; i < MINO_MAX_TYPE; i++)
+	{
+		oBlock->GetOptions()->fixed_mino_type[m_round][i] = (MINO_TYPE)m_mino_order[i];
+	}
+	this->SetStatus(false);
+}

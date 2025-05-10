@@ -24,5 +24,6 @@ private:
 	int m_mino_order[MINO_MAX_TYPE];
 	int m_now_selected;
 	int m_order;
+	void SettingEnd();
 };
 

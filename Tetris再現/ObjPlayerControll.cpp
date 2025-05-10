@@ -129,10 +129,15 @@ bool ObjPlayerControll::GetButtonInput(E_PLAYER_CONTROLL cont)
 		return CConInput::GetConInput(Controller_Input_DualShock4::INPUT_TOUCHPAD);
 	}
 }
-//1フレーム目のみ判定を行う。
+//1フレーム目の一回目のみ判定を行う。
 bool ObjPlayerControll::GetButtonInputOnce(E_PLAYER_CONTROLL cont)
 {
-	return m_button_status[(int)cont] == 1;
+	if (m_button_status[(int)cont] == 1)
+	{
+		m_button_status[(int)cont]++;
+		return true;
+	}
+	return false;
 }
 unsigned int ObjPlayerControll::GetButtonLongPressFrame(E_PLAYER_CONTROLL cont)
 {

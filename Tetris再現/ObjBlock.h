@@ -104,5 +104,6 @@ private:
 	void MinoCreate(MINO_TYPE type);//ミノを作成
 	void MinoCreateFromNext();//ネクストを作成
 	void NextCreate();//ネクストを作成
+	void NextCreate(MINO_TYPE type);//ネクストを作成(固定用)
 };
 

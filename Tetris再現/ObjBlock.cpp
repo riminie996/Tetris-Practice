@@ -109,6 +109,7 @@ void ObjBlock::Action()
 {
 	ObjPracticeOption* oOpt = (ObjPracticeOption*)Objs::GetObj(OBJ_PRACTICEOPTION);
 
+	ObjPlayerControll* ctrl = (ObjPlayerControll*)Objs::GetObj(OBJ_PLAYERCONTROLL);
 	m_pause_flag = oOpt != nullptr;
 	if (m_pause_flag)return;
 
@@ -124,18 +125,18 @@ void ObjBlock::Action()
 			FieldMapExport(m_field);
 		m_common_key_flag = false;
 	}
-	else if (Input::GetVKey(VK_SPACE) || CConInput::GetConInput(Controller_Input_DualShock4::INPUT_TOUCHPAD))
-	{
-		if (m_common_key_flag == true)
-		{
-			oOpt = new ObjPracticeOption();
-			Objs::InsertObj(oOpt, OBJ_PRACTICEOPTION, PRIO_OPTION);
-		}
-		m_common_key_flag = false;
-	}
 	else
 	{
 		m_common_key_flag = true;
+	}
+	if (ctrl->GetButtonInputOnce(E_PLAYER_CONTROLL::Button_TOUCHPAD))
+	{
+		//if (m_common_key_flag == true)
+		//{
+			oOpt = new ObjPracticeOption();
+			Objs::InsertObj(oOpt, OBJ_PRACTICEOPTION, PRIO_OPTION);
+		//}
+		//m_common_key_flag = false;
 	}
 
 	for (auto itr = m_list_garbage.begin(); itr != m_list_garbage.end(); itr++)
@@ -205,17 +206,38 @@ void ObjBlock::MinoCreate(MINO_TYPE type)
 }
 void ObjBlock::NextCreate()
 {
+	//for (int i = 0; i < NEXT_AMOUNT; i++)
+	//{
+	//	if (m_next[i] == Mino_Empty)
+	//	{
+	//		MINO_TYPE mino_type = BagToType();
+
+	//		m_bag[mino_type] = false;
+
+
+	//		m_next[i] = mino_type;
+	//		return;
+	//	}
+	//}
+	MINO_TYPE mino_type = BagToType();
+	NextCreate(mino_type);
+}
+void ObjBlock::NextCreate(MINO_TYPE type)
+{
 	for (int i = 0; i < NEXT_AMOUNT; i++)
 	{
 		if (m_next[i] == Mino_Empty)
 		{
-			MINO_TYPE mino_type = BagToType();
-
-			m_bag[mino_type] = false;
-
-
-			m_next[i] = mino_type;
-			return;
+			if (m_bag[type])
+			{
+				m_bag[type] = false;
+				m_next[i] = type;
+				return;
+			}
+			else
+			{
+				throw std::exception("バッグシステムのミノタイプがfalseになっている");
+			}
 		}
 	}
 }
@@ -246,22 +268,24 @@ MINO_TYPE ObjBlock::BagToType()
 	/// ランダム	
 
 	//バッグ内に残っているミノの種類のカウント
-	int bag_mino_count = 0;
+	int bag_mino_remain = 0;
 	for (int i = 0; i < MINO_MAX_TYPE; i++)
 	{
 		if (m_bag[i] == true)
-			bag_mino_count++;
+			bag_mino_remain++;
 	}
 
 	int rnd = 0;
 	std::random_device rand;
 
-	if (m_bag_round_count <= Tetris::E_PRACTICE_OPTION::TetriminoOrderFixed_End && m_practice_options.option_flag[m_bag_round_count])
+	if (m_bag_round_count <= Tetris::E_PRACTICE_OPTION::TetriminoOrderFixed_End && 
+		m_practice_options.option_flag[m_bag_round_count] && 
+		m_practice_options.fixed_mino_type[m_bag_round_count][MINO_MAX_TYPE - bag_mino_remain] != Mino_Empty)
 	{
-		return m_practice_options.fixed_mino_type[m_bag_round_count][MINO_MAX_TYPE - bag_mino_count];
+		return m_practice_options.fixed_mino_type[m_bag_round_count][MINO_MAX_TYPE - bag_mino_remain];
 	}
 	else
-		rnd = rand() % bag_mino_count;
+		rnd = rand() % bag_mino_remain;
 	
 
 	int count = 0;
@@ -277,7 +301,8 @@ MINO_TYPE ObjBlock::BagToType()
 			count++;
 		}
 	}
-	return Mino_S;
+
+	throw std::exception("バッグシステムのミノタイプがすべてfalseになっている");
 }
 
 //ミノが着地しているかどうか返す
