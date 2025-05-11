@@ -14,7 +14,7 @@ namespace Tetris
 		const Point DISPLAYED_LINES_POS = { 128,512 };
 		const Point DISPLAYED_TSPIN_POS = { 128,448 };
 		const Point DISPLAYED_BTB_POS = { 128,576 };
-		const Point DISPLAYED_PERFECT_POS = { 0,0 };
+		const Point DISPLAYED_PERFECT_POS = { 192,192 };
 
 		//テクスチャ切り取り位置
 		const RECT_F RECT_REN = { 0.0f,0.0f,124.0f,64.0f };
@@ -26,8 +26,9 @@ namespace Tetris
 			{0.0f,64.0f, 200.0f,64.0f} ,
 		};
 		const RECT_F RECT_TSPIN = { 0.0f,128.0f, 174.0f,64.0f };
-		const RECT_F RECT_TSPINMINI = { 0.0f,192.0f, 120.0f,64.0f };
+		const RECT_F RECT_TSPINMINI = { 0.0f,192.0f, 88.0f,64.0f };
 		const RECT_F RECT_BTB = { 0.0f,448.0f, 378.0f,64.0f };
+		const RECT_F RECT_PERFECT = { 0.0f,512.0f, 367.0f,64.0f };
 
 		const Point RECT_NUMBER = { 45,64 };
 	}

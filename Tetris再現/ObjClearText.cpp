@@ -13,7 +13,7 @@ void ObjClearText::Init()
 	m_ani_lines.LoadData("Animation/ClearText/lines");
 	m_ani_tspin.LoadData("Animation/ClearText/tspin");
 	m_ani_btb.LoadData("Animation/ClearText/btb");
-	m_ani_perfect;
+	m_ani_perfect.LoadData("Animation/ClearText/perfect");
 	m_num_ren.SetTex(texNumber, RECT_NUMBER.x, RECT_NUMBER.y);
 }
 void ObjClearText::Action()
@@ -22,6 +22,7 @@ void ObjClearText::Action()
 	m_ani_lines.Action();
 	m_ani_tspin.Action();
 	m_ani_btb.Action();
+	m_ani_perfect.Action();
 }
 void ObjClearText::Draw()
 {
@@ -70,6 +71,15 @@ void ObjClearText::Draw()
 		Draw::CenterDraw(texText, DISPLAYED_BTB_POS.x + m_ani_btb.GetValue("BTB").x, DISPLAYED_BTB_POS.y + m_ani_btb.GetValue("BTB").y, RECT_BTB, false, false);
 
 	}
+	if (m_ani_perfect.GetStart())
+	{
+		Draw::SetOpacity(texText, m_ani_perfect.GetValue("Perfect").opacity);
+		Draw::SetRotationZ(texText, m_ani_perfect.GetValue("Perfect").rotate_z);
+		Draw::SetScaleX(texText, m_ani_perfect.GetValue("Perfect").scale_x);
+		Draw::SetScaleY(texText, m_ani_perfect.GetValue("Perfect").scale_y);
+		Draw::CenterDraw(texText, Tetris::FIELD_1P_POS_X + DISPLAYED_PERFECT_POS.x + m_ani_perfect.GetValue("Perfect").x, Tetris::FIELD_1P_POS_Y + DISPLAYED_PERFECT_POS.y + m_ani_perfect.GetValue("Perfect").y, RECT_PERFECT, false, false);
+
+	}
 }
 
 void ObjClearText::AnimeStart(int ren, int lines, bool btb, E_TSPIN_PATTERN tspin, bool perfect)
@@ -96,6 +106,6 @@ void ObjClearText::AnimeStart(int ren, int lines, bool btb, E_TSPIN_PATTERN tspi
 	}
 	if (perfect)
 	{
-
+		m_ani_perfect.Start();
 	}
 }
