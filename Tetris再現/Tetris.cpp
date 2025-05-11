@@ -123,25 +123,27 @@ std::wstring Tetris::GetOptionName(E_PRACTICE_OPTION option)
 	else if (option == NoNaturalDrop)
 		return L"自然落下なし";
 	else if (option == ShowController)
-		return L"コントローラー表示";
+		return L"コントローラー表示:";
 	else if (option == InfiniteHold)
 		return L"無限ホールド";
 	else if (option == RisingTimer)
 		return L"せりあがりタイマー:";
 	else if (option == GameMode)
 		return L"ゲームモード:";
+	else if (option == NextDisplayedCount)
+		return L"ネクスト表示数:";
 	else if (option == User_AutoRepeatRate)
-		return L"AutoRepeatRate";
+		return L"AutoRepeatRate:";
 	else if (option == User_DelayerAutoShift)
-		return L"DelayerAutoShift";
+		return L"DelayerAutoShift:";
 	else if (option == User_SDF)
-		return L"SDF";
+		return L"SDF:";
 	else if (option == User_ReverseRotate)
 		return L"回転操作反転";
 	else if (option == User_AccidentalHardDrop)
 		return L"未使用";
 	else if (option == User_NextCreateDelayFrame)
-		return L"次のミノ生成されるまでのフレーム";
+		return L"次のミノ生成されるまでのフレーム:";
 
 	return L"error";
 }

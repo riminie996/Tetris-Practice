@@ -95,14 +95,17 @@ void ObjPracticeOption::Draw()
 		case E_PRACTICE_OPTION::GameMode:
 			str += Tetris::PracticeOption::GetStrGameMode(m_p_option->gamemode);
 			break;
+		case E_PRACTICE_OPTION::NextDisplayedCount:
+			str += std::to_wstring(m_p_option->next_displayed_count);
+			break;
 			case E_PRACTICE_OPTION::User_AutoRepeatRate:
-			str += std::to_wstring(USER_DATA->m_frame_AutoRepeatRate) + L"フレーム";
+			str += std::to_wstring(USER_DATA->m_frame_AutoRepeatRate) + L"F";
 			break;
 		case E_PRACTICE_OPTION::User_DelayerAutoShift:
-			str += std::to_wstring(USER_DATA->m_frame_DelayerAutoShift) + L"フレーム";
+			str += std::to_wstring(USER_DATA->m_frame_DelayerAutoShift) + L"F";
 			break;
 		case E_PRACTICE_OPTION::User_SDF:
-			str += std::to_wstring(USER_DATA->m_SDF_frame) + L"フレーム";
+			str += std::to_wstring(USER_DATA->m_SDF_frame) + L"F";
 			break;
 		case E_PRACTICE_OPTION::User_ReverseRotate:
 			
@@ -174,7 +177,15 @@ void ObjPracticeOption::ChangeParameter(DIRECTION dir)
 		else
 			--m_p_option->gamemode;
 		break;
+	case E_PRACTICE_OPTION::NextDisplayedCount:
+		m_p_option->next_displayed_count += add;
 
+		if (m_p_option->next_displayed_count < 1)
+			m_p_option->next_displayed_count = 1;
+		if (m_p_option->next_displayed_count > NEXT_AMOUNT)
+			m_p_option->next_displayed_count = NEXT_AMOUNT;
+
+		break;
 	case E_PRACTICE_OPTION::User_AutoRepeatRate:
 		USER_DATA->m_frame_AutoRepeatRate += add;
 		break;

@@ -154,7 +154,7 @@ void ObjBlock::Draw()
 
 	FieldDraw(FIELD_1P_POS_X + FIELD_OFFSET_X, FIELD_1P_POS_Y + FIELD_OFFSET_Y, m_field);
 
-	for (int i = 0; i < NEXT_AMOUNT; i++)
+	for (int i = 0; i < m_practice_options.next_displayed_count; i++)
 	{
 		float x = FIELD_1P_POS_X + NEXT_OFFSET_X;
 		float y = i * NEXT_HEIGHT + FIELD_1P_POS_Y + NEXT_OFFSET_Y;
@@ -206,7 +206,7 @@ void ObjBlock::MinoCreate(MINO_TYPE type)
 }
 void ObjBlock::NextCreate()
 {
-	//for (int i = 0; i < NEXT_AMOUNT; i++)
+	//for (int i = 0; i < m_practice_option.next_displayed_count; i++)
 	//{
 	//	if (m_next[i] == Mino_Empty)
 	//	{
@@ -287,7 +287,7 @@ MINO_TYPE ObjBlock::BagToType()
 	else
 		rnd = rand() % bag_mino_remain;
 	
-
+	//バッグが有効なミノを通過したときに加算されるカウント
 	int count = 0;
 	for (int i = 0; i < MINO_MAX_TYPE; i++)
 	{
@@ -518,6 +518,8 @@ void ObjBlock::DrawFontOption(float x, float y, float font_size)
 			break;
 		case E_PRACTICE_OPTION::GameMode:
 			str += Tetris::PracticeOption::GetStrGameMode(m_practice_options.gamemode);
+			break;
+		case E_PRACTICE_OPTION::NextDisplayedCount:
 			break;
 		case E_PRACTICE_OPTION::User_AutoRepeatRate:
 			break;

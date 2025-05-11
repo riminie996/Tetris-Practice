@@ -309,12 +309,13 @@ namespace Tetris
 	enum E_PRACTICE_OPTION
 	{
 		TetriminoOrderFixed_1,
-		TetriminoOrderFixed_End = TetriminoOrderFixed_1 + 7,
+		TetriminoOrderFixed_End = TetriminoOrderFixed_1 + 3,
 		NoNaturalDrop,
 		ShowController,
 		InfiniteHold,
 		RisingTimer,
 		GameMode,
+		NextDisplayedCount,
 		User_AutoRepeatRate,
 		User_DelayerAutoShift,
 		User_SDF,
@@ -341,6 +342,7 @@ namespace Tetris
 		int rising_timer_sec;
 		int rising_min_line;
 		int rising_max_line;
+		int next_displayed_count;
 		MINO_TYPE fixed_mino_type[TetriminoOrderFixed_End + 1][MINO_MAX_TYPE];
 		Tetris::E_GAME_MODE gamemode;
 
@@ -351,6 +353,7 @@ namespace Tetris
 			rising_timer_sec = 0;
 			rising_min_line = 1;
 			rising_max_line = 6;
+			next_displayed_count = NEXT_AMOUNT;
 			for (int i = 0; i < TetriminoOrderFixed_End + 1; i++)
 			{
 				for (int j = 0; j < MINO_MAX_TYPE; j++)
