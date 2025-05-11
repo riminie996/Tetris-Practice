@@ -96,12 +96,16 @@ void ObjBlock::Init()
 		o100line->GiveCheezLine(Tetris::Cheez100::INIT_CHEEZ_LINE);
 		GarbageRising(Tetris::Cheez100::INIT_CHEEZ_LINE);
 	}
-
+	//4列RENモード専用
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_4WRen)
+	{
+		//4列RENモード
+		FieldMapImport("Field/4WRen/Field.txt", *m_field);
+	}
 	m_rising_lines = 0;
 	m_btb = false;
 	m_ren = REN_NONE;
 	m_rising_remain = 0;
-
 }
 
 //進行
@@ -722,6 +726,19 @@ void ObjBlock::FieldUpdate()
 
 	MinoCreateFromNext();
 	NextCreate();
+
+	//4列RENモード専用
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_4WRen)
+	{
+		for (int i = 0; i < FIELD_WIDTH; i++)
+		{
+			if (i < 3 || i >= 7)
+			{
+				m_field[0][i] = BlockWall;
+			}
+		}
+	
+	}
 }
 void ObjBlock::AttackGarbage(int lines)
 {

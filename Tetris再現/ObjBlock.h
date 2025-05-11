@@ -63,6 +63,7 @@ private:
 	//7種類全て生成されたら、次のバッグに移る。
 	//今回の仕様は、7種類すべてがfalseになったら全てtrueにする
 	bool m_bag[MINO_MAX_TYPE];
+	bool m_bag_system;
 	bool m_lines_complete;
 	bool m_gameover;
 	bool m_gameclear;

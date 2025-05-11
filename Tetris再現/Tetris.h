@@ -331,6 +331,7 @@ namespace Tetris
 		mode_TSD20,
 		mode_ULTRA,
 		mode_100LineCheez,
+		mode_4WRen,
 		mode_count,
 	};
 	E_GAME_MODE& operator++(E_GAME_MODE& mode);

@@ -36,7 +36,7 @@ void ObjClearText::Draw()
 		Draw::SetScaleY (texText, m_ani_ren.GetValue("Ren").scale_y * 0.5f);
 		Draw::SetScaleY (texNumber, m_ani_ren.GetValue("Ren").scale_y);
 		Draw::Draw(texText, DISPLAYED_REN_POS.x + m_ani_ren.GetValue("Ren").x, DISPLAYED_REN_POS.y + m_ani_ren.GetValue("Ren").y, RECT_REN, false, false);
-		m_num_ren.Draw(m_ren, DISPLAYED_REN_NUMBER_POS.x, DISPLAYED_REN_NUMBER_POS.y, RECT_NUMBER.x);
+		m_num_ren.Draw(m_ren, DISPLAYED_REN_NUMBER_POS.x, DISPLAYED_REN_NUMBER_POS.y, 35);
 	}
 	if (m_ani_lines.GetStart())
 	{

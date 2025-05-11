@@ -184,7 +184,9 @@ std::wstring Tetris::PracticeOption::GetStrGameMode(E_GAME_MODE mode)
 	else if (mode == E_GAME_MODE::mode_ULTRA)
 		return L"ウルトラ";
 	else if (mode == E_GAME_MODE::mode_100LineCheez)
-	return L"100ラインチーズ";
+		return L"100ラインチーズ";
+	else if (mode == E_GAME_MODE::mode_4WRen)
+		return L"4列REN";
 
 	return L"error";
 }
