@@ -3,10 +3,22 @@
 #include "GameL\DrawTexture.h"
 #include "Structure.h"
 #include "CCounter.h"
-
 #define REN_NONE (-1)
 #define FRAME_TO_SEC (1.0f / 60.0f)
-
+//オブジェクト番号
+enum MapObjects
+{
+	BlockEmpty,
+	BlockGreen,
+	BlockRed,
+	BlockPurple,
+	BlockYellow,
+	BlockCyan,
+	BlockBlue,
+	BlockOrrange,
+	BlockWall,		//壁
+	blockCOUNTER,	//ブロックの種類を数える用
+};
 enum MINO_TYPE
 {
 	Mino_Empty = -1,
@@ -332,6 +344,7 @@ namespace Tetris
 		mode_ULTRA,
 		mode_100LineCheez,
 		mode_4WRen,
+		mode_Spin,
 		mode_count,
 	};
 	E_GAME_MODE& operator++(E_GAME_MODE& mode);
@@ -366,6 +379,7 @@ namespace Tetris
 		}
 	};
 
+
 	std::wstring GetOptionName(E_PRACTICE_OPTION option);
 
 	namespace PracticeOption
@@ -387,5 +401,10 @@ namespace Tetris
 
 	int CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect);
 	void Mino_Shape_Draw(int x, int y, MINO_TYPE type);
+
+	MINO_TYPE CharToMino(char c);
+
+	void FieldMapExport(MapObjects field[Tetris::FIELD_HEIGHT][Tetris::FIELD_WIDTH]);
+	void FieldMapImport(std::string file_name, MapObjects* field);
 };
 

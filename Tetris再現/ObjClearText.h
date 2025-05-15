@@ -43,6 +43,8 @@ public:
 	void Action();
 	void Draw();
 	void AnimeStart(int ren, int lines, bool btb, E_TSPIN_PATTERN tspin,bool perfect);
+	void ClearAnimeStart();
+	void FailureAnimeStart();
 private:
 	int m_ren;
 	int m_lines;
@@ -53,5 +55,7 @@ private:
 	CAnime3 m_ani_tspin;
 	CAnime3 m_ani_btb;
 	CAnime3 m_ani_perfect;
+	CAnime3 m_ani_clear;
+	CAnime3 m_ani_failure;
 	CNumTexSource m_num_ren;
 };

@@ -39,8 +39,6 @@ bool stob(std::string str);
 
 bool PathExist(std::string path);
 
-void FieldMapExport(MapObjects field[Tetris::FIELD_HEIGHT][Tetris::FIELD_WIDTH]);
-void FieldMapImport(std::string file_name, MapObjects* field);
 std::string OpenFileDialog(std::wstring initial_path);
 // 1024•¶Žš‚Ü‚Å‘Î‰ž
 std::string wchar_to_string(const wchar_t* in_wstr);

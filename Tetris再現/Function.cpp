@@ -144,49 +144,6 @@ bool PathExist(std::string path)
 
 	return result == 0 ? true : false;
 }
-void FieldMapExport(MapObjects field[Tetris::FIELD_HEIGHT][Tetris::FIELD_WIDTH])
-{
-	std::ofstream writing_file;
-	std::string filename = "field.txt";
-	writing_file.open(filename, std::ios::out);
-	std::string writing_text = "";
-
-	for (int i = 0; i < Tetris::FIELD_HEIGHT; i++)
-	{
-		for (int j = 0; j < Tetris::FIELD_WIDTH; j++)
-		{
-			writing_text += std::to_string((int)field[i][j]) + ",";
-		}
-		writing_text += "\n";
-	}
-
-	writing_file.write(writing_text.c_str(), writing_text.size());
-	writing_file.close();
-
-}
-void FieldMapImport(std::string file_name, MapObjects* field)
-{
-	std::string str_line;
-	vector<std::string> vec_str;
-
-	//ファイルを開く
-	std::ifstream ifs(file_name);
-	if (!ifs)
-	{
-		ifs.close();
-	}
-
-	for (int y = 0;getline(ifs, str_line) && y < Tetris::FIELD_HEIGHT;y++)
-	{
-		vec_str = split(str_line, ',');
-
-		for (int x = 0; x < Tetris::FIELD_WIDTH; x++)
-		{
-			field[y * Tetris::FIELD_WIDTH + x] = (MapObjects)stoi(vec_str[x]);
-		}
-	}
-
-}
 
 std::string OpenFileDialog(std::wstring initial_path)
 {

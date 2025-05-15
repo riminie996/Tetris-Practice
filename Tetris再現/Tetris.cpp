@@ -1,6 +1,8 @@
 #include "Tetris.h"
 #include "GameL\DrawTexture.h"
 #include "GameHead.h"
+
+#include <fstream>
 int Tetris::CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATTERN tspin, bool perfect)
 {
 	int garbage_lines = 0;
@@ -84,6 +86,8 @@ int Tetris::CalcSendGarbageLines(int clear_line, int ren, bool btb, E_TSPIN_PATT
 
 void Tetris::Mino_Shape_Draw(int x, int y, MINO_TYPE type)
 {
+	if (type == Mino_Empty)return;
+
 	float offset_x = 0.0f;
 	float offset_y = 0.0f;
 	//真ん中に表示させたいため、ずらす
@@ -187,6 +191,105 @@ std::wstring Tetris::PracticeOption::GetStrGameMode(E_GAME_MODE mode)
 		return L"100ラインチーズ";
 	else if (mode == E_GAME_MODE::mode_4WRen)
 		return L"4列REN";
+	else if (mode == E_GAME_MODE::mode_Spin)
+		return L"回転入れ練習モード";
 
 	return L"error";
 }
+
+MINO_TYPE Tetris::CharToMino(char c)
+{
+	switch (c)
+	{
+	case 'S':
+		return Mino_S;
+	case 'Z':
+		return Mino_Z;
+	case 'T':
+		return Mino_T;
+	case 'J':
+		return Mino_J;
+	case 'L':
+		return Mino_L;
+	case 'O':
+		return Mino_O;
+	case 'I':
+		return Mino_I;
+	default:
+		return Mino_Empty;
+	}
+}
+
+void Tetris::FieldMapExport(MapObjects field[Tetris::FIELD_HEIGHT][Tetris::FIELD_WIDTH])
+{
+	std::ofstream writing_file;
+	std::string filename = "field.txt";
+	writing_file.open(filename, std::ios::out);
+	std::string writing_text = "";
+
+	for (int i = 0; i < Tetris::FIELD_HEIGHT; i++)
+	{
+		for (int j = 0; j < Tetris::FIELD_WIDTH; j++)
+		{
+			writing_text += std::to_string((int)field[i][j]) + ",";
+		}
+		writing_text += "\n";
+	}
+
+	writing_file.write(writing_text.c_str(), writing_text.size());
+	writing_file.close();
+
+}
+void Tetris::FieldMapImport(std::string file_name, MapObjects* field)
+{
+	std::string str_line;
+	vector<std::string> vec_str;
+
+	//ファイルを開く
+	std::ifstream ifs(file_name);
+	if (!ifs)
+	{
+		ifs.close();
+	}
+	while (getline(ifs, str_line))
+	{
+		if (str_line.find("#FIELD") != std::string::npos)
+		{
+			for (int y = 0; getline(ifs, str_line) && y < Tetris::FIELD_HEIGHT; y++)
+			{
+				vec_str = split(str_line, ',');
+
+				for (int x = 0; x < Tetris::FIELD_WIDTH; x++)
+				{
+					field[y * Tetris::FIELD_WIDTH + x] = (MapObjects)stoi(vec_str[x]);
+				}
+			}
+			break;
+		}
+	}
+
+
+}
+//void Tetris::FieldMapImport(std::string file_name, MapObjects* field, ObjPracticeOrder* order)
+//{
+//	std::string str_line;
+//	vector<std::string> vec_str;
+//
+//	//ファイルを開く
+//	std::ifstream ifs(file_name);
+//	if (!ifs)
+//	{
+//		ifs.close();
+//	}
+//
+//	for (int y = 0; getline(ifs, str_line) && y < Tetris::FIELD_HEIGHT; y++)
+//	{
+//		vec_str = split(str_line, ',');
+//
+//		for (int x = 0; x < Tetris::FIELD_WIDTH; x++)
+//		{
+//			field[y * Tetris::FIELD_WIDTH + x] = (MapObjects)stoi(vec_str[x]);
+//		}
+//	}
+//
+//}

@@ -109,3 +109,12 @@ void ObjClearText::AnimeStart(int ren, int lines, bool btb, E_TSPIN_PATTERN tspi
 		m_ani_perfect.Start();
 	}
 }
+
+void ObjClearText::ClearAnimeStart()
+{
+
+}
+void ObjClearText::FailureAnimeStart()
+{
+
+}

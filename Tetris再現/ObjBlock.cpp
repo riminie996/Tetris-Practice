@@ -28,32 +28,17 @@ ObjBlock::ObjBlock()
 void ObjBlock::Init()
 {
 	InitField();
+
+
 	m_lines_complete = false;
 	m_gameover = false;
 	m_gameclear = false;
 
-	for (int i = 0; i < MINO_MAX_TYPE; i++)
-	{
-		m_bag[i] = true;
-	}
 
 	m_hold_type = Mino_Empty;
 	m_hold_flag = true;
 
-	//ネクスト作成する前に巡目リセット
-	m_mino_count = 0;
-	m_bag_round_count = 0;
-	for (int i = 0; i < NEXT_AMOUNT; i++)
-	{
-		m_next[i] = Mino_Empty;
-	}
-	NextCreate();
-	MinoCreateFromNext();
- 	for (int i = 0; i < NEXT_AMOUNT; i++)
-	{
-		//NEXTの数+1で、最初ミノがつくられる
-		NextCreate();
-	}
+
 
 	m_pause_flag = false;
 
@@ -102,10 +87,37 @@ void ObjBlock::Init()
 		//4列RENモード
 		FieldMapImport("Field/4WRen/Field.txt", *m_field);
 	}
-	m_rising_lines = 0;
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_Spin)
+	{
+		NextClear();
+		m_practice_order.RandomFieldImport(*m_field);
+
+		NextCreate(m_practice_order.GetMinoListFront());
+		MinoCreateFromNext();
+		for (int i = 0; i < NEXT_AMOUNT; i++)
+		{
+			MINO_TYPE mino = m_practice_order.GetMinoListFront();
+			if (mino != Mino_Empty)
+				NextCreate(mino);
+			else 
+				break;
+
+		}
+	}
+	else
+	{
+		NextClear();
+		NextCreate();
+		MinoCreateFromNext();
+		for (int i = 0; i < NEXT_AMOUNT; i++)
+		{
+			//NEXTの数+1で、最初ミノがつくられる
+			NextCreate();
+		}
+	}
+	//
 	m_btb = false;
 	m_ren = REN_NONE;
-	m_rising_remain = 0;
 }
 
 //進行
@@ -228,20 +240,22 @@ void ObjBlock::NextCreate()
 }
 void ObjBlock::NextCreate(MINO_TYPE type)
 {
+	if (type == Mino_Empty)return;
+
 	for (int i = 0; i < NEXT_AMOUNT; i++)
 	{
 		if (m_next[i] == Mino_Empty)
 		{
-			if (m_bag[type])
-			{
+			//if (m_bag[type])
+			//{
 				m_bag[type] = false;
 				m_next[i] = type;
 				return;
-			}
-			else
-			{
-				throw std::exception("バッグシステムのミノタイプがfalseになっている");
-			}
+			//}
+			//else
+			//{
+			//	throw std::exception("バッグシステムのミノタイプがfalseになっている");
+			//}
 		}
 	}
 }
@@ -255,6 +269,10 @@ void ObjBlock::MinoCreateFromNext()
 	{
 		MinoCreate(m_next[0]);
 	}
+	else
+	{
+		return;
+	}
 
 	//順番入れ替え
 	for (int i = 0; i < NEXT_AMOUNT - 1; i++)
@@ -264,7 +282,21 @@ void ObjBlock::MinoCreateFromNext()
 
 	m_next[NEXT_AMOUNT - 1] = Mino_Empty;
 }
+void ObjBlock::NextClear()
+{
 
+	//ネクスト作成する前に巡目リセット
+	m_mino_count = 0;
+	m_bag_round_count = 0;
+	for (int i = 0; i < MINO_MAX_TYPE; i++)
+	{
+		m_bag[i] = true;
+	}
+	for (int i = 0; i < NEXT_AMOUNT; i++)
+	{
+		m_next[i] = Mino_Empty;
+	}
+}
 MINO_TYPE ObjBlock::BagToType()
 {
 
@@ -464,6 +496,10 @@ void ObjBlock::LinesCompleteCheck()
 		m_ren = REN_NONE;
 	}
 	oScore->AddMinoCount();
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_Spin)
+	{
+		m_practice_order.NormaLinesSub(lines_count);
+	}
 }
 
 void ObjBlock::InitField()
@@ -679,15 +715,18 @@ void ObjBlock::BlockDraw(int screen_pos_x, int screen_pos_y, int type)
 
 void ObjBlock::AddGarbageLines(int height)
 {
-	m_rising_lines += height;
-	m_rising_remain = 1;
-	Audio::Start(AudioIds::se_Garbage);
+	//m_rising_lines += height;
+	//m_rising_remain = 1;
+
+	//Audio::Start(AudioIds::se_Garbage);
 }
 void ObjBlock::AddGarbageLines(Tetris::RisingGarbage::ST_FIELD_GARBAGE garbage)
 {
 	//m_rising_lines += height;
 	//m_rising_remain = 1;
 	m_list_garbage.push_back(garbage);
+
+	if(garbage.lines > 0)
 	Audio::Start(AudioIds::se_Garbage);
 }
 
@@ -725,7 +764,16 @@ void ObjBlock::FieldUpdate()
 	}
 
 	MinoCreateFromNext();
-	NextCreate();
+
+	if (m_practice_options.gamemode == E_GAME_MODE::mode_Spin)
+	{
+		NextCreate(m_practice_order.GetMinoListFront());
+	}
+	else
+	{
+		NextCreate();
+
+	}
 
 	//4列RENモード専用
 	if (m_practice_options.gamemode == E_GAME_MODE::mode_4WRen)

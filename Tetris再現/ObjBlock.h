@@ -6,6 +6,7 @@
 #include "Tetris.h"
 
 #include <random>
+#include "ObjPracticeOrder.h"
 using namespace Tetris;
 using namespace GameL;
 
@@ -85,17 +86,17 @@ private:
 	bool m_common_key_flag;
 	bool m_pause_flag;
 	int m_mino_count;
-	int m_rising_lines;//のちのち消える
-	int m_rising_remain;//のちのち消える
 	std::list<Tetris::RisingGarbage::ST_FIELD_GARBAGE> m_list_garbage;
 
+	ObjPracticeOrder m_practice_order;
 
 	void InitField();//ブロック配置
 	MINO_TYPE BagToType();//バッグからミノを受け取る
 	void Bag_All_Check();//バッグからすべてのミノを取り出したかチェック
 	void DrawFontOption(float x, float y,float font_size);
+	void Restart();
 
-	void Restart(); 
+
 	void LineClear(int line_y);
 	void BlockDraw(int screen_pos_x, int screen_pos_y, int type);
 	void RisingLinesBlockDraw(/*int line*/);
@@ -106,5 +107,6 @@ private:
 	void MinoCreateFromNext();//ネクストを作成
 	void NextCreate();//ネクストを作成
 	void NextCreate(MINO_TYPE type);//ネクストを作成(固定用)
+	void NextClear();
 };
 

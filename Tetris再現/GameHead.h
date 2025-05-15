@@ -44,20 +44,7 @@ enum TEXTURE_NAME
 	texControllerBase,
 	texControllerInput,
 };
-//オブジェクト番号
-enum MapObjects 
-{
-	BlockEmpty,
-	BlockGreen,
-	BlockRed,
-	BlockPurple,
-	BlockYellow,
-	BlockCyan,
-	BlockBlue,
-	BlockOrrange,
-	BlockWall,		//壁
-	blockCOUNTER,	//ブロックの種類を数える用
-};
+
 enum AudioIds
 {
 	se_Mino_Move,
@@ -121,6 +108,7 @@ struct UserData
 #include "ObjPlayerControll.h"
 #include "ObjClearText.h"
 #include "Obj100LineCheez.h"
+//#include "ObjPracticeOrder.h"
 //------------------------------------------------
 
 //ゲームシーンクラスヘッダ------------------------
